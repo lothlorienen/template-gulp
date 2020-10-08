@@ -1,0 +1,56 @@
+.btn {
+  display: inline-block;
+  padding: 13px 16px;
+  color: $color-primary;
+  @include text-button-s;
+  vertical-align: middle;
+  text-align: center;
+  border-radius: 100px;
+  border: 1px solid $color-primary;
+  cursor: pointer;
+  @include transition;
+
+  &:hover,
+  &--hover {
+    color: $color-white;
+    background-color: $color-primary-hover;
+    border-color: $color-primary-hover;
+  }
+
+  &--focus {
+    outline: 1px solid $color-primary-hover;
+  }
+
+  &:disabled,
+  &--disabled {
+    cursor: default;
+    opacity: 0.3;
+    pointer-events: none;
+    appearance: none;
+  }
+
+  // Sizes
+  &--small {
+    @include btn-small;
+  }
+
+  &--large {
+    @include btn-large;
+  }
+
+  &--w100 {
+    width: 100%;
+  }
+
+  // Primary
+  &--primary {
+    color: $color-white;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+
+    &:hover {
+      color: $color-primary;
+      background-color: $color-white;
+    }
+  }
+}

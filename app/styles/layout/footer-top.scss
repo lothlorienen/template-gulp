@@ -1,0 +1,131 @@
+.footer-top {
+  &__container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+
+    > * + * {
+      @include media(mobile, up) {
+        margin-left: 24px;
+      }
+    }
+  }
+
+  &__logo {
+    flex: 0 1 calc(25% - 24px);
+    max-width: 300px;
+
+    @include media(tabletSmall) {
+      flex-basis: 40%;
+    }
+
+    @include media(mobile) {
+      flex-basis: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 2px;
+    max-width: 500px;
+
+    @include media(tabletSmall) {
+      flex: 1 1 40%;
+    }
+
+    @include media(mobile) {
+      justify-content: initial;
+      flex-basis: 100%;
+      margin: 20px auto 0;
+    }
+
+    ul {
+      min-width: 400px;
+      margin-right: -93px;
+      columns: 2;
+
+      @include media(mobile) {
+        width: 100%;
+        min-width: unset;
+        margin: 0;
+      }
+    }
+
+    li {
+      margin-bottom: 15px;
+
+      @include media(mobile) {
+        margin-bottom: 10px;
+      }
+    }
+
+    a {
+      font-size: 14px;
+      line-height: 1.6;
+
+      &:hover {
+        color: $color-primary-hover;
+      }
+    }
+  }
+
+  &__contacts {
+    flex: 1 1 1px;
+
+    @include media(tabletSmall) {
+      flex: 1 1 100%;
+      margin-left: 0;
+      margin-top: 15px;
+    }
+
+    @include media(mobile) {
+      flex-basis: 100%;
+      margin: 20px auto 0;
+    }
+  }
+
+  &__contacts-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -15px -7.5px;
+
+    @include media(tabletSmall) {
+      margin: -7.5px;
+    }
+  }
+
+  &__contacts-item {
+    flex: 1 1 calc(50% - 15px);
+    margin: 15px 7.5px;
+
+    @include media(tabletSmall) {
+      margin: 7.5px;
+    }
+  }
+
+  .contacts-item {
+    &__text,
+    &__link {
+      font-size: 14px;
+      font-weight: bold;
+      white-space: unset;
+    }
+
+    &__title {
+      font-size: 13px;
+
+      + * {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .page-logo__container {
+    @include media(mobile) {
+      margin: 0 auto;
+    }
+  }
+}

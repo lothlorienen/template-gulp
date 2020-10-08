@@ -1,0 +1,10 @@
+<section class="project-ui__section" {{#if id}}id="{{id}}"{{/if}}>
+  <header>
+    <h2 class="project-ui__section-title">{{title}}</h2>
+  </header>
+  <div class="project-ui__section-content">
+    <ul class="{{#if section-mode}}{{section-mode}}{{/if}}">
+      {{>@partial-block}}
+    </ul>
+  </div>
+</section>

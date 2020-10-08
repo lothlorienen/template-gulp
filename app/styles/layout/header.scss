@@ -1,0 +1,28 @@
+.header {
+  &__top {
+    @include media(tabletSmall) {
+      padding-top: 50px;
+    }
+  }
+
+  &__main {
+    background: $color-white;
+
+    @include media(tabletSmall) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: z(header);
+      min-width: 250px;
+      box-shadow: 0 0 0 0 transparent;
+      @include transition(all, 350ms, ease);
+      transform: translateX(-100%);
+
+      &.active {
+        transform: translateX(0);
+        @include shadow(lg);
+      }
+    }
+  }
+}

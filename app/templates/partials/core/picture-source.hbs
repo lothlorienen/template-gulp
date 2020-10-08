@@ -1,0 +1,7 @@
+{{#ifUseWebp}}
+  <source {{#if media}}media="({{media}})" {{/if}}
+      data-srcset="../assets/images/{{img}}.webp, ../assets/images/{{img}}@2x.webp 2x" type="image/webp">
+{{/ifUseWebp}}
+<source {{#if media}}media="({{media}})" {{/if}}
+    data-srcset="../assets/images/{{img}}.{{ext}}, ../assets/images/{{img}}@2x.{{ext}} 2x"
+  {{#ifCond ext 'jpg'}} type="image/jpeg"{{else}} type="image/png"{{/ifCond}}>

@@ -1,0 +1,31 @@
+{
+  "project-ui": {
+    "colors": {
+      "main": [
+        {
+          "rgb-color": "rgb(27, 116, 253)",
+          "color": "#1B74FD",
+          "name": "$color-primary"
+        },
+        {
+          "rgb-color": "rgb(0, 66, 255)",
+          "color": "#0042FF",
+          "name": "$color-primary-hover"
+        }
+      ],
+      "apex": [
+        {
+          "rgb-color": "rgb(0, 0, 0)",
+          "color": "#000000",
+          "name": "$color-black"
+        },
+        {
+          "name": "$color-white",
+          "color": "#FFFFFF",
+          "rgb-color": "rgb(255, 255, 255)",
+          "dark": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{{#ifCond ext 'svg'}}
+  <img src="../assets/images/{{img}}.{{ext}}"/>
+{{else}}
+  <picture>
+    {{#if mobile-img}}
+      {{>core/picture-source media="max-width: 767px" img=mobile-img}}
+    {{/if}}
+
+    {{#if tablet-img}}
+      {{>core/picture-source media="max-width: 1279px" img=tablet-img}}
+    {{/if}}
+
+    {{>core/picture-source}}
+
+    <img class="lazy"
+         data-sizes="auto"
+         data-original="../assets/images/{{img}}.{{ext}}"
+         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+         alt="{{alt}}">
+  </picture>
+{{/ifCond}}
