@@ -50,12 +50,12 @@ class Widget {
 
     if ((this.breakpointStatus === false || this.breakpointStatus === null) && check) {
       this.breakpointStatus = true;
-      console.log('init')
+      // console.log('init')
 
       if (typeof this.build === 'function') this.build();
     } else if (this.breakpointStatus && !check) {
       this.breakpointStatus = false;
-      console.log('destroy')
+      // console.log('destroy')
 
       if (typeof this.destroy === 'function') this.destroy();
     }

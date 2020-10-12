@@ -13,9 +13,3 @@
     animation: preloader-out 1s ease-in-out forwards;
   }
 }
-
-@keyframes preloader-out {
-  to {
-    opacity: 0;
-  }
-}

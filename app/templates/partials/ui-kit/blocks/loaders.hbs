@@ -1,21 +1,25 @@
-<div class="loader">
-  <div class="loader__circle">Loading...</div>
-  <div class="ui-inputs__container ui-inputs__container--row">
-    {{> ui/form-item
-        input=true
-        field-label="Ваше имя"
-        placeholder="Иван Иван Иванович"
-    }}
-    {{> ui/form-item
-        input=true
-        field-label="Ваш пароль"
-        type="password"
-        placeholder="Не менее 6 символов"
-        error="Неверный пароль"
-    }}
+<li>
+  <div class="loader">
+    <div class="loader__circle">Loading...</div>
+    <div class="project-ui__section-row">
+      {{> ui/form-item
+          input=true
+          field-label="Ваше имя"
+          placeholder="Иван Иван Иванович"
+      }}
+      {{> ui/form-item
+          input=true
+          field-label="Ваш пароль"
+          type="password"
+          placeholder="Не менее 6 символов"
+          error="Неверный пароль"
+      }}
+    </div>
   </div>
-</div>
+</li>
 
-<div class="loader loader--trans">
-  <div class="loader__circle">Loading...</div>
-</div>
+<li>
+  <div class="loader loader--transparent">
+    <div class="loader__circle">Loading...</div>
+  </div>
+</li>

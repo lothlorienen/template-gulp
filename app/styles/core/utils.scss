@@ -1,7 +1,7 @@
 .fixed-scroll {
   overflow: hidden;
 
-  @include mobile {
+  @include media(mobile) {
     position: fixed;
     top: 0;
     left: 0;
@@ -53,7 +53,7 @@
 
   &-hidden {
     @include media(tabletSmall) {
-      display: none!important;
+      display: none !important;
     }
   }
 }
@@ -61,13 +61,13 @@
 ._tablet {
   &-visible {
     @include media(tablet, up) {
-      display: none!important;
+      display: none !important;
     }
   }
 
   &-hidden {
     @include media(tablet) {
-      display: none!important;
+      display: none !important;
     }
   }
 }

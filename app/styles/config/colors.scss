@@ -2,19 +2,11 @@
   //Primary
   --color-primary: var(--color-blue-70);
   --color-primary-hover: var(--color-blue-80);
-  --color-bg-gray: #f1f5f9;
-  --color-font-gray: #4f4e4e;
-  --color-font-dark: #333333;
-  --color-yellow: #feb22e;
-  --color-yellow-hover: #ffbc38;
 
   // Blue
-  --color-blue-100: #0038D7;
   --color-blue-80: #0042FF;
   --color-blue-70: #1B74FD;
-  --color-blue-70-opacity: #{transparentize(#1B74FD, 0.5)};
-  // Dark Blue
-  --color-dark-blue-100: #283B70;
+
   // Gray
   --color-gray-100: #363C4E;
   --color-gray-100-overlay: #{transparentize(#363C4E, 0.3)};
@@ -24,11 +16,13 @@
   --color-gray-40: #DFE3EC;
   --color-gray-20: #F2F4F8;
   --color-gray-10: #F6F9FF;
+
   // Green
   --color-green-100: #0BB578;
-  --color-green-10: #D1F8E1;
+
   // Red
   --color-red-100: #ED143B;
+
   // White
   --color-white-100: #FFFFFF;
   --color-white-80: #{transparentize(#FFFFFF, 0.2)};
@@ -37,6 +31,10 @@
   --color-white-20: #{transparentize(#FFFFFF, 0.8)};
   --color-white-10: #{transparentize(#FFFFFF, 0.9)};
 }
+
+//Primary
+$color-primary: var(--color-primary);
+$color-primary-hover: var(--color-primary-hover);
 
 // Gray
 $color-gray-100: var(--color-gray-100);
@@ -49,17 +47,11 @@ $color-gray-20: var(--color-gray-20);
 $color-gray-10: var(--color-gray-10);
 
 // Blue
-$color-blue-100: var(--color-blue-100);
 $color-blue-80: var(--color-blue-80);
 $color-blue-70: var(--color-blue-70);
-$color-blue-70-50: var(--color-blue-70-opacity);
-
-// Dark Blue
-$color-dark-blue-100: var(--color-dark-blue-100);
 
 // Green
 $color-green-100: var(--color-green-100);
-$color-green-10: var(--color-green-10);
 
 // Red
 $color-red-100: var(--color-red-100);
@@ -72,14 +64,9 @@ $color-white-50: var(--color-white-50);
 $color-white-20: var(--color-white-20);
 $color-white-10: var(--color-white-10);
 $color-black: #000000;
-$color-yellow: var(--color-yellow);
-$color-yellow-hover: var(--color-yellow-hover);
-$color-primary: var(--color-yellow);
-$color-primary-hover: var(--color-yellow-hover);
-$color-bg-gray: var(--color-bg-gray);
-$color-font-gray: var(--color-font-gray);
-$color-font-dark: var(--color-font-dark);
 
+
+//Making a theme
 $color-var1: #532AD3;
 
 .theme-var1 {

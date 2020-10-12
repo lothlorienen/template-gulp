@@ -31,7 +31,7 @@
     }
   }
 
-  &--trans {
+  &--transparent {
     &:before {
       display: none;
     }
@@ -48,15 +48,6 @@
   border-radius: 100%;
   vertical-align: top;
   animation: spin 0.5s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg) translateZ(0);
-  }
-  to {
-    transform: rotate(360deg) translateZ(0);
-  }
 }
 
 .loader-block {
