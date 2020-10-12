@@ -147,31 +147,31 @@
     td {
       padding: 14px 0;
     }
+  }
 
-    thead {
-      td {
-        color: $color-gray-20;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 1;
-      }
+  thead {
+    td {
+      color: $color-gray-60;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
     }
+  }
 
-    tbody {
-      td {
-        font-size: 15px;
-        line-height: 1;
-        border-top: 1px solid $color-gray-40;
-        border-bottom: 1px solid $color-gray-40;
-      }
+  tbody {
+    td {
+      font-size: 15px;
+      line-height: 1;
+      border-top: 1px solid $color-gray-40;
+      border-bottom: 1px solid $color-gray-40;
     }
+  }
 
-    caption {
-      padding: 10px 0;
-      color: $color-gray-100;
-      @include ui-font-title;
-      text-align: left;
-    }
+  caption {
+    padding: 10px 0;
+    color: $color-gray-100;
+    @include ui-font-title;
+    text-align: left;
   }
 }
 
