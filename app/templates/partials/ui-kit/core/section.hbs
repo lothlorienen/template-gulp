@@ -3,7 +3,7 @@
     <h2 class="project-ui__section-title">{{title}}</h2>
   </header>
   <div class="project-ui__section-content">
-    <ul class="{{#if section-mode}}{{section-mode}}{{/if}}">
+    <ul {{#if section-mode}}class="{{section-mode}}"{{/if}}>
       {{>@partial-block}}
     </ul>
   </div>

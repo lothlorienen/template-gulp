@@ -1,9 +1,9 @@
-<div class="uikit-cell">
-  <div class="uikit-widget {{#if background}}uikit-widget--background{{/if}}">
-    <span class="uikit-widget__title">{{title}}</span>
-    <div class="uikit-widget__content">
-      <div class="uikit-widget__content-inner" style="width:{{width}}px">
-        {{> @partial-block}}
+<div class="ui-widgets__cell" {{#if width}}style="flex-basis:{{width}}%"{{/if}}>
+  <div class="ui-widgets__widget{{#if background}} ui-widgets__widget--background{{/if}}">
+    <span class="ui-widgets__title">{{title}}</span>
+    <div class="ui-widgets__content">
+      <div class="ui-widgets__content-inner">
+        {{>@partial-block}}
       </div>
     </div>
   </div>
