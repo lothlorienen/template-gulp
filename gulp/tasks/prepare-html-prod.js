@@ -31,16 +31,12 @@ module.exports = () => {
           jQuery('link').each(function() {
             let href = jQuery(this).attr('href');
 
-            if (href && href.substr(0, 2) === './') {
+            if (href !== undefined && href.substr(0, 2) === './') {
               href = href.substr(1);
             }
 
-            if (href && href.substr(0, 3) === '../') {
+            if (href !== undefined && href.substr(0, 3) === '../') {
               href = href.substr(2);
-            }
-
-            if (href && href.substr(0, 2) === '//') {
-              href = href.substr(1);
             }
 
             jQuery(this).attr('href', href);
@@ -78,6 +74,9 @@ module.exports = () => {
               checkLinkPath(0);
             }
 
+            if (href && href.substr(0, 2) === '//') {
+              href = href.substr(1);
+            }
             jQuery(this).attr('href', href);
           });
           jQuery('img').each(function() {
@@ -112,15 +111,20 @@ module.exports = () => {
             }
 
             if (srcset !== undefined) {
-              let img = srcset.substring(2, srcset.lastIndexOf(','));
-              let img2 = srcset.substring(srcset.lastIndexOf('../') + 2).trim();
-              srcset = `${img}, ${img2}`;
+              if (srcset.indexOf(',') !== -1) {
+                let img = srcset.substring(2, srcset.lastIndexOf(','));
+                let img2 = srcset.substring(srcset.lastIndexOf('../') + 2).trim();
+                srcset = `${img}, ${img2}`;
+              } else {
+              }
             }
 
             if (dataSrcset !== undefined) {
-              let img = dataSrcset.substring(2, dataSrcset.lastIndexOf(','));
-              let img2 = dataSrcset.substring(dataSrcset.lastIndexOf('../') + 2).trim();
-              dataSrcset = `${img}, ${img2}`;
+              if (dataSrcset.indexOf(',') !== -1) {
+                let img = dataSrcset.substring(2, dataSrcset.lastIndexOf(','));
+                let img2 = dataSrcset.substring(dataSrcset.lastIndexOf('../') + 2).trim();
+                dataSrcset = `${img}, ${img2}`;
+              }
             }
 
             jQuery(this).attr('data-srcset', dataSrcset);

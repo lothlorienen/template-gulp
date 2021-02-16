@@ -9,20 +9,18 @@ $breakpoints: (
     desktop: 1500
   ),
   height: (
-    sm: 450,
-    md: 650,
+    sm: 650,
+    md: 750,
     lg: 900
   )
 );
 
 $z-layers: (
   hidden: -9999,
-  backdrop: -1,
   default: 1,
+  dropdown: 50,
   aside: 100,
   header: 100,
-  dropdown: 500,
   overlay: 1000,
-  modal: 1001,
-  preloader: 5000
+  modal: 1001
 );

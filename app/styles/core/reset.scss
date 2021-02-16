@@ -1,22 +1,23 @@
 * {
-  outline: none;
+  outline: none !important;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     box-sizing: border-box;
   }
 }
 
-html, body {
+html,
+body {
   width: 100%;
   min-width: 320px;
-  -webkit-tap-highlight-color: transparent;
 }
 
-input, textarea {
+input,
+textarea {
   -webkit-appearance: none;
   border-radius: 0;
 
@@ -72,8 +73,6 @@ nav {
   list-style-type: none;
 }
 
-
-
 a {
   color: inherit;
   text-decoration: none;
@@ -92,6 +91,7 @@ img {
 
 input, select, textarea, button {
   font-family: inherit;
+  appearance: none;
 }
 
 body {
@@ -106,8 +106,8 @@ body {
   'Droid Sans',
   'Helvetica Neue',
   sans-serif;
-  font-size: 16px;
-  color: #000;
+  font-size: $baseFontColor;
+  color: $baseFontSize;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

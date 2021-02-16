@@ -1,10 +1,11 @@
 class MobileDebug {
   static log(message) {
 
-    if (isLocalhost() === false) return;
+    if (isLocalhost() === false) {
+      return;
+    }
 
     let node = document.querySelector('.mobile-debug');
-
     if (!node) {
       node = document.createElement('div');
       node.classList.add('mobile-debug');

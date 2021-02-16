@@ -164,16 +164,11 @@
   }
 }
 
-// Extra
-
-@mixin ie10plus() {
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    @content;
-  }
-}
+// Предыдущие основные media миксины
 
 @mixin retina() {
   @media (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
     @content;
   }
 }
+

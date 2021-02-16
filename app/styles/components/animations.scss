@@ -14,20 +14,3 @@
     transform: rotate(360deg) translatez(0);
   }
 }
-
-// Loader
-@keyframes spin {
-  from {
-    transform: rotate(0deg) translateZ(0);
-  }
-  to {
-    transform: rotate(360deg) translateZ(0);
-  }
-}
-
-//Preloader
-@keyframes preloader-out {
-  to {
-    opacity: 0;
-  }
-}

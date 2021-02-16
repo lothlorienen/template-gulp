@@ -1,12 +1,17 @@
+// Colors
+$color-white: #FFFFFF;
+$color-black: #000000;
+$color-red: #FF0000;
+
+$color-primary: #DD6900;
+$color-primary-hover: darken($color-primary, 5%);
+$color-secondary: #1B74FD;
+$color-secondary-hover: darken($color-secondary, 5%);
+
+$color-placeholder: rgba(5, 36, 51, 0.2);
+$color-input-border: #DAE4ED;
+
 :root {
-  //Primary
-  --color-primary: var(--color-blue-70);
-  --color-primary-hover: var(--color-blue-80);
-
-  // Blue
-  --color-blue-80: #0042FF;
-  --color-blue-70: #1B74FD;
-
   // Gray
   --color-gray-100: #363C4E;
   --color-gray-100-overlay: #{transparentize(#363C4E, 0.3)};
@@ -16,25 +21,7 @@
   --color-gray-40: #DFE3EC;
   --color-gray-20: #F2F4F8;
   --color-gray-10: #F6F9FF;
-
-  // Green
-  --color-green-100: #0BB578;
-
-  // Red
-  --color-red-100: #ED143B;
-
-  // White
-  --color-white-100: #FFFFFF;
-  --color-white-80: #{transparentize(#FFFFFF, 0.2)};
-  --color-white-70: #{transparentize(#FFFFFF, 0.3)};
-  --color-white-50: #{transparentize(#FFFFFF, 0.5)};
-  --color-white-20: #{transparentize(#FFFFFF, 0.8)};
-  --color-white-10: #{transparentize(#FFFFFF, 0.9)};
 }
-
-//Primary
-$color-primary: var(--color-primary);
-$color-primary-hover: var(--color-primary-hover);
 
 // Gray
 $color-gray-100: var(--color-gray-100);
@@ -45,31 +32,3 @@ $color-gray-60: var(--color-gray-60);
 $color-gray-40: var(--color-gray-40);
 $color-gray-20: var(--color-gray-20);
 $color-gray-10: var(--color-gray-10);
-
-// Blue
-$color-blue-80: var(--color-blue-80);
-$color-blue-70: var(--color-blue-70);
-
-// Green
-$color-green-100: var(--color-green-100);
-
-// Red
-$color-red-100: var(--color-red-100);
-
-// Apex
-$color-white: var(--color-white-100);
-$color-white-80: var(--color-white-80);
-$color-white-70: var(--color-white-70);
-$color-white-50: var(--color-white-50);
-$color-white-20: var(--color-white-20);
-$color-white-10: var(--color-white-10);
-$color-black: #000000;
-
-
-//Making a theme
-$color-var1: #532AD3;
-
-.theme-var1 {
-  --color-primary: #{$color-var1};
-  --color-primary-hover: #{darken($color-var1, 10)};
-}

@@ -1,56 +1,61 @@
 .btn {
   display: inline-block;
-  padding: 13px 16px;
-  color: $color-primary;
-  @include text-button-s;
-  vertical-align: middle;
+  padding: 12px 20px;
+  border-radius: 8px;
+  line-height: 100%;
+  font-size: 16px;
   text-align: center;
-  border-radius: 100px;
-  border: 1px solid $color-primary;
-  cursor: pointer;
+  letter-spacing: 0.02em;
+  font-weight: bold;
   @include transition;
+  white-space: nowrap;
+  appearance: none;
+  cursor: pointer;
 
-  &:hover,
-  &--hover {
+  background: $color-primary;
+  color: $color-white;
+
+  &:hover {
+    background: $color-primary-hover;
+  }
+
+  &--secondary {
+    background: $color-secondary;
     color: $color-white;
-    background-color: $color-primary-hover;
-    border-color: $color-primary-hover;
+
+    &:hover {
+      background: $color-secondary;
+    }
   }
 
-  &--focus {
-    outline: 1px solid $color-primary-hover;
+  &--outline {
+    background: $color-white;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+
+    &:hover {
+      background: $color-primary;
+      color: $color-white;
+    }
+
+    &.btn--secondary {
+      border: 1px solid $color-secondary;
+      color: $color-secondary;
+
+      &:hover {
+        background: $color-secondary;
+        color: $color-white;
+      }
+    }
   }
 
-  &:disabled,
-  &--disabled {
-    cursor: default;
-    opacity: 0.3;
-    pointer-events: none;
-    appearance: none;
-  }
-
-  // Sizes
   &--small {
-    @include btn-small;
+    padding: 8px 10px;
+    font-size: 14px;
   }
 
   &--large {
-    @include btn-large;
-  }
-
-  &--w100 {
-    width: 100%;
-  }
-
-  // Primary
-  &--primary {
-    color: $color-white;
-    background-color: $color-primary;
-    border: 1px solid $color-primary;
-
-    &:hover {
-      color: $color-primary;
-      background-color: $color-white;
-    }
+    padding: 20px 25px;
+    font-size: 20px;
   }
 }

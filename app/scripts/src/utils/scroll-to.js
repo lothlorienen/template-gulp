@@ -1,8 +1,12 @@
 class ScrollTo {
   static startAnimation(targetElem, noAnimate) {
-    // const header = document.querySelector('.js-header');
+    const header = document.querySelector('.js-header');
 
     let targetPos = targetElem.getBoundingClientRect().top;
+
+    if (document.querySelector('.js-inner-header')) {
+      targetPos -= 53;
+    }
 
     if (noAnimate) {
       ScrollTo.respond(targetElem);
@@ -44,7 +48,7 @@ class ScrollTo {
   static respond(targetElem) {
     const event = new CustomEvent(
       'endScroll', {
-        detail: {targetElem},
+        detail: { targetElem },
       });
 
     document.dispatchEvent(event);

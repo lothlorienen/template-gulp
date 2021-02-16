@@ -16,6 +16,32 @@ module.exports = () => {
 
         return accum;
       },
+      when: function(v1, operator, v2, options) {
+        switch (operator) {
+          case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+          case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+          case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+          case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+          case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+          case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+          case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+          case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+          case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+          case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+          default:
+            return options.inverse(this);
+        }
+      },
       ifCond: function(v1, v2, options) {
         if (v1 === v2) return options.fn(this);
 
@@ -24,6 +50,12 @@ module.exports = () => {
       concat: function(...args) {
         return `${args.slice(0, -1).join('')}`;
       },
+      ifUseWebp: function(block){
+        if($.config.buildWebp)
+          return block.fn(this);
+        else
+          return block.inverse(this);
+      }
     },
   };
 
@@ -36,14 +68,21 @@ module.exports = () => {
     );
     const db = { ...initParams, ...data, ...links };
 
+
     return $.gulp.src([
       `${$.config.sourcePath}/${$.config.hbsPath}/pages/*.hbs`,
-      `${$.config.sourcePath}/${$.config.hbsPath}/ui-toolkit.hbs`,
+      `${$.config.sourcePath}/${$.config.hbsPath}/partials/core/ui-kit/page.hbs`,
       `${$.config.sourcePath}/${$.config.hbsPath}/ajax/*.hbs`,
     ])
       .pipe($.gulpPlugin.plumber())
       .pipe($.gulpPlugin.compileHandlebars(db, options))
       .pipe($.gulpPlugin.rename(path => {
+        let string = path.basename;
+
+        if(string === 'page') {
+          path.basename = 'ui-toolkit';
+        }
+
         path.dirname = '';
         path.extname = '.html';
       }))

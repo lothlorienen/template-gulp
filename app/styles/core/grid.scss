@@ -8,12 +8,20 @@ html {
 }
 
 .container {
-  width: 100%;
-  max-width: 1220px;
-  margin: 0 auto;
-  padding: 0 12px;
+  width: $desktopWidth + $desktopGutter * 2;
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: $desktopGutter;
+  padding-right: $desktopGutter;
+
+  @include media(tablet) {
+    padding-left: $tabletGutter;
+    padding-right: $tabletGutter;
+  }
 
   @include media(mobile) {
-    padding: 0 15px;
+    padding-left: $mobileGutter;
+    padding-right: $mobileGutter;
   }
 }
