@@ -79,7 +79,10 @@ module.exports = () => {
         path.basename = 'index';
         path.extname = '.html';
       }))
-      .pipe($.gulpPlugin.trim())
+      .pipe($.gulpPlugin.htmlmin({
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+      }))
       .pipe($.gulp.dest(`${$.config.outputPath}`))
       .pipe($.bs.reload({ stream: true }),
       );

@@ -26,11 +26,11 @@ module.exports = () => {
       ],
       $.gulp.series('svg:inline'),
     );
-    $.gulp.watch([
-        `${$.config.sourcePath}/${$.config.pngPath}/*.png`,
-      ],
-      $.gulp.series('pngSprite'),
-    );
+    // $.gulp.watch([
+    //     `${$.config.sourcePath}/${$.config.pngPath}/*.png`,
+    //   ],
+    //   $.gulp.series('png:sprite'),
+    // );
     $.gulp.watch([
         `${$.config.sourcePath}/${$.config.assetsPath}/**/*`,
         `!${$.config.sourcePath}/${$.config.assetsPath}/svg`,

@@ -77,7 +77,10 @@ module.exports = () => {
         path.dirname = '';
         path.extname = '.html';
       }))
-      .pipe($.gulpPlugin.trim())
+      .pipe($.gulpPlugin.htmlmin({
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+      }))
       .pipe($.gulp.dest(`${$.config.outputPath}/html`))
       .pipe($.bs.reload({ stream: true }),
       );
