@@ -14,7 +14,7 @@ module.exports = [
   './gulp/tasks/meta',
   './gulp/tasks/image-min',
   './gulp/tasks/deploy',
-  './gulp/tasks/critical-css',
+  // './gulp/tasks/critical-css',
   './gulp/tasks/watch',
   './gulp/tasks/sitemap',
   './gulp/tasks/webp',

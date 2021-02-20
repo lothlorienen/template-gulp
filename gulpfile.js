@@ -25,7 +25,7 @@ $.config = JSON.parse($.fs.readFileSync('./config/config.json', 'utf8'));
 $.config.buildMode = $.argv._[0].match(/build|build-prod/) ? 'prod' : 'dev';
 $.config.outputPath = $.config.buildMode === 'prod' ? $.config.destPath : $.config.tmpPath;
 
-if ($.config.criticalCss) $.critical = require('critical').stream;
+// if ($.config.criticalCss) $.critical = require('critical').stream;
 
 $.tasks.forEach((taskPath) => require(taskPath)());
 
