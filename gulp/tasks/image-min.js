@@ -1,6 +1,7 @@
 module.exports = () => {
   $.gulp.task('imageMin', () => {
-    if (!$.config.imageMin) return $.gulp.src('.').pipe($.nop());
+    if (!$.config.imageMin) return $.gulp.src('.', {allowEmpty: true});
+
     return $.gulp.src(`${$.config.outputPath}/${$.config.imagesPath}/**/*.{png,jpg,gif}`)
       .pipe($.gulpPlugin.imagemin({
         interlaced: true,

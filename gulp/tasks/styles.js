@@ -1,11 +1,9 @@
+$.sass.compiler = require('dart-sass');
+
 module.exports = () => {
   const sheets = [
-    {
-      src: `./${$.config.sourcePath}/${$.config.stylesPath}/main.scss`,
-    },
-    {
-      src: `./${$.config.sourcePath}/${$.config.stylesPath}/uikit.scss`,
-    },
+    { src: `./${$.config.sourcePath}/${$.config.stylesPath}/main.scss`, },
+    { src: `./${$.config.sourcePath}/${$.config.stylesPath}/uikit.scss`, },
   ];
 
   $.gulp.task('styles', (done) => {

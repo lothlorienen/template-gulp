@@ -2,7 +2,6 @@
 
 global.$ = {
   gulp: require('gulp'),
-  nop: require('gulp-nop'),
   gulpPlugin: require('gulp-load-plugins')(),
   sass: require('gulp-sass'),
   rename: require('gulp-rename'),
@@ -21,7 +20,6 @@ global.$ = {
   wpTerserPlugin: require('terser-webpack-plugin'),
 };
 
-$.sass.compiler = require('dart-sass');
 $.config = JSON.parse($.fs.readFileSync('./config/config.json', 'utf8'));
 $.config.buildMode = $.argv._[0].match(/build|build-prod/) ? 'prod' : 'dev';
 $.config.outputPath = $.config.buildMode === 'prod' ? $.config.destPath : $.config.tmpPath;
