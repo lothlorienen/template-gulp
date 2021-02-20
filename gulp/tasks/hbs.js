@@ -11,10 +11,10 @@ module.exports = () => {
     ],
     helpers: {
       times: function(n, block) {
-        let accum = '';
-        for (let i = 0; i < n; ++i) accum += block.fn(i + 1);
+        const result = [];
+        for (let i = 0; i < n; ++i) result.push(block.fn(i + 1));
 
-        return accum;
+        return result.join('');
       },
       when: function(v1, operator, v2, options) {
         switch (operator) {
@@ -50,24 +50,17 @@ module.exports = () => {
       concat: function(...args) {
         return `${args.slice(0, -1).join('')}`;
       },
-      ifUseWebp: function(block){
-        if($.config.buildWebp)
-          return block.fn(this);
-        else
-          return block.inverse(this);
-      }
+      ifUseWebp: function(block) {
+        if ($.config.buildWebp) return block.fn(this);
+        else return block.inverse(this);
+      },
     },
   };
 
   $.gulp.task('hbs', () => {
-    const data = JSON.parse(
-      $.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/db.json`),
-    );
-    const links = JSON.parse(
-      $.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/links.json`),
-    );
+    const data = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/db.json`),);
+    const links = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/links.json`),);
     const db = { ...initParams, ...data, ...links };
-
 
     return $.gulp.src([
       `${$.config.sourcePath}/${$.config.hbsPath}/pages/*.hbs`,
@@ -77,11 +70,9 @@ module.exports = () => {
       .pipe($.gulpPlugin.plumber())
       .pipe($.gulpPlugin.compileHandlebars(db, options))
       .pipe($.gulpPlugin.rename(path => {
-        let string = path.basename;
+        const string = path.basename;
 
-        if(string === 'page') {
-          path.basename = 'ui-toolkit';
-        }
+        if (string === 'page') path.basename = 'ui-toolkit';
 
         path.dirname = '';
         path.extname = '.html';
@@ -93,7 +84,7 @@ module.exports = () => {
   });
 
   function randomIntNum(min, max) {
-    let rand = min - 0.5 + Math.random() * (max - min + 1);
+    const rand = min - 0.5 + Math.random() * (max - min + 1);
     return Math.round(rand);
   }
 };

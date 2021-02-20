@@ -11,10 +11,10 @@ module.exports = () => {
     ],
     helpers: {
       times: function(n, block) {
-        let accum = '';
-        for (let i = 0; i < n; ++i)
-          accum += block.fn(i + 1);
-        return accum;
+        const result = [];
+        for (let i = 0; i < n; ++i) result.push(block.fn(i + 1));
+
+        return result.join('');
       },
       when: function(v1, operator, v2, options) {
         switch (operator) {
@@ -43,48 +43,40 @@ module.exports = () => {
         }
       },
       ifCond: function(v1, v2, options) {
-        if (v1 === v2) {
-          return options.fn(this);
-        }
+        if (v1 === v2) return options.fn(this);
         return options.inverse(this);
       },
       concat: function(...args) {
         return `${args.slice(0, -1).join('')}`;
       },
-      ifUseWebp: function(block){
-        if($.config.buildWebp)
-          return block.fn(this);
-        else
-          return block.inverse(this);
-      }
+      ifUseWebp: function(block) {
+        if ($.config.buildWebp) return block.fn(this);
+        else return block.inverse(this);
+      },
     },
   };
 
   $.gulp.task('hbs-prod', () => {
-    const data = JSON.parse(
-      $.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/db.json`),
-    );
-    const links = JSON.parse(
-      $.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/links.json`),
-    );
+    const data = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/db.json`),);
+    const links = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/links.json`),);
     const db = { ...initParams, ...data, ...links };
 
     return $.gulp.src([
-      `${$.config.sourcePath}/${$.config.hbsPath}/pages/*.hbs`
+      `${$.config.sourcePath}/${$.config.hbsPath}/pages/*.hbs`,
     ])
       .pipe($.gulpPlugin.plumber())
       .pipe($.gulpPlugin.compileHandlebars(db, options))
       .pipe($.gulpPlugin.rename(path => {
-        let string = path.basename;
+        const string = path.basename;
 
         if (string.match('--')) {
-          let newPath = string.split('--').join('/');
+          const newPath = string.split('--').join('/');
           path.dirname = `${newPath}`;
-        }else if(!string.match('home')) {
+        } else if (!string.match('home')) {
           path.dirname = string;
         }
 
-        path.basename = "index";
+        path.basename = 'index';
         path.extname = '.html';
       }))
       .pipe($.gulpPlugin.trim())
@@ -94,7 +86,7 @@ module.exports = () => {
   });
 
   function randomIntNum(min, max) {
-    let rand = min - 0.5 + Math.random() * (max - min + 1);
+    const rand = min - 0.5 + Math.random() * (max - min + 1);
     return Math.round(rand);
   }
 };
