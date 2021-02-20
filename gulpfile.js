@@ -34,7 +34,7 @@ $.gulp.task('dev', done => {
   $.gulp.series('clean',
     $.gulp.parallel('styles', 'scripts'),
     $.gulp.parallel('hbs', 'pngSprite', 'svgSprite', 'svgInline', 'assets'),
-    $.gulp.parallel('prepareHtmlDev'),
+    $.gulp.parallel('prepareHtmlDev', 'webp'),
     $.gulp.parallel('watch', 'serve'),
   )(done);
 });
