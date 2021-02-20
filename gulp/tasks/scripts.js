@@ -55,7 +55,7 @@ module.exports = () => {
       minifyConfig.test = /vendors\.js/;
       config.optimization.minimize = true;
       config.optimization.minimizer.push(
-        new $.wpTerserPlugin(minifyConfig),
+        new $.webpackTerser(minifyConfig),
       );
       break;
     case 'prod':
@@ -72,7 +72,7 @@ module.exports = () => {
         minifyConfig.test = /vendors\.js/;
 
       config.optimization.minimize = true;
-      config.optimization.minimizer.push(new $.wpTerserPlugin(minifyConfig),);
+      config.optimization.minimizer.push(new $.webpackTerser(minifyConfig),);
   }
 
   $.gulp.task('scripts', done => {

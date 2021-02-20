@@ -1,5 +1,5 @@
 module.exports = () => {
-  $.gulp.task('svgSprite', () => {
+  $.gulp.task('svg:sprite', () => {
     return $.gulp.src(`${$.config.sourcePath}/${$.config.svgPath}/**/*.svg`)
       .pipe($.gulpPlugin.svgmin())
       .pipe($.gulpPlugin.svgSprite({
@@ -24,7 +24,7 @@ module.exports = () => {
       .pipe($.gulp.dest('./'));
   });
 
-  $.gulp.task('svgInline', () => {
+  $.gulp.task('svg:inline', () => {
     return $.gulp.src(`${$.config.sourcePath}/${$.config.svgInlinePath}/**/*.svg`)
       .pipe($.gulpPlugin.svgmin({
         js2svg: {

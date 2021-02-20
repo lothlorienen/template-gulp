@@ -1,6 +1,7 @@
 'use strict';
 
 global.$ = {
+  cleanCSS: require('gulp-clean-css'),
   gulp: require('gulp'),
   gulpPlugin: require('gulp-load-plugins')(),
   sass: require('gulp-sass'),
@@ -17,7 +18,7 @@ global.$ = {
   tildeImporter: require('node-sass-tilde-importer'),
   webpack: require('webpack'),
   webpackStream: require('webpack-stream'),
-  wpTerserPlugin: require('terser-webpack-plugin'),
+  webpackTerser: require('terser-webpack-plugin'),
 };
 
 $.config = JSON.parse($.fs.readFileSync('./config/config.json', 'utf8'));
@@ -31,7 +32,7 @@ $.tasks.forEach((taskPath) => require(taskPath)());
 $.gulp.task('dev', done => {
   $.gulp.series('clean',
     $.gulp.parallel('styles', 'scripts'),
-    $.gulp.parallel('hbs', 'pngSprite', 'svgSprite', 'svgInline', 'assets'),
+    $.gulp.parallel('hbs', 'pngSprite', 'svg:sprite', 'svg:inline', 'assets'),
     $.gulp.parallel('prepareHtmlDev', 'webp'),
     $.gulp.parallel('watch', 'serve'),
   )(done);
@@ -40,7 +41,7 @@ $.gulp.task('dev', done => {
 $.gulp.task('build', done => {
   $.gulp.series('clean',
     $.gulp.parallel('styles', 'scripts'),
-    $.gulp.parallel('hbs', 'pngSprite', 'svgSprite', 'svgInline', 'assets'),
+    $.gulp.parallel('hbs', 'pngSprite', 'svg:sprite', 'svg:inline', 'assets'),
     // $.gulp.parallel('imageMin', 'criticalCss'),
     $.gulp.parallel('prepareHtmlBuild', 'webp'),
     $.gulp.parallel('meta'),
@@ -50,7 +51,7 @@ $.gulp.task('build', done => {
 $.gulp.task('build-prod', done => {
   $.gulp.series('clean',
     $.gulp.parallel('styles', 'scripts'),
-    $.gulp.parallel('hbs-prod', 'svgSprite', 'svgInline', 'pngSprite', 'assets'),
+    $.gulp.parallel('hbs-prod', 'svg:sprite', 'svg:inline', 'pngSprite', 'assets'),
     $.gulp.parallel('prepareHtmlProd', 'webp'),
     // $.gulp.parallel('sitemap'),
     // $.gulp.parallel('imageMin', 'criticalCss'),
