@@ -14,7 +14,7 @@ class App {
   }
 
   initLibs () {
-    window.svg4everybody();
+    // window.svg4everybody();
   }
 
   initModules () {

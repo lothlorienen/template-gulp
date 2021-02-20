@@ -1,7 +1,7 @@
 class Preloader {
   static disablingPreloader() {
     const preloader = document.querySelector('.js-preloader');
-    
+
     if (preloader) {
       const handler = e => {
         const { target, currentTarget } = e;
@@ -40,7 +40,7 @@ class Preloader {
         uikitPreloader.classList.add('hide');
       }, 500);
     }
-    
+
     document.body.classList.add('loaded');
   }
 }
