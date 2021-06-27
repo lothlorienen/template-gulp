@@ -2,6 +2,7 @@
   "appName": "",
   "siteName": "Starter Template",
   "siteUrl": "#",
+  "gulpTasks": "gulp-tasks",
   "meta": "preview",
   "source": "src/app",
   "prod": "build",

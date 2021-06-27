@@ -1,3 +1,4 @@
+@use "sass:math";
 $preloaderCount: 10;
 $preloaderTime: 2;
 $preloaderSize: 100;
@@ -59,7 +60,7 @@ $preloaderSize: 100;
   content: "";
   position: absolute;
   left: 50%;
-  top: 0%;
+  top: 0;
   width: 10%;
   height: 10%;
   background-color: $uikit-preloader-color;
@@ -69,26 +70,27 @@ $preloaderSize: 100;
 
 @for $i from 1 through $preloaderCount {
   .uikit-preloader-animation div:nth-child(#{$i}) {
-    transform: rotateZ(((360 / $preloaderCount) * ($i - 1)) + deg);
+    transform: rotateZ((math.div(360, $preloaderCount) * ($i - 1)) + deg);
     animation: rotateCircle + $i $preloaderTime + s infinite linear;
     z-index: $preloaderCount - $i;
   }
+
   @keyframes rotateCircle#{$i} {
-    #{percentage(((50 / $preloaderCount) * ($i - 1)) / 100)} {
+    #{percentage(((math.div(50, $preloaderCount)) * ($i - 1)) * 0.01)} {
       opacity: 0;
     }
-    #{percentage((((50 / $preloaderCount) + 0.0001) * ($i - 1)) / 100)} {
+    #{percentage((((math.div(50, $preloaderCount)) + 0.0001) * ($i - 1)) * 0.01)} {
       opacity: 1;
-      transform: rotateZ((0 - ((360 / $preloaderCount) * ($i - 2))) + deg);
+      transform: rotateZ((0 - (math.div(360, $preloaderCount) * ($i - 2))) + deg);
     }
-    #{percentage((((50 / $preloaderCount) * ($i - 0)) + 2) / 100)} {
-      transform: rotateZ((0 - ((360 / $preloaderCount) * ($i - 1))) + deg);
+    #{percentage((((math.div(50, $preloaderCount)) * ($i - 0)) + 2) * 0.01)} {
+      transform: rotateZ((0 - (math.div(360, $preloaderCount) * ($i - 1))) + deg);
     }
-    #{percentage(((50 + ((50 / $preloaderCount) * ($i - 0))) + 2) / 100)} {
-      transform: rotateZ((0 - ((360 / $preloaderCount) * ($i - 1))) + deg);
+    #{percentage(((50 + ((math.div(50, $preloaderCount)) * ($i - 0))) + 2) * 0.01)} {
+      transform: rotateZ((0 - (math.div(360, $preloaderCount) * ($i - 1))) + deg);
     }
     100% {
-      transform: rotateZ((0 - ((360 / $preloaderCount) * ($preloaderCount - 1))) + deg);
+      transform: rotateZ((0 - (math.div(360, $preloaderCount) * ($preloaderCount - 1))) + deg);
       opacity: 1;
     }
   }

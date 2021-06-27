@@ -57,7 +57,7 @@
 }
 
 @mixin letter-spacing($photoshop) {
-  letter-spacing: #{$photoshop / 1000}em;
+  letter-spacing: #{$photoshop * 0.001}em;
 }
 
 @mixin link-underline {

@@ -1,5 +1,3 @@
-module.exports = () => {
-  $.gulp.task('clean',
-    $.del.sync([$.conf.dev, $.conf.prod]),
-  );
+module.exports = function clean(cb) {
+  return $.del([$.conf.dev, $.conf.prod]).then(() => cb())
 };

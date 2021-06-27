@@ -2,29 +2,30 @@
 
 global.$ = {
   gulp: require('gulp'),
-  gulpPlugin: require('gulp-load-plugins')(),
+  sourcemaps: require('gulp-sourcemaps'),
   bs: require('browser-sync').create(),
   fs: require('fs'),
   path: require('path'),
-  tasks: require('./gulp-tasks/_index.js'),
+  // tasks: require('./gulp-tasks/_index.js'),
   conf: require('./config/config.json'),
   del: require('del'),
-  // cleanCSS: require('gulp-clean-css'),
-  sass: require('gulp-sass'),
-  // rename: require('gulp-rename'),
+  plumber: require('gulp-plumber'),
+  gulpRename: require('gulp-rename'),
   // webp: require('gulp-webp'),
   // glob: require('glob'),
   // merge: require('merge-stream'),
   // argv: require('yargs').argv,
-  // tildeImporter: require('node-sass-tilde-importer'),
   // webpack: require('webpack'),
   // webpackStream: require('webpack-stream'),
   // webpackTerser: require('terser-webpack-plugin'),
+  task: {
+    serve: require(`./gulp-tasks/serve`),
+    clean: require(`./gulp-tasks/clean`),
+    styles: require(`./gulp-tasks/styles`),
+  },
 };
-// Выявляем режим сборки и устанавливаем пути
 
-
-
+// Задаём режим сборки
 const setMode = (isProduction = false) => {
   return cb => {
     process.env.NODE_ENV = isProduction ? 'production' : 'development'
@@ -34,14 +35,18 @@ const setMode = (isProduction = false) => {
   }
 }
 
+// const dev = $.gulp.parallel(styles)
+const build = $.gulp.series($.task.clean, $.task.styles)
+
 // Инициализируем наши таски
-$.tasks.forEach((taskPath) => require(taskPath)());
-module.exports.dev = $.gulp.series(setMode(), 'clean',
-  $.gulp.parallel('styles',), //'scripts'),
-  $.gulp.parallel('hbs', 'svg:sprite', 'svg:inline', 'assets'),
-  $.gulp.parallel('prepareHtmlDev',), //'webp'),
-  $.gulp.parallel('watch', 'serve'),
-)
+module.exports.dev = $.gulp.series(setMode(), build, $.task.serve)
+// module.exports.dev = $.gulp.series(
+//   setMode(), clean,
+//   // $.gulp.parallel('styles',), //'scripts'),
+//   // $.gulp.parallel('hbs', 'svg:sprite', 'svg:inline', 'assets'),
+//   // $.gulp.parallel('prepareHtmlDev',), //'webp'),
+//   $.gulp.parallel(server),
+// )
 //
 // $.gulp.task('build', done => {
 //   $.gulp.series('clean',

@@ -14,6 +14,8 @@
 ///
 /// @requires $mq-base-font-size
 /// @returns {Number}
+@use "sass:math";
+
 @function mq-px2em($px, $base-font-size: 14px) {
   @return $px;
   @if unitless($px) {
@@ -22,7 +24,7 @@
   } @else if unit($px) == em {
     @return $px;
   }
-  @return ($px / $base-font-size) * 1em;
+  @return math.div($px, $base-font-size) * 1em;
 }
 
 /// Add class for <IE9 sprite fallback
@@ -214,6 +216,6 @@ $sprite: map-get($icons, sprite) !default;
 @mixin sprite_hover_opacity($icon, $percent) {
   @include sprite($icon);
   &:hover {
-    opacity: $percent / 100;
+    opacity: $percent * 0.01;
   }
 }

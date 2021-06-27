@@ -1,4 +1,6 @@
 // For media-queries
+@use "sass:math";
+
 @function get-array-key($arr, $key) {
   @return nth(nth($arr, $key), 2); // Получаю значение ключа
 }
@@ -18,7 +20,7 @@
   $x1: $x0;
 
   @for $i from 1 through 10 {
-    $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
+    $x1: $x0 - math.div($x0 * $x0 - abs($r), 2 * $x0);
     $x0: $x1;
   }
 
@@ -41,11 +43,11 @@
 
 // For fonts
 @function px-to-rem($arg) {
-  @return $arg / 16 + 'rem';
+  @return math.div($arg, 16) + 'rem';
 }
 
 @function px-to-em($arg) {
-  @return $arg / 16 + 'em';
+  @return math.div($arg, 16) + 'em';
 }
 
 /*
@@ -74,7 +76,7 @@ input: 10px, output: 10px
         $result: $result * 10 + map-get($numbers, $character);
       } @else {
         $digits: $digits * 10;
-        $result: $result + map-get($numbers, $character) / $digits;
+        $result: $result + math.div(map-get($numbers, $character), $digits);
       }
     }
   }
