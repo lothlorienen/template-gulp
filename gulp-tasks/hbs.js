@@ -1,13 +1,13 @@
 module.exports = () => {
   const initParams = {};
   initParams.cache = randomIntNum(1, 5000);
-  initParams.dynamicEntry = $.config.dynamicEntry && $.config.buildMode === 'prod';
+  initParams.dynamicEntry = $.conf.dynamicEntry && $.conf.buildMode === 'prod';
 
   const options = {
     ignorePartials: true,
     batch: [
-      `${$.config.sourcePath}/${$.config.hbsPath}/layouts`,
-      `${$.config.sourcePath}/${$.config.hbsPath}/partials`,
+      `${$.conf.source}/${$.conf.hbs}/layouts`,
+      `${$.conf.source}/${$.conf.hbs}/partials`,
     ],
     helpers: {
       times: function(n, block) {
@@ -51,21 +51,21 @@ module.exports = () => {
         return `${args.slice(0, -1).join('')}`;
       },
       ifUseWebp: function(block) {
-        if ($.config.buildWebp) return block.fn(this);
+        if ($.conf.buildWebp) return block.fn(this);
         else return block.inverse(this);
       },
     },
   };
 
   $.gulp.task('hbs', () => {
-    const data = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/db.json`),);
-    const links = JSON.parse($.fs.readFileSync(`${$.config.sourcePath}/${$.config.dbPath}/links.json`),);
+    const data = JSON.parse($.fs.readFileSync(`${$.conf.source}/${$.conf.db}/db.json`),);
+    const links = JSON.parse($.fs.readFileSync(`${$.conf.source}/${$.conf.db}/links.json`),);
     const db = { ...initParams, ...data, ...links };
 
     return $.gulp.src([
-      `${$.config.sourcePath}/${$.config.hbsPath}/pages/*.hbs`,
-      `${$.config.sourcePath}/${$.config.hbsPath}/partials/core/ui-kit/page.hbs`,
-      `${$.config.sourcePath}/${$.config.hbsPath}/ajax/*.hbs`,
+      `${$.conf.source}/${$.conf.hbs}/pages/*.hbs`,
+      `${$.conf.source}/${$.conf.hbs}/partials/core/ui-kit/page.hbs`,
+      `${$.conf.source}/${$.conf.hbs}/ajax/*.hbs`,
     ])
       .pipe($.gulpPlugin.plumber())
       .pipe($.gulpPlugin.compileHandlebars(db, options))
@@ -81,7 +81,7 @@ module.exports = () => {
         collapseWhitespace: true,
         removeAttributeQuotes: true,
       }))
-      .pipe($.gulp.dest(`${$.config.outputPath}/html`))
+      .pipe($.gulp.dest(`${$.conf.outputPath}/html`))
       .pipe($.bs.reload({ stream: true }),
       );
   });

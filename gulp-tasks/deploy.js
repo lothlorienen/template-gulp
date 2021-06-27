@@ -1,10 +1,10 @@
 module.exports = () => {
   $.gulp.task('ftp', () => {
-    const ftpConfig = 'ftp' in $.config ? $.config.ftp : null;
+    const ftpConfig = 'ftp' in $.conf ? $.conf.ftp : null;
 
     if (ftpConfig === null || ftpConfig.enabled === false) return false;
 
-    return gulp.src([`${$.config.outputPath}/**/*`, `!**/.git/**`], { dot: true })
+    return gulp.src([`${$.conf.outputPath}/**/*`, `!**/.git/**`], { dot: true })
       .pipe($.gulpPlugin.ftp({
         host: ftpConfig.host,
         user: ftpConfig.login,
@@ -15,11 +15,11 @@ module.exports = () => {
   });
 
   $.gulp.task('sftp', () => {
-    const ftpConfig = 'sftp' in $.config ? $.config.sftp : null;
+    const ftpConfig = 'sftp' in $.conf ? $.conf.sftp : null;
 
     if (ftpConfig === null || ftpConfig.enabled === false) return false;
 
-    return $.gulp.src([`${$.config.outputPath}/**/*`, `!**/.git/**`], { dot: true })
+    return $.gulp.src([`${$.conf.outputPath}/**/*`, `!**/.git/**`], { dot: true })
       .pipe($.gulpPlugin.sftpFix({
         host: ftpConfig.host,
         user: ftpConfig.login,

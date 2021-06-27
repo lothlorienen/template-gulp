@@ -1,7 +1,7 @@
 module.exports = () => {
   $.gulp.task('criticalCss', () => {
-    if ($.config.criticalCss) {
-      return $.gulp.src(`${$.config.outputPath}/html/**/*.html`)
+    if ($.conf.criticalCss) {
+      return $.gulp.src(`${$.conf.outputPath}/html/**/*.html`)
         .pipe($.critical({
           inline: false,
           base: 'dist/html/',
@@ -21,10 +21,10 @@ module.exports = () => {
         .on('error', function(err) {
           console.error(err);
         })
-        .pipe($.gulp.dest($.config.outputPath + '/html/critical'));
+        .pipe($.gulp.dest($.conf.outputPath + '/html/critical'));
     }
 
-    return $.gulp.src(`${$.config.outputPath}/html/**/*.html`)
-      .pipe($.gulp.dest(`${$.config.outputPath}/html/`));
+    return $.gulp.src(`${$.conf.outputPath}/html/**/*.html`)
+      .pipe($.gulp.dest(`${$.conf.outputPath}/html/`));
   });
 };

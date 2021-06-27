@@ -8,7 +8,7 @@ module.exports = () => {
       '!dist/404/index.html',
     ], { read: false })
       .pipe(save('before-sitemap'))
-      .pipe(sitemap({ siteUrl: $.config.siteUrl }))
+      .pipe(sitemap({ siteUrl: $.conf.siteUrl }))
       .pipe($.gulp.dest('./dist'))
       .pipe(save.restore('before-sitemap'));
   });

@@ -1,11 +1,11 @@
 module.exports = () => {
   $.gulp.task('meta', () => {
-    return $.gulp.src(`${$.config.sourcePath}/${$.config.metaPath}/*`)
+    return $.gulp.src(`${$.conf.source}/${$.conf.meta}/*`)
       .pipe($.gulpPlugin.imagemin({
         interlaced: true,
         progressive: true,
         optimizationLevel: 5,
       }))
-      .pipe($.gulp.dest(`${$.config.outputPath}/${$.config.metaPath}`));
+      .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.meta}`));
   });
 };

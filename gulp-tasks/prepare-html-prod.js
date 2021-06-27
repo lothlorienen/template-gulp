@@ -1,6 +1,6 @@
 module.exports = () => {
   $.gulp.task('prepareHtmlProd', () => {
-    return $.gulp.src(`${$.config.outputPath}/**/*.html`)
+    return $.gulp.src(`${$.conf.outputPath}/**/*.html`)
       .pipe($.gulpPlugin.cheerio({
         run: jQuery => {
           jQuery('script').each(function() {
@@ -10,7 +10,7 @@ module.exports = () => {
               src.substr(0, 5) !== 'http:' &&
               src.substr(0, 6) !== 'https:'
             ) {
-              src = `/${$.config.scriptsPath}/${src}`;
+              src = `/${$.conf.scripts}/${src}`;
             }
 
             jQuery(this).attr('src', src);
@@ -145,7 +145,7 @@ module.exports = () => {
           decodeEntities: false,
         },
       }))
-      .pipe($.gulp.dest(`${$.config.outputPath}/`))
+      .pipe($.gulp.dest(`${$.conf.outputPath}/`))
       .pipe($.bs.reload({ stream: true }));
   });
 };

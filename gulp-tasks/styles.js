@@ -2,12 +2,12 @@ $.sass.compiler = require('dart-sass');
 
 module.exports = () => {
   const sheets = [
-    { src: `./${$.config.sourcePath}/${$.config.stylesPath}/main.scss` },
-    { src: `./${$.config.sourcePath}/${$.config.stylesPath}/uikit.scss` },
+    { src: `./${$.conf.source}/${$.conf.styles}/main.scss` },
+    { src: `./${$.conf.source}/${$.conf.styles}/uikit.scss` },
   ];
 
   $.gulp.task('styles', (done) => {
-    if ($.config.cssMin && $.config.buildMode === 'prod') {
+    if ($.conf.cssMin && $.conf.buildMode === 'prod') {
       sheets.map((file) => {
         return $.gulp.src([file.src])
           .pipe($.gulpPlugin.sass({
@@ -34,7 +34,7 @@ module.exports = () => {
               console.log(`${details.name}: ${details.stats.minifiedSize}`);
             }))
           .pipe($.gulpPlugin.rename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.config.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
           .pipe($.bs.reload({ stream: true }));
       });
       done();
@@ -49,7 +49,7 @@ module.exports = () => {
           .pipe($.gulpPlugin.csso())
           .pipe($.gulpPlugin.rename({ extname: '.min.css' }))
           .pipe($.gulpPlugin.sourcemaps.write())
-          .pipe($.gulp.dest(`${$.config.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
           .pipe($.gulpPlugin.csslint('./config/.csslintrc'))
           .pipe($.bs.reload({ stream: true }));
       });

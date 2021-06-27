@@ -1,6 +1,6 @@
 module.exports = () => {
   $.gulp.task('svg:sprite', () => {
-    return $.gulp.src(`${$.config.sourcePath}/${$.config.svgPath}/**/*.svg`)
+    return $.gulp.src(`${$.conf.source}/${$.conf.svgSprite}/**/*.svg`)
       .pipe($.gulpPlugin.svgmin())
       .pipe($.gulpPlugin.svgSprite({
         mode: {
@@ -10,11 +10,11 @@ module.exports = () => {
             },
             layout: 'diagonal',
             dest: './',
-            sprite: `${$.config.outputPath}/${$.config.imagesPath}/sprite.svg`,
+            sprite: `${$.conf.outputPath}/${$.conf.images}/sprite.svg`,
             bust: false,
             render: {
               'scss': {
-                'dest': `${$.config.sourcePath}/${$.config.stylesPath}/core/svg/_sprite.scss`,
+                'dest': `${$.conf.source}/${$.conf.styles}/core/svg/_sprite.scss`,
                 'template': `./config/sprite-template.scss`,
               },
             },
@@ -25,7 +25,7 @@ module.exports = () => {
   });
 
   $.gulp.task('svg:inline', () => {
-    return $.gulp.src(`${$.config.sourcePath}/${$.config.svgInlinePath}/**/*.svg`)
+    return $.gulp.src(`${$.conf.source}/${$.conf.svgInline}/**/*.svg`)
       .pipe($.gulpPlugin.svgmin({
         js2svg: {
           pretty: true,
@@ -45,11 +45,11 @@ module.exports = () => {
             dest: './',
             example: false,
             bust: false,
-            sprite: `${$.config.outputPath}/${$.config.imagesPath}/spriteInline.svg`,
+            sprite: `${$.conf.outputPath}/${$.conf.images}/spriteInline.svg`,
             inline: false,
             render: {
               scss: {
-                dest: `${$.config.sourcePath}/${$.config.stylesPath}/core/svg/_spriteInline.scss`,
+                dest: `${$.conf.source}/${$.conf.styles}/core/svg/_spriteInline.scss`,
                 template: `./config/sprite-template-inline.scss`,
               },
             },

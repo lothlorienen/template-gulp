@@ -1,8 +1,8 @@
 module.exports = [
-  './gulp-tasks/browser-sync',
+  './gulp-tasks/serve',
   './gulp-tasks/watch',
-  // './gulp-tasks/clean',
-  // './gulp-tasks/styles',
+  './gulp-tasks/clean',
+  './gulp-tasks/styles',
   // './gulp-tasks/hbs',
   // './gulp-tasks/hbs-prod',
   // './gulp-tasks/assets',

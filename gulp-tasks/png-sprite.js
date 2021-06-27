@@ -1,7 +1,7 @@
 module.exports = () => {
   $.gulp.task('png:sprite', () => {
     const spriteData =
-      $.gulp.src(`${$.config.sourcePath}/${$.config.pngPath}/*.png`)
+      $.gulp.src(`${$.conf.source}/${$.conf.pngSprite}/*.png`)
         .pipe($.gulpPlugin.spritesmith({
           imgName: 'sprite.png',
           cssName: 'png-sprite.scss',
@@ -13,8 +13,8 @@ module.exports = () => {
           },
         }));
 
-    const destImg = spriteData.img.pipe($.gulp.dest(`${$.config.outputPath}/${$.config.pngPath}`));
-    const destCss = spriteData.css.pipe($.gulp.dest(`${$.config.sourcePath}/${$.config.stylesPath}/png`));
+    const destImg = spriteData.img.pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.pngSprite}`));
+    const destCss = spriteData.css.pipe($.gulp.dest(`${$.conf.source}/${$.conf.styles}/png`));
 
     return $.merge(destImg, destCss);
   });

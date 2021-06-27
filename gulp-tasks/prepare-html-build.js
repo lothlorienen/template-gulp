@@ -1,8 +1,8 @@
 module.exports = () => {
   $.gulp.task('prepareHtmlBuild', () => {
     // Исходные данные
-    const metaImages = $.fs.readdirSync(`${$.config.sourcePath}/${$.config.metaPath}`); // изображения
-    const templates = $.fs.readdirSync(`${$.config.sourcePath}/${$.config.hbsPath}/pages`).concat([`page.hbs`]); // шаблоны страниц
+    const metaImages = $.fs.readdirSync(`${$.conf.source}/${$.conf.meta}`); // изображения
+    const templates = $.fs.readdirSync(`${$.conf.source}/${$.conf.hbs}/pages`).concat([`page.hbs`]); // шаблоны страниц
 
 
     const html = []; // Массив генерируемых элементов
@@ -40,7 +40,7 @@ module.exports = () => {
       // Получаем доступ к локальному файлу текущей страницы
       const file = $.fs
         .readFileSync(
-          `${$.config.sourcePath}/${$.config.hbsPath}/${pageName === 'ui-toolkit' ?
+          `${$.conf.source}/${$.conf.hbs}/${pageName === 'ui-toolkit' ?
             'partials/core/ui-kit/page' : 'pages/' + pageName}.hbs`,
         ).toString();
 
@@ -49,12 +49,12 @@ module.exports = () => {
 
       // Получаем данные готовой страницы
       const hbs = $.fs
-        .readFileSync(`${$.config.outputPath}/html/${pageName}.html`)
+        .readFileSync(`${$.conf.outputPath}/html/${pageName}.html`)
         .toString();
 
       // Если заголовка в странице нет, то заменяем его на полученный из шаблона
       if (hbs.indexOf(`<title></title>`) !== -1) {
-        $.fs.writeFileSync(`${$.config.outputPath}/html/${pageName}.html`,
+        $.fs.writeFileSync(`${$.conf.outputPath}/html/${pageName}.html`,
           hbs.replace(
             /<title>(.*)/,
             '<title>' + pages[pageName] + '</title>'),
@@ -67,7 +67,7 @@ module.exports = () => {
           <article class="main__article">
             <h2 class="main__title">${pages[pageName].title}</h2>
             <a class="${pages[pageName].image === undefined ? 'main__link main__link--default' : 'main__link'}" href="${pageName}.html" title="${pages[pageName].title}" aria-label="Link to ${pages[pageName].title} page.">
-              <img src="../${$.config.metaPath}/${pages[pageName].image === undefined ? '1000_default.svg' : pages[pageName].image}" alt="Preview image." loading="lazy">
+              <img src="../${$.conf.meta}/${pages[pageName].image === undefined ? '1000_default.svg' : pages[pageName].image}" alt="Preview image." loading="lazy">
             </a>
           </article>
         </li>`);
@@ -97,14 +97,14 @@ module.exports = () => {
 
     // Подставляем полученные данные и генерируем билд
     $.fs.writeFileSync(
-      `${$.config.outputPath}/html/index.html`,
+      `${$.conf.outputPath}/html/index.html`,
       sourceTemplate
         .replace('{{items}}', `${html.join('')}`)
-        .replace(/{{siteName}}/g, $.config.siteName)
+        .replace(/{{siteName}}/g, $.conf.siteName)
         .replace('{{buildDate}}', new Date().toLocaleString('ru', options)),
     );
 
-    return $.gulp.src(`${$.config.outputPath}/html/**/*.html`)
+    return $.gulp.src(`${$.conf.outputPath}/html/**/*.html`)
       .pipe($.gulpPlugin.cheerio({
         run: jQuery => {
           jQuery('script').each(function() {
@@ -112,7 +112,7 @@ module.exports = () => {
 
             if (src !== undefined &&
               src.substr(0, 5) !== 'http:' &&
-              src.substr(0, 6) !== 'https:') src = `../${$.config.scriptsPath}/${src}`;
+              src.substr(0, 6) !== 'https:') src = `../${$.conf.scripts}/${src}`;
 
             jQuery(this).attr('src', src);
           });
@@ -143,7 +143,7 @@ module.exports = () => {
         },
         parserOptions: { decodeEntities: false },
       }))
-      .pipe($.gulp.dest(`${$.config.outputPath}/html/`))
+      .pipe($.gulp.dest(`${$.conf.outputPath}/html/`))
       .pipe($.bs.reload({ stream: true }));
   });
 };

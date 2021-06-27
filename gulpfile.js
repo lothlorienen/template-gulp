@@ -3,17 +3,17 @@
 global.$ = {
   gulp: require('gulp'),
   gulpPlugin: require('gulp-load-plugins')(),
-  bs: require('browser-sync'),
+  bs: require('browser-sync').create(),
   fs: require('fs'),
   path: require('path'),
   tasks: require('./gulp-tasks/_index.js'),
-  config: require('./config/config.json')
+  conf: require('./config/config.json'),
+  del: require('del'),
   // cleanCSS: require('gulp-clean-css'),
-  // sass: require('gulp-sass'),
+  sass: require('gulp-sass'),
   // rename: require('gulp-rename'),
   // webp: require('gulp-webp'),
   // glob: require('glob'),
-  // del: require('del'),
   // merge: require('merge-stream'),
   // argv: require('yargs').argv,
   // tildeImporter: require('node-sass-tilde-importer'),
@@ -22,21 +22,26 @@ global.$ = {
   // webpackTerser: require('terser-webpack-plugin'),
 };
 // Выявляем режим сборки и устанавливаем пути
-$.config.buildMode = process.env.NODE_ENV === "development" ? 'dev' : 'prod';
-$.config.outputPath = $.config.buildMode === 'prod' ? $.config.prodOutput : $.config.devOutput;
+
+
+
+const setMode = (isProduction = false) => {
+  return cb => {
+    process.env.NODE_ENV = isProduction ? 'production' : 'development'
+    $.conf.buildMode = isProduction ? 'prod' : 'dev'
+    $.conf.outputPath = isProduction ? $.conf.prod : $.conf.dev
+    cb()
+  }
+}
+
 // Инициализируем наши таски
 $.tasks.forEach((taskPath) => require(taskPath)());
-
-$.gulp.task('dev', done => {
-  console.log('gulp worked')
-  done()
-  // $.gulp.series('clean',
-  //   $.gulp.parallel('styles', 'scripts'),
-  //   $.gulp.parallel('hbs', 'svg:sprite', 'svg:inline', 'assets'),
-  //   $.gulp.parallel('prepareHtmlDev', 'webp'),
-  //   $.gulp.parallel('watch', 'serve'),
-  // )(done);
-});
+module.exports.dev = $.gulp.series(setMode(), 'clean',
+  $.gulp.parallel('styles',), //'scripts'),
+  $.gulp.parallel('hbs', 'svg:sprite', 'svg:inline', 'assets'),
+  $.gulp.parallel('prepareHtmlDev',), //'webp'),
+  $.gulp.parallel('watch', 'serve'),
+)
 //
 // $.gulp.task('build', done => {
 //   $.gulp.series('clean',

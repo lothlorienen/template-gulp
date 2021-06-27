@@ -1,7 +1,7 @@
 module.exports = () => {
-  const sourcePath = `${$.config.sourcePath}/${$.config.scriptsPath}`;
-  const prodOutput = `${$.config.outputPath}/${$.config.scriptsPath}`;
-  const outputFileName = $.config.dynamicEntry && $.config.buildMode === 'prod' ? '[name]' : '[name].js';
+  const sourcePath = `${$.conf.source}/${$.conf.scripts}`;
+  const prodOutput = `${$.conf.outputPath}/${$.conf.scripts}`;
+  const outputFileName = $.conf.dynamicEntry && $.conf.buildMode === 'prod' ? '[name]' : '[name].js';
 
   const sourceMapConfig = {
     filename: `${outputFileName}.map`,
@@ -42,7 +42,7 @@ module.exports = () => {
     stats: 'errors-warnings',
   };
 
-  switch ($.config.buildMode) {
+  switch ($.conf.buildMode) {
     case 'dev':
       config.mode = 'development';
       config.entry = getStaticEntry();
@@ -61,13 +61,13 @@ module.exports = () => {
     case 'prod':
       config.mode = 'production';
 
-      $.config.dynamicEntry ?
+      $.conf.dynamicEntry ?
         config.entry = getDynamicEntry() :
         config.entry = getStaticEntry();
 
-      if ($.config.babel) config.module.rules.push(babelConfig,);
+      if ($.conf.babel) config.module.rules.push(babelConfig,);
 
-      $.config.jsMin ?
+      $.conf.jsMin ?
         minifyConfig.test = /\.js$/ :
         minifyConfig.test = /vendors\.js/;
 
