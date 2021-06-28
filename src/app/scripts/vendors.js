@@ -33,6 +33,7 @@ lazySizes.cfg.loadMode = 1;
 lazySizes.cfg.nativeLoading = {
   setLoadingAttribute: true,
   disableListeners: {
-    scroll: true,
-  },
-};
+    scroll: true
+  }
+}
+console.log('vendors')

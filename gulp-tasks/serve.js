@@ -13,7 +13,10 @@ export const serve = () => {
 export const watch = () => {
   $.gulp.watch([`${$.conf.styles}/**/*.{scss, sass, css}`], $.gulp.series($.task.styles))
   $.gulp.watch([`${$.conf.scripts}/vendors.js`,], $.gulp.series($.task.vendors))
-  $.gulp.watch([`${$.conf.scripts}/main.js`,`${$.conf.scripts}/src/**/*.js`,], $.gulp.series($.task.main))
+  $.gulp.watch([
+    `${$.conf.scripts}/main.js`,
+    `!${$.conf.scripts}/vendors.js`
+  ], $.gulp.series($.task.main))
   $.gulp.watch([
     `${$.conf.hbs}/**/*`,
     `${$.conf.db}/db/*`

@@ -97,6 +97,7 @@ class Layout {
   }
 }
 
+console.log('hello from layout')
 Layout.init();
 
 window.Layout = Layout;
