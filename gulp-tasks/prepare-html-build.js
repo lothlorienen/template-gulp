@@ -1,8 +1,8 @@
 module.exports = () => {
   $.gulp.task('prepareHtmlBuild', () => {
     // Исходные данные
-    const metaImages = $.fs.readdirSync(`${$.conf.source}/${$.conf.meta}`); // изображения
-    const templates = $.fs.readdirSync(`${$.conf.source}/${$.conf.hbs}/pages`).concat([`page.hbs`]); // шаблоны страниц
+    const metaImages = $.fs.readdirSync(`${$.conf.appRoot}/${$.conf.meta}`); // изображения
+    const templates = $.fs.readdirSync(`${$.conf.appRoot}/${$.conf.hbs}/pages`).concat([`page.hbs`]); // шаблоны страниц
 
 
     const html = []; // Массив генерируемых элементов
@@ -40,7 +40,7 @@ module.exports = () => {
       // Получаем доступ к локальному файлу текущей страницы
       const file = $.fs
         .readFileSync(
-          `${$.conf.source}/${$.conf.hbs}/${pageName === 'ui-toolkit' ?
+          `${$.conf.appRoot}/${$.conf.hbs}/${pageName === 'ui-toolkit' ?
             'partials/core/ui-kit/page' : 'pages/' + pageName}.hbs`,
         ).toString();
 

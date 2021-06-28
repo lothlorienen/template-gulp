@@ -1,45 +1,53 @@
-'use strict';
+// необходимые пакеты
+import gulp from 'gulp'
+import sourcemaps from 'gulp-sourcemaps'
+import bs from 'browser-sync'
+import fs from 'fs'
+import path from 'path'
+import conf from './config/config.js'
+import del from 'del'
+import plumber from 'gulp-plumber'
+import gulpRename from 'gulp-rename'
+import gulpReplace from 'gulp-replace'
 
-global.$ = {
-  gulp: require('gulp'),
-  sourcemaps: require('gulp-sourcemaps'),
-  bs: require('browser-sync').create(),
-  fs: require('fs'),
-  path: require('path'),
-  // tasks: require('./gulp-tasks/_index.js'),
-  conf: require('./config/config.json'),
-  del: require('del'),
-  plumber: require('gulp-plumber'),
-  gulpRename: require('gulp-rename'),
-  // webp: require('gulp-webp'),
-  // glob: require('glob'),
-  // merge: require('merge-stream'),
-  // argv: require('yargs').argv,
-  // webpack: require('webpack'),
-  // webpackStream: require('webpack-stream'),
-  // webpackTerser: require('terser-webpack-plugin'),
-  task: {
-    serve: require(`./gulp-tasks/serve`),
-    clean: require(`./gulp-tasks/clean`),
-    styles: require(`./gulp-tasks/styles`),
-  },
-};
+// задачи
+import {serve} from "./gulp-tasks/serve.js"
+import {clean} from "./gulp-tasks/clean.js"
+import {styles} from "./gulp-tasks/styles.js"
+import {assets} from "./gulp-tasks/assets.js"
+import {svgInline, svgSprite} from "./gulp-tasks/svg.js"
 
 // Задаём режим сборки
-const setMode = (isProduction = false) => {
-  return cb => {
-    process.env.NODE_ENV = isProduction ? 'production' : 'development'
-    $.conf.buildMode = isProduction ? 'prod' : 'dev'
-    $.conf.outputPath = isProduction ? $.conf.prod : $.conf.dev
-    cb()
-  }
+import {setMode} from "./gulp-tasks/mode.js"
+
+global.$ = {
+  gulp,
+  sourcemaps,
+  bs: bs.create(),
+  fs,
+  path,
+  conf,
+  del,
+  plumber,
+  gulpRename,
+  gulpReplace,
+  task: {
+    serve,
+    clean,
+    styles,
+    assets,
+    svgSprite,
+    svgInline,
+  },
 }
 
-// const dev = $.gulp.parallel(styles)
-const build = $.gulp.series($.task.clean, $.task.styles)
+
+const prepareAssets = $.gulp.parallel($.task.assets, $.task.svgSprite, $.task.svgInline)
+const base = $.gulp.parallel($.task.styles, prepareAssets)
+const build = $.gulp.series($.task.clean, base)
 
 // Инициализируем наши таски
-module.exports.dev = $.gulp.series(setMode(), build, $.task.serve)
+export const dev = $.gulp.series(setMode(), build, $.task.serve)
 // module.exports.dev = $.gulp.series(
 //   setMode(), clean,
 //   // $.gulp.parallel('styles',), //'scripts'),

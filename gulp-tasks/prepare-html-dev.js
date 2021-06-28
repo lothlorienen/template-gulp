@@ -1,6 +1,6 @@
 module.exports = () => {
   $.gulp.task('prepareHtmlDev', () => {
-    const templates = $.fs.readdirSync(`${$.conf.source}/${$.conf.hbs}/pages`).concat(['page.hbs']);
+    const templates = $.fs.readdirSync(`${$.conf.appRoot}/${$.conf.hbs}/pages`).concat(['page.hbs']);
     const html = [];
     const pages = {};
 
@@ -17,7 +17,7 @@ module.exports = () => {
 
       const file = $.fs
         .readFileSync(
-          `${$.conf.source}/${$.conf.hbs}/${pageName === 'ui-toolkit' ?
+          `${$.conf.appRoot}/${$.conf.hbs}/${pageName === 'ui-toolkit' ?
             'partials/core/ui-kit/page' : 'pages/' + pageName}.hbs`,
         ).toString();
 

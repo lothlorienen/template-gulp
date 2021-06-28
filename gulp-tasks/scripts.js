@@ -1,5 +1,5 @@
 module.exports = () => {
-  const sourcePath = `${$.conf.source}/${$.conf.scripts}`;
+  const sourcePath = `${$.conf.appRoot}/${$.conf.scripts}`;
   const prodOutput = `${$.conf.outputPath}/${$.conf.scripts}`;
   const outputFileName = $.conf.dynamicEntry && $.conf.buildMode === 'prod' ? '[name]' : '[name].js';
 

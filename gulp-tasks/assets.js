@@ -1,11 +1,6 @@
-module.exports = () => {
-  $.gulp.task('assets', () => {
-    return $.gulp.src([
-      `${$.conf.source}/${$.conf.assets}/**/*`,
-      `!${$.conf.source}/${$.conf.assets}/svg`,
-      `!${$.conf.source}/${$.conf.assets}/svg/**/*`,
-    ])
-      .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.assets}`))
-      .pipe($.bs.reload({stream: true}));
-  });
-};
+export const assets = () => {
+  return $.gulp
+    .src([`${$.conf.assets}/**/*`, `!${$.conf.assets}/svg`, `!${$.conf.assets}/svg/**/*`])
+    .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.assetsOut}`))
+    .pipe($.bs.reload({stream: true}))
+}

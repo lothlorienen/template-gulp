@@ -1,6 +1,6 @@
 module.exports = () => {
   $.gulp.task('meta', () => {
-    return $.gulp.src(`${$.conf.source}/${$.conf.meta}/*`)
+    return $.gulp.src(`${$.conf.appRoot}/${$.conf.meta}/*`)
       .pipe($.gulpPlugin.imagemin({
         interlaced: true,
         progressive: true,

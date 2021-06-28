@@ -6,8 +6,8 @@ module.exports = () => {
   const options = {
     ignorePartials: true,
     batch: [
-      `${$.conf.source}/${$.conf.hbs}/layouts`,
-      `${$.conf.source}/${$.conf.hbs}/partials`,
+      `${$.conf.appRoot}/${$.conf.hbs}/layouts`,
+      `${$.conf.appRoot}/${$.conf.hbs}/partials`,
     ],
     helpers: {
       times: function(n, block) {
@@ -57,12 +57,12 @@ module.exports = () => {
   };
 
   $.gulp.task('hbs-prod', () => {
-    const data = JSON.parse($.fs.readFileSync(`${$.conf.source}/${$.conf.db}/db.json`),);
-    const links = JSON.parse($.fs.readFileSync(`${$.conf.source}/${$.conf.db}/links.json`),);
+    const data = JSON.parse($.fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`),);
+    const links = JSON.parse($.fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`),);
     const db = { ...initParams, ...data, ...links };
 
     return $.gulp.src([
-      `${$.conf.source}/${$.conf.hbs}/pages/*.hbs`,
+      `${$.conf.appRoot}/${$.conf.hbs}/pages/*.hbs`,
     ])
       .pipe($.gulpPlugin.plumber())
       .pipe($.gulpPlugin.compileHandlebars(db, options))

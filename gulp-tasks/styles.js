@@ -1,24 +1,26 @@
-const sass = require('gulp-sass')(require('sass'))
-const cleanCSS = require('gulp-clean-css')
-const gulpPostcss = require('gulp-postcss')
-const autoprefixer = require('autoprefixer')
-const cssnano = require('cssnano')
-const Fibers = require('fibers')
-const shorthand = require('gulp-shorthand')
+import gulpSass from 'gulp-sass'
+import sass from 'sass'
+const SCSS = gulpSass(sass)
+import cleanCSS from 'gulp-clean-css'
+import gulpPostcss from 'gulp-postcss'
+import autoprefixer from 'autoprefixer'
+import cssnano from 'cssnano'
+import Fibers from 'fibers'
+import shorthand from 'gulp-shorthand'
 
-module.exports = function styles() {
+export const styles = () => {
   const isProd = $.conf.cssMin && $.conf.buildMode === 'prod'
-  const stylesPath = `${$.conf.source}/${$.conf.styles}`
-  const sheets = [`./${stylesPath}/main.scss`, `./${stylesPath}/uikit.scss`]
+  const sheets = [`./${$.conf.styles}/main.scss`, `./${$.conf.styles}/uikit.scss`]
   const plugins = [autoprefixer({cascade: false}), cssnano()]
 
   if (isProd) {
     // сокращает стили
-    return $.gulp.src(sheets)
-      .pipe(sass.sync({
+    return $.gulp
+      .src(sheets)
+      .pipe(SCSS.sync({
         includePaths: ['./node_modules'],
         fiber: Fibers
-      }).on('error', sass.logError))
+      }).on('error', SCSS.logError))
       .pipe(gulpPostcss(plugins))
       .pipe(shorthand())
       .pipe(cleanCSS({
@@ -44,18 +46,16 @@ module.exports = function styles() {
     .src(sheets)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    .pipe(sass.sync({
+    .pipe(SCSS.sync({
       // importer: require('node-sass-tilde-importer'),
       includePaths: ['./node_modules'],
       fiber: Fibers
-    }).on('error', sass.logError))
+    }).on('error', SCSS.logError))
     .pipe(gulpPostcss(plugins))
     .pipe(cleanCSS({
       debug: true,
       compatibility: '*'
-    }, details => {
-      console.log(`${details.name}: Original size:${details.stats.originalSize} - Minified size: ${details.stats.minifiedSize}`)
-    }))
+    }, details => console.log(`${details.name}: Original size:${details.stats.originalSize} - Minified size: ${details.stats.minifiedSize}`)))
     .pipe($.sourcemaps.write())
     .pipe($.gulpRename({extname: '.min.css'}))
     .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
