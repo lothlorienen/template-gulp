@@ -146,6 +146,6 @@ module.exports = () => {
         },
       }))
       .pipe($.gulp.dest(`${$.conf.outputPath}/`))
-      .pipe($.bs.reload({ stream: true }));
+      .pipe($.server.reload({ stream: true }));
   });
 };

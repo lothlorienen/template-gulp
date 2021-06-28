@@ -1,4 +1,4 @@
-{{> helpers/script src="vendors" }}
+{{> helpers/script src="vendors.min" }}
 {{#if dynamicEntry}}
   {{> helpers/script src="layout" }}
   {{> helpers/script src="scroll-observer" }}
@@ -11,5 +11,5 @@
 
   {{> helpers/script src="app" }}
 {{else}}
-  {{> helpers/script src="main" }}
+  {{> helpers/script src="theme.min" }}
 {{/if}}

@@ -39,7 +39,7 @@ export const styles = () => {
         + '—' + `${details.name}: ${details.stats.minifiedSize}`)))
       .pipe($.gulpRename({extname: '.min.css'}))
       .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
-      .pipe($.bs.reload({stream: true}))
+      .pipe($.server.stream())
   }
 
   return $.gulp
@@ -59,5 +59,5 @@ export const styles = () => {
     .pipe($.sourcemaps.write())
     .pipe($.gulpRename({extname: '.min.css'}))
     .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
-    .pipe($.bs.reload({stream: true}))
+    .pipe($.server.stream())
 }

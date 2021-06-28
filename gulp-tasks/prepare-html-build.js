@@ -144,6 +144,6 @@ module.exports = () => {
         parserOptions: { decodeEntities: false },
       }))
       .pipe($.gulp.dest(`${$.conf.outputPath}/html/`))
-      .pipe($.bs.reload({ stream: true }));
+      .pipe($.server.reload({ stream: true }));
   });
 };

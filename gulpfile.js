@@ -9,21 +9,33 @@ import del from 'del'
 import plumber from 'gulp-plumber'
 import gulpRename from 'gulp-rename'
 import gulpReplace from 'gulp-replace'
+import gulpCompileHandlebars from 'gulp-compile-handlebars'
+import htmlMin from 'gulp-htmlmin'
+import cheerio from 'gulp-cheerio'
+import {createGulpEsbuild} from 'gulp-esbuild'
 
 // задачи
-import {serve} from "./gulp-tasks/serve.js"
+import {serve, watch} from "./gulp-tasks/serve.js"
 import {clean} from "./gulp-tasks/clean.js"
 import {styles} from "./gulp-tasks/styles.js"
 import {assets} from "./gulp-tasks/assets.js"
 import {svgInline, svgSprite} from "./gulp-tasks/svg.js"
+import {hbs} from "./gulp-tasks/hbs.js"
+import {prepareHtmlDev} from "./gulp-tasks/prepare-html-dev.js"
+import {main, vendors} from "./gulp-tasks/scripts.js"
 
 // Задаём режим сборки
-import {setMode} from "./gulp-tasks/mode.js"
+import {setMode} from "./config/mode.js"
+
+// db
+import data from './src/app/db/db.js'
+import links from './src/app/db/links.js'
 
 global.$ = {
   gulp,
   sourcemaps,
-  bs: bs.create(),
+  server: bs.create(),
+  watch,
   fs,
   path,
   conf,
@@ -31,23 +43,38 @@ global.$ = {
   plumber,
   gulpRename,
   gulpReplace,
+  gulpCompileHandlebars,
+  htmlMin,
+  cheerio,
+  gulpEsbuild: createGulpEsbuild({incremental: true}),
+  hbsDB: {...data, ...links},
   task: {
     serve,
+    watch,
     clean,
     styles,
     assets,
     svgSprite,
     svgInline,
+    hbs,
+    prepareHtmlDev,
+    main, vendors,
   },
 }
 
-
-const prepareAssets = $.gulp.parallel($.task.assets, $.task.svgSprite, $.task.svgInline)
-const base = $.gulp.parallel($.task.styles, prepareAssets)
-const build = $.gulp.series($.task.clean, base)
-
+const ready = $.gulp.parallel(
+  $.task.hbs,
+  $.task.styles,
+  $.task.assets,
+  $.task.svgSprite,
+  $.task.svgInline,
+  $.task.vendors,
+  $.task.main,
+)
+const build = $.gulp.series($.task.clean, ready, $.task.prepareHtmlDev)
+const initServer = $.gulp.parallel($.task.serve, $.task.watch)
 // Инициализируем наши таски
-export const dev = $.gulp.series(setMode(), build, $.task.serve)
+export const dev = $.gulp.series(setMode(), build, initServer)
 // module.exports.dev = $.gulp.series(
 //   setMode(), clean,
 //   // $.gulp.parallel('styles',), //'scripts'),

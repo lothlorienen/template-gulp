@@ -1,5 +1,4 @@
 import gulpSvgMin from "gulp-svgmin"
-import gulpCheerio from "gulp-cheerio"
 import gulpSvgSprite from "gulp-svg-sprite"
 
 export const svgInline = () => {
@@ -8,7 +7,7 @@ export const svgInline = () => {
     .pipe(gulpSvgMin({
       js2svg: {pretty: true}
     }))
-    .pipe(gulpCheerio({
+    .pipe($.cheerio({
       run: function ($) {
         $('title').remove()
         $('style').remove()
