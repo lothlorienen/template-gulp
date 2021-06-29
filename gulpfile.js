@@ -48,28 +48,10 @@ global.$ = {
   cheerio,
   gulpEsbuild: createGulpEsbuild({incremental: true}),
   hbsDB: {...data, ...links},
-  task: {
-    serve,
-    watch,
-    clean,
-    styles,
-    assets,
-    svgSprite,
-    svgInline,
-    hbs,
-    prepareHtmlDev,
-    js,
-  },
+  task: {serve, watch, clean, styles, assets, svgSprite, svgInline, hbs, prepareHtmlDev, js,},
 }
 
-const ready = $.gulp.parallel(
-  $.task.hbs,
-  $.task.styles,
-  $.task.js,
-  $.task.assets,
-  $.task.svgSprite,
-  $.task.svgInline,
-)
+const ready = $.gulp.parallel($.task.hbs, $.task.styles, $.task.js, $.task.assets, $.task.svgSprite, $.task.svgInline,)
 const build = $.gulp.series($.task.clean, ready, $.task.prepareHtmlDev)
 const initServer = $.gulp.parallel($.task.serve, $.task.watch)
 // Инициализируем наши таски

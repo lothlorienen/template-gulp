@@ -103,7 +103,7 @@
 //   }
 // }
 
-const js = () => {
+export const js = () => {
   return $.gulp
     .src([`${$.conf.scripts}/main.js`])
     .pipe($.plumber())
@@ -120,5 +120,3 @@ const js = () => {
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
     .pipe($.server.stream())
 }
-
-export {js}

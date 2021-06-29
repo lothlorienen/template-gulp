@@ -4,7 +4,7 @@
 // import './polyfills';
 // import 'html5shiv';
 // import 'picturefill';
-import lazySizes from 'lazysizes';
+// import lazySizes from 'lazysizes';
 // import 'lazysizes/plugins/native-loading/ls.native-loading';
 // import 'lazysizes/plugins/object-fit/ls.object-fit';
 // import svgPolyfill from 'svg4everybody';
