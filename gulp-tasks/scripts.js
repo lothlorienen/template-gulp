@@ -103,34 +103,22 @@
 //   }
 // }
 
-export const vendors = () => {
+const js = () => {
   return $.gulp
-    .src(`${$.conf.scripts}/vendors.js`)
-    .pipe($.gulpEsbuild({
-      // outfile: 'vendors.min.js',
-      bundle: true,
-      sourcemap: true,
-      format: "esm",
-      platform: "browser",
-      target: ["es2018"],
-      entryNames: '[name].min',
-    }))
-    .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
-    .pipe($.server.stream())
-}
-export const main = () => {
-  return $.gulp
-    .src([`${$.conf.scripts}/**/*.js`, `!${$.conf.scripts}/vendors.js`])
+    .src([`${$.conf.scripts}/main.js`])
     .pipe($.plumber())
     .pipe($.gulpEsbuild({
       // outfile: 'theme.min.js',
       bundle: true,
+      // minify: true,
       sourcemap: true,
-      format: "esm",
+      // format: "esm",
       platform: "browser",
-      target: ["es2018"],
+      target: ["es6"],
       entryNames: '[name].min',
     }))
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
     .pipe($.server.stream())
 }
+
+export {js}

@@ -1,3 +1,5 @@
+import './polyfills';
+
 import './src/core/widget';
 import './src/core/observer';
 // import './src/core/uikit/uikit-drawer';
@@ -7,7 +9,6 @@ import './src/core/observer';
 // import './src/core/uikit/uikit-scroll-to';
 // import './src/core/uikit/uikit-accord';
 
-console.log('main')
 import './src/utils/helpers';
 import './src/utils/device';
 import './src/utils/events';

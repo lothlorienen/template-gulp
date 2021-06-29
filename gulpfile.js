@@ -22,7 +22,7 @@ import {assets} from "./gulp-tasks/assets.js"
 import {svgInline, svgSprite} from "./gulp-tasks/svg.js"
 import {hbs} from "./gulp-tasks/hbs.js"
 import {prepareHtmlDev} from "./gulp-tasks/prepare-html-dev.js"
-import {main, vendors} from "./gulp-tasks/scripts.js"
+import {js} from "./gulp-tasks/scripts.js"
 
 // Задаём режим сборки
 import {setMode} from "./config/mode.js"
@@ -58,23 +58,24 @@ global.$ = {
     svgInline,
     hbs,
     prepareHtmlDev,
-    main, vendors,
+    js,
   },
 }
 
 const ready = $.gulp.parallel(
   $.task.hbs,
   $.task.styles,
+  $.task.js,
   $.task.assets,
   $.task.svgSprite,
   $.task.svgInline,
-  $.task.vendors,
-  $.task.main,
 )
 const build = $.gulp.series($.task.clean, ready, $.task.prepareHtmlDev)
 const initServer = $.gulp.parallel($.task.serve, $.task.watch)
 // Инициализируем наши таски
 export const dev = $.gulp.series(setMode(), build, initServer)
+
+
 // module.exports.dev = $.gulp.series(
 //   setMode(), clean,
 //   // $.gulp.parallel('styles',), //'scripts'),
