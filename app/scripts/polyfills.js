@@ -1,4 +1,4 @@
-const polyfills = {
+export const polyfills = {
   collection: [
     function perfNow() {
       if (!window.performance) {
@@ -174,7 +174,7 @@ const polyfills = {
 
   init() {
     this.collection.forEach(item => item());
-  },
-};
+  }
+}
 
 polyfills.init();

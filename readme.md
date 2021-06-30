@@ -2,7 +2,7 @@
 
 ## IE Support
 
-Если необходима поддержка IE - необходимо раскомментировать импорты в vendors.js и установить зависимости.
+Если необходима поддержка IE - необходимо раскомментировать импорты в vendors.ts и установить зависимости.
 
 ## Разработка проекта
 
@@ -232,12 +232,12 @@ images.
     ├── modules
     │   ├── helpers
     │   ├── widgets
-    │   ├── layout.js
-    │   ├── preloader.js
-    │   ├── scroll-control.js
+    │   ├── layout.ts
+    │   ├── preloader.ts
+    │   ├── scroll-control.ts
     │   └── ui.js
     ├── libs.js
-    ├── main.js
+    ├── main.ts
     └── poly.js
 ```
 

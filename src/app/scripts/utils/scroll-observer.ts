@@ -1,4 +1,6 @@
 class ScrollObserver extends Observer {
+  ticking: boolean;
+
   constructor() {
     super();
 

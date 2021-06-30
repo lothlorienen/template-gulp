@@ -3,7 +3,7 @@ class NumericInput extends Widget {
     super(node, '.js-numeric-input');
 
     if (typeof setInputFilter === 'undefined') {
-      throw new Error('Please, include input-filter.js');
+      throw new Error('Please, include input-filter.ts');
     }
 
     setInputFilter(this.$node, value => {

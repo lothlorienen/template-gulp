@@ -137,4 +137,4 @@ class Widget {
 
 }
 
-window.Widget = Widget;
+(window as any).Widget = Widget;

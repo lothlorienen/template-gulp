@@ -85,7 +85,7 @@
 //   function getDynamicEntry() {
 //     return $.glob.sync(
 //       `${sourcePath}/**/*`, {
-//         ignore: [`${sourcePath}/main.js`, `${sourcePath}/polyfills.js`],
+//         ignore: [`${sourcePath}/main.ts`, `${sourcePath}/polyfills.ts`],
 //         nodir: true,
 //       },
 //     ).reduce((acc, path) => {
@@ -97,25 +97,31 @@
 //
 //   function getStaticEntry() {
 //     return {
-//       vendors: $.path.resolve(`${sourcePath}/vendors.js`),
-//       main: $.path.resolve(`${sourcePath}/main.js`),
+//       vendors: $.path.resolve(`${sourcePath}/vendors.ts`),
+//       main: $.path.resolve(`${sourcePath}/main.ts`),
 //     };
 //   }
 // }
 
 export const js = () => {
   return $.gulp
-    .src([`${$.conf.scripts}/main.js`])
+    .src([`${$.conf.scripts}/main.ts`])
     .pipe($.plumber())
     .pipe($.gulpEsbuild({
       // outfile: 'theme.min.js',
       bundle: true,
       // minify: true,
       sourcemap: true,
+      loader: {
+        '.ts': 'ts'
+      },
       // format: "esm",
       platform: "browser",
       target: ["es6"],
       entryNames: '[name].min',
+      define: {
+        'process.env.NODE_ENV': 'production'
+      }
     }))
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
     .pipe($.server.stream())

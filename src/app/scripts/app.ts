@@ -1,16 +1,18 @@
+import Preloader from "@utils/preloader"
+
 class App {
   constructor () {
-    this.addEvents();
+    this.addEvents()
   }
 
   addEvents () {
     document.addEventListener('DOMContentLoaded', e => {
-      this.initLibs();
-      this.initModules();
-    });
+      this.initLibs()
+      this.initModules()
+    })
     document.documentElement.addEventListener('touchstart', e => {
-      if (e.touches.length > 1) e.preventDefault();
-    });
+      if (e.touches.length > 1) e.preventDefault()
+    })
   }
 
   initLibs () {
@@ -18,8 +20,8 @@ class App {
   }
 
   initModules () {
-    disablingPreloader();
+    Preloader.disablingPreloader()
   }
 }
 
-const app = new App();
+export const app = new App

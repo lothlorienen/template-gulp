@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "target": "es2015",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@app/*": ["app/scripts/*"],
+      "@animations/*": ["app/scripts/_animations/*"],
+      "@helpers/*": ["app/scripts/_helpers/*"],
+      "@models/*": ["app/scripts/_models/*"],
+      "@widgets/*": ["app/scripts/widgets/*"],
+      "@utils/*": ["app/scripts/utils/*"],
+      "@core/*": ["app/scripts/core/*"],
+      "@modules/*": ["app/scripts/modules/*"],
+      "@services/*": ["app/scripts/_services/*"],
+      "@auth/*": ["app/scripts/_auth/*"],
+      "@components/*": ["app/scripts/_components/*"],
+      "@layouts/*": ["app/scripts/_layouts/*"],
+      "@pages/*": ["app/scripts/_pages/*"],
+      "@env/*": ["environments/*"]
+    }
+  },
+  "include": [
+    "src/app/scripts/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
