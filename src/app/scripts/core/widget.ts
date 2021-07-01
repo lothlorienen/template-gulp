@@ -1,4 +1,10 @@
 class Widget {
+  private readonly $node: HTMLElement;
+  private readonly selector: string;
+  private readonly breakpoint: string;
+  private breakpointStatus: boolean;
+  private isInitiated: boolean;
+
   constructor(node, selector, breakpoint = null) {
     this.$node = node;
     if (!this.$node) {
@@ -10,11 +16,11 @@ class Widget {
     this.breakpoint = breakpoint;
     this.breakpointStatus = null;
 
-    this.inited = false;
+    this.isInitiated = false;
   }
 
   init() {
-    if (this.inited) {
+    if (this.isInitiated) {
       this.updateBreakpointCache();
       return;
     }
@@ -26,7 +32,7 @@ class Widget {
       this.build();
     }
 
-    this.inited = true;
+    this.isInitiated = true;
   }
 
   checkBreakpoint() {
