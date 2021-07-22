@@ -39,6 +39,7 @@
     "gulp-svg-sprite": "^1.5.0",
     "gulp-svgmin": "^4.0.1",
     "jquery": "^3.6.0",
+    "node-sass-tilde-importer": "^1.0.2",
     "postcss": "^8.3.5",
     "prettier": "^2.3.2",
     "sass": "^1.35.1",
