@@ -1,19 +1,23 @@
-import polyfill from "@app/polyfills";
+import polyfill from '@app/polyfills'
 
-export default class Preloader {
+export class Preloader {
   static disablingPreloader() {
-    const preloader: HTMLElement = document.querySelector('.js-preloader');
-    const uikitPreloader: HTMLElement = document.querySelector('.js-uikit-preloader');
+    const preloader: HTMLElement = document.querySelector('.js-preloader')
+    const uikitPreloader: HTMLElement = document.querySelector(
+      '.js-uikit-preloader'
+    )
 
-    preloader ?
-      Preloader.handler(preloader) :
-      uikitPreloader ? Preloader.handler(uikitPreloader) : null
+    preloader
+      ? Preloader.handler(preloader)
+      : uikitPreloader
+      ? Preloader.handler(uikitPreloader)
+      : null
 
     document.body.classList.add('loaded')
   }
 
   static handler(el: HTMLElement): void {
-    const handler = e => {
+    const handler = (e) => {
       const { target, currentTarget } = e
       if (target !== currentTarget) return false
       el.removeEventListener(polyfill.endEvents.animation, handler)
@@ -21,9 +25,9 @@ export default class Preloader {
       el.classList.remove('hide')
 
       setTimeout(() => {
-        const pageEvent = new CustomEvent('pageLoaded');
-        document.dispatchEvent(pageEvent);
-      }, 1000);
+        const pageEvent = new CustomEvent('pageLoaded')
+        document.dispatchEvent(pageEvent)
+      }, 1000)
     }
     setTimeout(() => {
       el.addEventListener(polyfill.endEvents.animation, handler)

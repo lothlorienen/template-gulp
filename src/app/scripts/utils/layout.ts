@@ -1,23 +1,36 @@
-const LayoutConfig = {
+import {onResize} from '@utils/resize-observer'
+
+interface ILayout {
+  mobile_width: number;
+  listeners: any[];
+  is_mobile: null | boolean;
+  is_tablet: null | boolean;
+  is_laptop: null | boolean;
+  laptop_width: number;
+  tablet_width: number;
+  documentClickListeners: any[]
+}
+
+const layoutConfig: ILayout = {
   mobile_width: 767,
   tablet_width: 1023,
   laptop_width: 1279,
   listeners: [],
   documentClickListeners: [],
-  is_mobile: 0,
-  is_tablet: 0,
-  is_laptop: 0,
+  is_mobile: null,
+  is_tablet: null,
+  is_laptop: null,
 }
 
-class Layout {
+export class Layout {
+
   constructor() {
     this.resizeEvents = this.resizeEvents.bind(this);
-
     this.events();
   }
 
   events() {
-    LayoutConfig.is_mobile = Layout.isMobileLayout();
+    layoutConfig.is_mobile = Layout.isMobileLayout();
 
     onResize(this.resizeEvents);
 
@@ -36,36 +49,36 @@ class Layout {
     const isTablet = Layout.isTabletLayout();
     const isLaptop = Layout.isLaptopLayout();
 
-    if (isMobile !== LayoutConfig.is_mobile) {
-      LayoutConfig.is_mobile = isMobile;
+    if (isMobile !== layoutConfig.is_mobile) {
+      layoutConfig.is_mobile = isMobile;
       Layout.fireChangeMode();
-    } else if (isTablet !== LayoutConfig.is_tablet) {
-      LayoutConfig.is_tablet = isTablet;
+    } else if (isTablet !== layoutConfig.is_tablet) {
+      layoutConfig.is_tablet = isTablet;
       Layout.fireChangeMode();
-    } else if (isLaptop !== LayoutConfig.is_laptop) {
-      LayoutConfig.is_laptop = isLaptop;
+    } else if (isLaptop !== layoutConfig.is_laptop) {
+      layoutConfig.is_laptop = isLaptop;
       Layout.fireChangeMode();
     }
   }
 
   static addListener(func) {
-    LayoutConfig.listeners.push(func);
+    layoutConfig.listeners.push(func);
   }
 
   static fireChangeMode() {
     setTimeout(() => {
-      for (let i = 0; i < LayoutConfig.listeners.length; i++) {
-        LayoutConfig.listeners[i](LayoutConfig.is_mobile);
+      for (let i = 0; i < layoutConfig.listeners.length; i++) {
+        layoutConfig.listeners[i](layoutConfig.is_mobile);
       }
     }, 0);
   }
 
   static addDocumentClickHandler(handler) {
-    LayoutConfig.documentClickListeners.push(handler);
+    layoutConfig.documentClickListeners.push(handler);
   }
 
   static fireDocumentClick(e) {
-    LayoutConfig.documentClickListeners.forEach(handler => handler(e));
+    layoutConfig.documentClickListeners.forEach(handler => handler(e));
   }
 
   static isTouchDevice() {
@@ -73,19 +86,19 @@ class Layout {
   }
 
   static isMobileLayout() {
-    return window.innerWidth <= LayoutConfig.mobile_width;
+    return window.innerWidth <= layoutConfig.mobile_width;
   }
 
   static isTabletLayout() {
-    return window.innerWidth <= LayoutConfig.tablet_width;
+    return window.innerWidth <= layoutConfig.tablet_width;
   }
 
   static isBigTabletLayout() {
-    return window.innerWidth > LayoutConfig.tablet_width && window.innerWidth <= LayoutConfig.laptop_width;
+    return window.innerWidth > layoutConfig.tablet_width && window.innerWidth <= layoutConfig.laptop_width;
   }
 
   static isLaptopLayout() {
-    return window.innerWidth <= LayoutConfig.laptop_width;
+    return window.innerWidth <= layoutConfig.laptop_width;
   }
 
   static isDesktopLayout() {
@@ -97,12 +110,15 @@ class Layout {
   }
 }
 
-Layout.init();
+export const isMobileLayout = () => Layout.isMobileLayout();
+export const isTabletLayout = () => Layout.isTabletLayout();
+export const isBigTabletLayout = () => Layout.isBigTabletLayout();
+export const isLaptopLayout = () => Layout.isLaptopLayout();
+export const isDesktopLayout = () => Layout.isDesktopLayout();
 
-window.Layout = Layout;
-
-window.isMobileLayout = () => Layout.isMobileLayout();
-window.isTabletLayout = () => Layout.isTabletLayout();
-window.isBigTabletLayout = () => Layout.isBigTabletLayout();
-window.isLaptopLayout = () => Layout.isLaptopLayout();
-window.isDesktopLayout = () => Layout.isDesktopLayout();
+// window.Layout = Layout;
+// window.isMobileLayout = () => Layout.isMobileLayout();
+// window.isTabletLayout = () => Layout.isTabletLayout();
+// window.isBigTabletLayout = () => Layout.isBigTabletLayout();
+// window.isLaptopLayout = () => Layout.isLaptopLayout();
+// window.isDesktopLayout = () => Layout.isDesktopLayout();

@@ -1,110 +1,114 @@
-let videoLinkModalInstance = null;
+import { hideScrollbar, showScrollbar } from '@utils/scroll-control'
+import { Widget } from '@core/widget'
 
-class VideoLinkModal {
+let videoLinkModalInstance = null
+
+export class VideoLinkModal {
+  $overlay: null | HTMLElement
+  $buttonClose: null | HTMLElement
+  $videoIframe: null | HTMLElement
+  $videoWrapper: null | HTMLElement
+
   constructor() {
-    this.$overlay = null;
-    this.$buttonClose = null;
-    this.$videoIframe = null;
-    this.$videoWrapper = null;
-
-    this.onClose = this.onClose.bind(this);
-    this.onBodyKeyUp = this.onBodyKeyUp.bind(this);
-
-    this.build();
-
-    this.events();
+    this.onClose = this.onClose.bind(this)
+    this.onBodyKeyUp = this.onBodyKeyUp.bind(this)
+    this.build()
+    this.events()
   }
 
   build() {
-    this.$overlay = document.createElement('div');
-    this.$overlay.classList.add('video-overlay');
-    document.body.append(this.$overlay);
+    this.$overlay = document.createElement('div')
+    this.$overlay.classList.add('video-overlay')
+    document.body.append(this.$overlay)
 
-    this.$buttonClose = document.createElement('button');
-    this.$buttonClose.classList.add('video-overlay__close');
-    this.$overlay.append(this.$buttonClose);
+    this.$buttonClose = document.createElement('button')
+    this.$buttonClose.classList.add('video-overlay__close')
+    this.$overlay.append(this.$buttonClose)
 
+    this.$videoWrapper = document.createElement('div')
+    this.$videoWrapper.classList.add('video-overlay__video')
+    this.$overlay.append(this.$videoWrapper)
 
-    this.$videoWrapper = document.createElement('div');
-    this.$videoWrapper.classList.add('video-overlay__video');
-    this.$overlay.append(this.$videoWrapper);
-
-    this.$videoIframe = document.createElement('iframe');
-    this.$videoWrapper.append(this.$videoIframe);
+    this.$videoIframe = document.createElement('iframe')
+    this.$videoWrapper.append(this.$videoIframe)
   }
 
   events() {
-    this.$buttonClose.addEventListener('click', this.onClose);
+    this.$buttonClose.addEventListener('click', this.onClose)
 
-    document.body.addEventListener('keyup', this.onBodyKeyUp);
+    document.body.addEventListener('keyup', this.onBodyKeyUp)
   }
 
   onBodyKeyUp(e) {
     if (e.keyCode === 27) {
-      this.close();
+      this.close()
     }
   }
 
   onClose(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    this.close();
+    this.close()
   }
 
   open(iframeUrl) {
-    hideScrollbar();
-    this.$videoIframe.setAttribute('src', iframeUrl);
-
-    this.$overlay.classList.add('visible');
+    hideScrollbar()
+    this.$videoIframe.setAttribute('src', iframeUrl)
+    this.$overlay.classList.add('visible')
   }
 
   close() {
-    this.$overlay.classList.remove('visible');
-    showScrollbar();
+    this.$overlay.classList.remove('visible')
+    showScrollbar()
 
-    this.$videoIframe.setAttribute('src', '');
+    this.$videoIframe.setAttribute('src', '')
   }
 
   static getInstance() {
     if (!videoLinkModalInstance) {
-      videoLinkModalInstance = new VideoLinkModal();
+      videoLinkModalInstance = new VideoLinkModal()
     }
-    return videoLinkModalInstance;
+    return videoLinkModalInstance
   }
 }
 
-class VideoLink extends Widget {
-  constructor(node) {
-    super(node, 'js-video-link');
+export class VideoLink extends Widget {
+  private readonly videoUrl: string
+  private modal: any
 
-    const youtubeId = this.$node.dataset.youtubeId;
+  constructor(node) {
+    super(node, 'js-video-link')
+
+    const youtubeId = this.$node.dataset.youtubeId
     if (!youtubeId) {
-      return;
+      return
     }
 
-    this.videoUrl = '//www.youtube.com/embed/' + youtubeId + '?autoplay&rel=0';
-    this.modal = VideoLinkModal.getInstance();
+    this.videoUrl = '//www.youtube.com/embed/' + youtubeId + '?autoplay&rel=0'
+    this.modal = VideoLinkModal.getInstance()
 
-    this.open = this.open.bind(this);
+    this.open = this.open.bind(this)
 
-    this.events();
+    this.events()
   }
 
   events() {
-    this.$node.addEventListener('click', this.open);
+    this.$node.addEventListener('click', this.open)
   }
 
   open(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    this.modal.open(this.videoUrl);
+    this.modal.open(this.videoUrl)
   }
 
   static init(el) {
-    el && new VideoLink(el);
+    el && new VideoLink(el)
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.js-video-link').forEach(item => VideoLink.init(item));
-});
+  document
+    .querySelectorAll('.js-video-link')
+    .forEach((item) => VideoLink.init(item))
+})

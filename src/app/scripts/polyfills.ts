@@ -1,11 +1,11 @@
-import {IWindow} from "@models/custom.window";
+import { IWindow } from '@models/custom.window'
 
 const polyfill: IWindow = window
 const pCollection = [
   function perfNow() {
     if (!window.performance) {
-      polyfill.performance = {};
-      window.performance.now = () => Date.now();
+      polyfill.performance = {}
+      window.performance.now = () => Date.now()
     }
   },
   function endEvents() {
@@ -24,9 +24,9 @@ const pCollection = [
         OAnimation: 'oAnimationEnd',
         msAnimation: 'MSAnimationEnd',
       },
-    };
+    }
 
-    const elem = document.createElement('div');
+    const elem = document.createElement('div')
 
     for (let endKey in polyfill.endEvents) {
       if (polyfill.endEvents.hasOwnProperty(endKey)) {
@@ -42,41 +42,56 @@ const pCollection = [
     }
   },
   function createEvent() {
-    polyfill.createEvent = eventType => {
-      let event: Event = null;
+    polyfill.createEvent = (eventType) => {
+      let event: Event = null
 
       if (typeof Event === 'function') {
-        event = new Event(eventType);
+        event = new Event(eventType)
       } else {
-        event = document.createEvent('Event');
-        event.initEvent(eventType, true, true);
+        event = document.createEvent('Event')
+        event.initEvent(eventType, true, true)
       }
 
-      return event;
+      return event
     }
   },
   function passiveEvent() {
-    polyfill.passiveIfSupported = null;
+    polyfill.passiveIfSupported = null
 
     try {
-      window.addEventListener('test', null, Object.defineProperty({}, 'passive', {get: () => polyfill.passiveIfSupported = {passive: true}}))
+      window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+          get: () => (polyfill.passiveIfSupported = { passive: true }),
+        })
+      )
     } catch (err) {
-      polyfill.passiveIfSupported = false;
+      polyfill.passiveIfSupported = false
     }
   },
   function customEvent() {
     if (typeof window.CustomEvent !== 'function') {
       const CustomEvent = (event, params) => {
-        const evt = document.createEvent('CustomEvent');
+        const evt = document.createEvent('CustomEvent')
 
-        params = params || {bubbles: false, cancelable: false, detail: undefined};
-        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+        params = params || {
+          bubbles: false,
+          cancelable: false,
+          detail: undefined,
+        }
+        evt.initCustomEvent(
+          event,
+          params.bubbles,
+          params.cancelable,
+          params.detail
+        )
 
-        return evt;
-      };
+        return evt
+      }
 
-      CustomEvent.prototype = window.Event.prototype;
-      polyfill.CustomEvent = CustomEvent;
+      CustomEvent.prototype = window.Event.prototype
+      polyfill.CustomEvent = CustomEvent
     }
   },
   function raf() {
@@ -87,11 +102,13 @@ const pCollection = [
       polyfill.msRequestAnimationFrame
   },
   function raf2x() {
-    polyfill.raf2x = callback => polyfill.raf(() => polyfill.raf(callback))
+    polyfill.raf2x = (callback) => polyfill.raf(() => polyfill.raf(callback))
   },
   function matches() {
     if (!Element.prototype.matches) {
-      Element.prototype.matches = Element.prototype.webkitMatchesSelector || (Element as any).prototype.msMatchesSelector;
+      Element.prototype.matches =
+        Element.prototype.webkitMatchesSelector ||
+        (Element as any).prototype.msMatchesSelector
     }
   },
   function closest() {
@@ -101,63 +118,67 @@ const pCollection = [
           if (i.matches(`${selector}`)) return i
         }
 
-        return null;
+        return null
       }
     }
   },
   function webpChecker() {
-    const webp = new Image();
-    ['load', 'error'].forEach(eventName => {
+    const webp = new Image()
+    ;['load', 'error'].forEach((eventName) => {
       webp.addEventListener(eventName, () => {
-        webp.height === 2 && document.body.classList.add('webp');
-      });
-    });
-    webp.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        webp.height === 2 && document.body.classList.add('webp')
+      })
+    })
+    webp.src =
+      'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA'
   },
   function ieChecker() {
-    const agent = window.navigator.userAgent;
-    const isIE = /MSIE|Trident|Edge\//.test(agent);
+    const agent = window.navigator.userAgent
+    const isIE = /MSIE|Trident|Edge\//.test(agent)
 
     if (isIE) {
-      polyfill.isIE = true;
-      document.body.classList.add('ie');
+      polyfill.isIE = true
+      document.body.classList.add('ie')
     } else {
-      polyfill.isIE = false;
+      polyfill.isIE = false
     }
   },
   function dataset() {
     if (!document.body.dataset) {
       Object.defineProperty(HTMLElement.prototype, 'dataset', {
         get() {
-          const elem = this;
-          const attrs = elem.attributes;
-          const dataAttrs = {};
+          const elem = this
+          const attrs = elem.attributes
+          const dataAttrs = {}
 
           for (let attr in attrs) {
-            if (attrs.hasOwnProperty(attr) && attrs[attr].name.search('data') === 0) {
-              const attrName = attrs[attr].name.slice(5);
-              const propName = attrName.replace(/-\w/gi, str => {
-                return str.slice(1).toUpperCase();
-              });
+            if (
+              attrs.hasOwnProperty(attr) &&
+              attrs[attr].name.search('data') === 0
+            ) {
+              const attrName = attrs[attr].name.slice(5)
+              const propName = attrName.replace(/-\w/gi, (str) => {
+                return str.slice(1).toUpperCase()
+              })
 
               Object.defineProperty(dataAttrs, propName, {
                 get() {
-                  return elem.getAttribute(`data-${attrName}`);
+                  return elem.getAttribute(`data-${attrName}`)
                 },
                 set(newValue) {
-                  elem.setAttribute(`data-${attrName}`, newValue);
+                  elem.setAttribute(`data-${attrName}`, newValue)
                 },
-              });
+              })
             }
           }
 
-          return dataAttrs;
+          return dataAttrs
         },
-      });
+      })
     }
   },
 ]
 
-pCollection.forEach(item => item())
+pCollection.forEach((item) => item())
 
 export default polyfill

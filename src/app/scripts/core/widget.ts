@@ -1,94 +1,101 @@
-class Widget {
-  private readonly $node: HTMLElement;
-  private readonly selector: string;
-  private readonly breakpoint: string;
-  private breakpointStatus: boolean;
-  private isInitiated: boolean;
+import { onResize } from '@utils/resize-observer'
+import {
+  isBigTabletLayout,
+  isDesktopLayout,
+  isLaptopLayout,
+  isMobileLayout,
+  isTabletLayout,
+} from '@utils/layout'
+
+export class Widget {
+  protected readonly $node: HTMLElement
+  private readonly selector: string
+  private readonly breakpoint: string
+  private breakpointStatus: boolean
+  private isInitiated: boolean
 
   constructor(node, selector, breakpoint = null) {
-    this.$node = node;
-    if (!this.$node) {
-      return;
-    }
+    this.$node = node
 
-    this.selector = selector ? (selector.substr(0, 1) === '.' ? selector.substr(1) : selector) : null;
+    if (!this.$node) return
 
-    this.breakpoint = breakpoint;
-    this.breakpointStatus = null;
-
-    this.isInitiated = false;
+    this.selector = selector
+      ? selector.substr(0, 1) === '.'
+        ? selector.substr(1)
+        : selector
+      : null
+    this.breakpoint = breakpoint
+    this.breakpointStatus = null
+    this.isInitiated = false
   }
 
   init() {
     if (this.isInitiated) {
-      this.updateBreakpointCache();
-      return;
+      this.updateBreakpointCache()
+      return
     }
 
     if (this.breakpoint) {
-      onResize(this.updateBreakpointCache.bind(this));
-      this.updateBreakpointCache();
+      onResize(this.updateBreakpointCache.bind(this))
+      this.updateBreakpointCache()
     } else {
-      this.build();
+      this.build()
     }
 
-    this.isInitiated = true;
+    this.isInitiated = true
   }
 
   checkBreakpoint() {
     switch (this.breakpoint) {
       case null:
-        return true;
+        return true
       case 'mobile':
-        return isMobileLayout();
+        return isMobileLayout()
       case 'mobile up':
-        return !isMobileLayout();
+        return !isMobileLayout()
       case 'tablet':
-        return isTabletLayout();
+        return isTabletLayout()
       case 'tablet up':
-        return !isTabletLayout();
+        return !isTabletLayout()
       case 'tablet-mobile':
-        return isMobileLayout() || isTabletLayout();
+        return isMobileLayout() || isTabletLayout()
       case 'smallTablet-mobile':
-        return isMobileLayout() || (isTabletLayout() && !isBigTabletLayout());
+        return isMobileLayout() || (isTabletLayout() && !isBigTabletLayout())
       case 'laptop':
-        return isLaptopLayout();
+        return isLaptopLayout()
       case 'desktop':
-        return isDesktopLayout();
+        return isDesktopLayout()
       case 'no-desktop':
-        return !isDesktopLayout();
+        return !isDesktopLayout()
       case 'bigTablet-desktop':
-        return isDesktopLayout() || isBigTabletLayout();
+        return isDesktopLayout() || isBigTabletLayout()
       default:
-        return true;
+        return true
     }
   }
 
   updateBreakpointCache() {
-    const check = this.checkBreakpoint();
+    const check = this.checkBreakpoint()
 
-    if ((this.breakpointStatus === false || this.breakpointStatus === null) && check) {
-      this.breakpointStatus = true;
+    if (
+      (this.breakpointStatus === false || this.breakpointStatus === null) &&
+      check
+    ) {
+      this.breakpointStatus = true
       if (typeof this.build === 'function') {
-        this.build();
+        this.build()
       }
     } else if (this.breakpointStatus && !check) {
-      this.breakpointStatus = false;
+      this.breakpointStatus = false
       if (typeof this.destroy === 'function') {
-        this.destroy();
+        this.destroy()
       }
     }
   }
 
+  build() {}
 
-  build() {
-
-  }
-
-  destroy() {
-
-  }
-
+  destroy() {}
 
   /**
    * @param selector
@@ -96,26 +103,30 @@ class Widget {
    * @returns Node
    */
   queryElement(selector, required = true) {
-    if (!this.$node) return null;
+    if (!this.$node) return null
 
-    let $node = null;
+    let $node = null
 
     if (selector) {
       if (selector[0] === '.') {
-        $node = this.$node.querySelector('.' + this.selector + '__' + selector.substr(1));
+        $node = this.$node.querySelector(
+          '.' + this.selector + '__' + selector.substr(1)
+        )
         if (!$node) {
-          $node = this.$node.querySelector(selector);
+          $node = this.$node.querySelector(selector)
         }
       } else {
-        $node = this.$node.querySelector(selector);
+        $node = this.$node.querySelector(selector)
       }
     }
 
     if (!$node && required) {
-      throw new Error(`Widget "${this.selector}" Error: Child element (selector "${selector}") not found`);
+      throw new Error(
+        `Widget "${this.selector}" Error: Child element (selector "${selector}") not found`
+      )
     }
 
-    return $node;
+    return $node
   }
 
   /**
@@ -123,24 +134,25 @@ class Widget {
    * @returns Node[]
    */
   queryElements(selector) {
-    if (!this.$node) return null;
+    if (!this.$node) return null
 
-    let $nodes = null;
+    let $nodes = null
 
     if (selector) {
       if (selector[0] === '.') {
-        $nodes = this.$node.querySelectorAll('.' + this.selector + '__' + selector.substr(1));
+        $nodes = this.$node.querySelectorAll(
+          '.' + this.selector + '__' + selector.substr(1)
+        )
         if (!$nodes) {
-          $nodes = this.$node.querySelectorAll(selector);
+          $nodes = this.$node.querySelectorAll(selector)
         }
       } else {
-        $nodes = this.$node.querySelectorAll(selector);
+        $nodes = this.$node.querySelectorAll(selector)
       }
     }
 
-    return $nodes;
+    return $nodes
   }
-
 }
 
-(window as any).Widget = Widget;
+// (window as any).Widget = Widget;

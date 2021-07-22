@@ -1,4 +1,6 @@
-class ResizeObserver extends Observer {
+import {Observer} from '@core/observer'
+
+export class ResizeObserver extends Observer {
   constructor() {
     super();
 
@@ -12,7 +14,9 @@ class ResizeObserver extends Observer {
     });
   }
 }
+export const resizeObserver = new ResizeObserver();
+export const onResize = (fn) => resizeObserver.subscribe(fn)
+export const offResize = (fn) => resizeObserver.unsubscribe(fn)
 
-const resizeObserver = new ResizeObserver();
-window.onResize = (fn) => resizeObserver.subscribe(fn);
-window.offResize = (fn) => resizeObserver.unsubscribe(fn);
+// window.onResize = (fn) => resizeObserver.subscribe(fn);
+// window.offResize = (fn) => resizeObserver.unsubscribe(fn);

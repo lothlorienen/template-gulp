@@ -1,4 +1,4 @@
-import Preloader from "@utils/preloader"
+import {Preloader} from '@utils/preloader'
 
 class App {
   constructor () {

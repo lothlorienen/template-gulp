@@ -1,4 +1,6 @@
-class Observer {
+export class Observer {
+  protected listeners: any[]
+
   constructor() {
     this.listeners = [];
   }
@@ -12,4 +14,4 @@ class Observer {
   }
 }
 
-window.Observer = Observer;
+// window.Observer = Observer;
