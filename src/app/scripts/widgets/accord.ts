@@ -11,10 +11,10 @@ interface IAccordOptions {
 
 export class Accord extends Widget {
   private $toggle: any
-  private $body: any
+  private readonly $body: any
   private opened: boolean
   private busy: boolean
-  private eventHandlers: {}
+  private readonly eventHandlers: {}
 
   constructor(item, options?: IAccordOptions) {
     super(item, 'js-accord')

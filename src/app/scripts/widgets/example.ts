@@ -3,6 +3,7 @@ import { Widget } from '@core/widget'
 class ExampleWidget extends Widget {
   private $button: Element
   private $children: NodeListOf<Element>
+
   constructor(node) {
     super(node, 'js-example') // .js-example
 

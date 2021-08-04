@@ -107,22 +107,24 @@ export const js = () => {
   return $.gulp
     .src([`${$.conf.scripts}/main.ts`])
     .pipe($.plumber())
-    .pipe($.gulpEsbuild({
-      // outfile: 'theme.min.js',
-      bundle: true,
-      // minify: true,
-      sourcemap: true,
-      loader: {
-        '.ts': 'ts'
-      },
-      // format: "esm",
-      platform: "browser",
-      target: ["es6"],
-      entryNames: '[name].min',
-      define: {
-        'process.env.NODE_ENV': 'production'
-      }
-    }))
+    .pipe(
+      $.gulpEsbuild({
+        // outfile: 'theme.min.js',
+        bundle: true,
+        // minify: true,
+        sourcemap: true,
+        loader: {
+          '.ts': 'ts',
+        },
+        // format: "esm",
+        platform: 'browser',
+        target: ['es6'],
+        entryNames: '[name].min',
+        define: {
+          'process.env.NODE_ENV': 'production',
+        },
+      })
+    )
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
     .pipe($.server.stream())
 }
