@@ -1,3 +1,6 @@
+import gulpCompileHandlebars from 'gulp-compile-handlebars'
+import htmlMin from 'gulp-htmlmin'
+
 export const hbs = (cb, buildProd = false) => {
   const randomIntNum = (min, max) =>
     Math.round(min - 0.5 + Math.random() * (max - min + 1))
@@ -61,7 +64,7 @@ export const hbs = (cb, buildProd = false) => {
     return $.gulp
       .src([`${$.conf.hbs}/pages/*.hbs`])
       .pipe($.plumber())
-      .pipe($.gulpCompileHandlebars(db, options))
+      .pipe(gulpCompileHandlebars(db, options))
       .pipe(
         $.gulpRename((path) => {
           const string = path.basename
@@ -78,7 +81,7 @@ export const hbs = (cb, buildProd = false) => {
         })
       )
       .pipe(
-        $.htmlMin({
+        htmlMin({
           collapseWhitespace: true,
           removeAttributeQuotes: true,
         })
@@ -95,7 +98,7 @@ export const hbs = (cb, buildProd = false) => {
       `${$.conf.hbs}/ajax/*.hbs`,
     ])
     .pipe($.plumber())
-    .pipe($.gulpCompileHandlebars(db, options))
+    .pipe(gulpCompileHandlebars(db, options))
     .pipe(
       $.gulpRename((path) => {
         const string = path.basename
@@ -107,7 +110,7 @@ export const hbs = (cb, buildProd = false) => {
       })
     )
     .pipe(
-      $.htmlMin({
+      htmlMin({
         collapseWhitespace: true,
         removeAttributeQuotes: true,
       })

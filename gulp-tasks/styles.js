@@ -1,6 +1,7 @@
 import gulpSass from 'gulp-sass'
 import sass from 'sass'
 import cleanCSS from 'gulp-clean-css'
+import sourcemaps from 'gulp-sourcemaps'
 import gulpPostcss from 'gulp-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
@@ -78,7 +79,7 @@ export const styles = () => {
       return $.gulp
         .src(sheets)
         .pipe($.plumber())
-        .pipe($.sourcemaps.init())
+        .pipe(sourcemaps.init())
         .pipe(
           SCSS.sync({
             importer: tilde,
@@ -96,7 +97,7 @@ export const styles = () => {
             (details) => log(details)
           )
         )
-        .pipe($.sourcemaps.write())
+        .pipe(sourcemaps.write())
         .pipe($.gulpRename({ extname: '.min.css' }))
         .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
         .pipe($.server.stream())

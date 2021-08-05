@@ -1,7 +1,9 @@
+import fs from 'fs'
+
 export const prepareHtmlBuild = () => {
   // Исходные данные
-  const metaImages = $.fs.readdirSync(`${$.conf.appRoot}/${$.conf.meta}`) // изображения
-  const templates = $.fs.readdirSync(`${$.conf.hbs}/pages`).concat([`page.hbs`]) // шаблоны страниц
+  const metaImages = fs.readdirSync(`${$.conf.appRoot}/${$.conf.meta}`) // изображения
+  const templates = fs.readdirSync(`${$.conf.hbs}/pages`).concat([`page.hbs`]) // шаблоны страниц
 
   const html = [] // Массив генерируемых элементов
   const pages = {} // Объект, содержащий информацию о всех страницах
@@ -55,7 +57,7 @@ export const prepareHtmlBuild = () => {
 
     // Если заголовка в странице нет, то заменяем его на полученный из шаблона
     if (hbs.indexOf(`<title></title>`) !== -1) {
-      $.fs.writeFileSync(
+      fs.writeFileSync(
         `${$.conf.outputPath}/html/${pageName}.html`,
         hbs.replace(/<title>(.*)/, '<title>' + pages[pageName] + '</title>')
       )
@@ -115,7 +117,7 @@ export const prepareHtmlBuild = () => {
   }
 
   // Подставляем полученные данные и генерируем билд
-  $.fs.writeFileSync(
+  fs.writeFileSync(
     `${$.conf.outputPath}/index.html`,
     sourceTemplate
       .replace('{{items}}', `${html.join('')}`)
