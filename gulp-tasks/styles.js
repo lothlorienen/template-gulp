@@ -55,17 +55,27 @@ export const styles = () => {
         .pipe(
           cleanCSS(
             {
-              level: {
-                1: {
-                  all: true,
-                  normalizeUrls: false,
-                },
-                2: {
-                  all: true,
-                  removeUnusedAtRules: false,
-                },
-              },
+              // level: {
+              //   1: {
+              //     all: true,
+              //     normalizeUrls: false,
+              //   },
+              //   2: {
+              //     all: true,
+              //     removeUnusedAtRules: false,
+              //   },
+              // },
+              // level: {
+              //   1: {
+              //     all: true,
+              //     normalizeUrls: false,
+              //   },
+              //   2: {
+              //     restructureRules: true,
+              //   },
+              // },
               debug: true,
+              compatibility: '*',
             },
             (details) => log(details)
           )
