@@ -10,24 +10,19 @@ export const prepareHtmlDev = () => {
 
     let pageName = template.substring(0, template.lastIndexOf('.'))
 
-    if (pageName === 'page') {
-      pageName = 'ui-toolkit'
-    }
-
+    if (pageName === 'page') pageName = 'ui-toolkit'
     if (pages[pageName] === undefined) pages[pageName] = {}
 
-    const file = $.fs
-      .readFileSync(
-        `${$.conf.hbs}/${
-          pageName === 'ui-toolkit'
-            ? 'partials/core/ui-kit/page'
-            : 'pages/' + pageName
-        }.hbs`
-      )
-      .toString()
+    const filename =
+      pageName === 'ui-toolkit'
+        ? 'partials/core/ui-kit/page'
+        : 'pages/' + pageName
 
-    if (file.indexOf('{{!') !== -1)
+    const file = fs.readFileSync(`${$.conf.hbs}/${filename}.hbs`).toString()
+
+    if (file.indexOf('{{!') !== -1) {
       pages[pageName].title = file.substring(3, file.indexOf('}}'))
+    }
 
     html.push(
       `<li><a href="${pageName}.html">${pages[pageName].title}</a></li>`

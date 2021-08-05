@@ -40,7 +40,6 @@ export const styles = () => {
 
   switch ($.conf.isProd) {
     case true:
-      console.log('mode: ', $.conf.isProd)
       return $.gulp
         .src(sheets)
         .pipe($.plumber())
@@ -75,7 +74,6 @@ export const styles = () => {
         .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
     // .pipe($.server.stream())
     case false:
-      console.log('not build')
       return $.gulp
         .src(sheets)
         .pipe($.plumber())
