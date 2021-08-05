@@ -116,7 +116,7 @@ export const prepareHtmlBuild = () => {
 
   // Подставляем полученные данные и генерируем билд
   $.fs.writeFileSync(
-    `${$.conf.outputPath}/html/index.html`,
+    `${$.conf.outputPath}/index.html`,
     sourceTemplate
       .replace('{{items}}', `${html.join('')}`)
       .replace(/{{siteName}}/g, $.conf.siteName)

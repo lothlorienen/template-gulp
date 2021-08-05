@@ -4,7 +4,7 @@
   "main": "gulpfile.mjs",
   "license": "MIT",
   "engines": {
-    "node": ">=14"
+    "node": ">=12"
   },
   "scripts": {
     "dev": "gulp dev",
