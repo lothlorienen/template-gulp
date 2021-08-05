@@ -104,7 +104,9 @@ export const prepareHtmlBuild = () => {
     .readFileSync('./config/template-build.html')
     .toString()
   // Получаем время сборки
+  const date = new Date()
   const options = {
+    weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -119,7 +121,10 @@ export const prepareHtmlBuild = () => {
     sourceTemplate
       .replace('{{items}}', `${html.join('')}`)
       .replace(/{{siteName}}/g, $.conf.siteName)
-      .replace('{{buildDate}}', new Date().toLocaleString('ru', options))
+      .replace(
+        '{{buildDate}}',
+        new Intl.DateTimeFormat('ru', options).format(date)
+      )
   )
 
   return $.gulp
@@ -135,7 +140,7 @@ export const prepareHtmlBuild = () => {
               src.substr(0, 5) !== 'http:' &&
               src.substr(0, 6) !== 'https:'
             )
-              src = `../${$.conf.scripts}/${src}`
+              src = `../${$.conf.scriptsOut}/${src}`
 
             jQuery(this).attr('src', src)
           })

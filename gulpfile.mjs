@@ -10,7 +10,7 @@ import cheerio from 'gulp-cheerio'
 import {
   assets,
   clean,
-  hbs, js,
+  hbs, imagesOpt, imageWebp, js, meta,
   prepareHtmlBuild,
   prepareHtmlDev,
   serve,
@@ -36,16 +36,34 @@ global.$ = {
   gulpRename,
   cheerio,
   hbsDB: {...data, ...links},
-  task: { serve, watch, clean, styles, assets, svgSprite, svgInline, hbs, prepareHtmlDev, prepareHtmlBuild, js },
+  task: {
+    serve,
+    imagesOpt,
+    watch,
+    clean,
+    styles,
+    assets,
+    svgSprite,
+    svgInline,
+    hbs,
+    prepareHtmlDev,
+    prepareHtmlBuild,
+    js,
+    meta,
+  },
 }
 
 // разбиваем задачи на группы
 const transpile = $.gulp.parallel(hbs, styles, js, assets, svgSprite, svgInline)
-const setup = [clean, transpile]
+const setup = [clean, transpile, imageWebp]
 const initServer = $.gulp.parallel(serve, watch)
 // Инициализируем таски
 export const dev = $.gulp.series(setMode(), $.gulp.series(...setup, prepareHtmlDev), initServer)
-export const build = $.gulp.series(setMode(true), $.gulp.series(...setup, prepareHtmlBuild))
+export const build = $.gulp.series(
+  setMode(true),
+  $.gulp.series(...setup, prepareHtmlBuild),
+  $.gulp.parallel(meta, imagesOpt)
+)
 
 
 // module.exports.dev = $.gulp.series(

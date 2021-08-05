@@ -25,8 +25,8 @@ export default {
   dynamicEntry: false,
   jsMin: true,
   cssMin: true,
-  imageMin: true,
+  imageMin: false,
   criticalCss: false,
   babel: true,
-  buildWebp: false
+  buildWebp: false,
 }
