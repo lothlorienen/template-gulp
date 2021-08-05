@@ -3,7 +3,8 @@ node_modules
 .sass-cache
 .idea
 npm-debug.log
-dist/*
+dist
+build
 logs
 .DS_Store
 package-lock.json

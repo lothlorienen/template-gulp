@@ -12,7 +12,6 @@ import gulpReplace from 'gulp-replace'
 import gulpCompileHandlebars from 'gulp-compile-handlebars'
 import htmlMin from 'gulp-htmlmin'
 import cheerio from 'gulp-cheerio'
-import {createGulpEsbuild} from 'gulp-esbuild'
 
 // задачи
 import {serve, watch} from "./gulp-tasks/serve.js"
@@ -22,6 +21,7 @@ import {assets} from "./gulp-tasks/assets.js"
 import {svgInline, svgSprite} from "./gulp-tasks/svg.js"
 import {hbs} from "./gulp-tasks/hbs.js"
 import {prepareHtmlDev} from "./gulp-tasks/prepare-html-dev.js"
+import {prepareHtmlBuild} from "./gulp-tasks/prepare-html-build.js";
 import {js} from "./gulp-tasks/scripts.js"
 
 // Задаём режим сборки
@@ -46,16 +46,42 @@ global.$ = {
   gulpCompileHandlebars,
   htmlMin,
   cheerio,
-  gulpEsbuild: createGulpEsbuild({incremental: true}),
   hbsDB: {...data, ...links},
-  task: {serve, watch, clean, styles, assets, svgSprite, svgInline, hbs, prepareHtmlDev, js,},
+  task: {
+    serve,
+    watch,
+    clean,
+    styles,
+    assets,
+    svgSprite,
+    svgInline,
+    hbs,
+    prepareHtmlDev,
+    prepareHtmlBuild,
+    js,
+  },
 }
 
-const ready = $.gulp.parallel($.task.hbs, $.task.styles, $.task.js, $.task.assets, $.task.svgSprite, $.task.svgInline,)
-const build = $.gulp.series($.task.clean, ready, $.task.prepareHtmlDev)
+const transpile = $.gulp.parallel(
+  $.task.hbs,
+  $.task.styles,
+  $.task.js,
+  $.task.assets,
+  $.task.svgSprite,
+  $.task.svgInline
+)
+const setup = $.gulp.series(
+  $.task.clean,
+  transpile,
+  $.conf.isProd ? $.task.prepareHtmlBuild : $.task.prepareHtmlDev
+)
 const initServer = $.gulp.parallel($.task.serve, $.task.watch)
 // Инициализируем наши таски
-export const dev = $.gulp.series(setMode(), build, initServer)
+export const dev = $.gulp.series(setMode(), setup, initServer)
+export const build = $.gulp.series(
+  setMode(true),
+  setup
+)
 
 
 // module.exports.dev = $.gulp.series(

@@ -103,16 +103,23 @@
 //   }
 // }
 
-export const js = () => {
+import gulpEsbuild, { createGulpEsbuild } from 'gulp-esbuild'
+
+export const js = (cb) => {
+  const esbuild = $.conf.isProd
+    ? gulpEsbuild
+    : createGulpEsbuild({ incremental: true })
+
   return $.gulp
     .src([`${$.conf.scripts}/main.ts`])
     .pipe($.plumber())
     .pipe(
-      $.gulpEsbuild({
+      esbuild({
         // outfile: 'theme.min.js',
+        outdir: '.',
         bundle: true,
-        // minify: true,
-        sourcemap: true,
+        minify: $.conf.isProd,
+        sourcemap: !$.conf.isProd,
         loader: {
           '.ts': 'ts',
         },
@@ -120,11 +127,8 @@ export const js = () => {
         platform: 'browser',
         target: ['es6'],
         entryNames: '[name].min',
-        define: {
-          'process.env.NODE_ENV': 'production',
-        },
       })
     )
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
-    .pipe($.server.stream())
+    .pipe($.server.stream().on('end', cb))
 }

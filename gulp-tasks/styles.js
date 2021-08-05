@@ -1,5 +1,6 @@
 import gulpSass from 'gulp-sass'
 import sass from 'sass'
+
 const SCSS = gulpSass(sass)
 import cleanCSS from 'gulp-clean-css'
 import gulpPostcss from 'gulp-postcss'
@@ -22,19 +23,19 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 export const styles = () => {
-  const isProd = $.conf.cssMin && $.conf.buildMode === 'prod'
   const sheets = [
     `./${$.conf.styles}/main.scss`,
     `./${$.conf.styles}/uikit.scss`,
   ]
   const plugins = [autoprefixer({ cascade: false }), cssnano()]
 
-  if (isProd) {
+  if ($.conf.isProd) {
     // сокращает стили
     return $.gulp
       .src(sheets)
       .pipe(
         SCSS.sync({
+          importer: tilde,
           includePaths: ['./node_modules'],
           fiber: Fibers,
         }).on('error', SCSS.logError)
@@ -58,9 +59,12 @@ export const styles = () => {
           },
           (details) =>
             console.log(
-              `${details.name}: ${details.stats.originalSize}` +
-                '—' +
-                `${details.name}: ${details.stats.minifiedSize}`
+              `${details.name}: ${formatBytes(
+                details.stats.originalSize
+              )} --> ${formatBytes(details.stats.minifiedSize)} by ${
+                Math.round((details.stats.efficiency + Number.EPSILON) * 1000) /
+                10
+              }%`
             )
         )
       )
@@ -93,7 +97,7 @@ export const styles = () => {
               details.stats.originalSize
             )} --> ${formatBytes(details.stats.minifiedSize)} by ${
               Math.round((details.stats.efficiency + Number.EPSILON) * 1000) /
-              1000
+              10
             }%`
           )
       )
