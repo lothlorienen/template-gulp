@@ -62,26 +62,12 @@ global.$ = {
   },
 }
 
-const transpile = $.gulp.parallel(
-  $.task.hbs,
-  $.task.styles,
-  $.task.js,
-  $.task.assets,
-  $.task.svgSprite,
-  $.task.svgInline
-)
-const setup = $.gulp.series(
-  $.task.clean,
-  transpile,
-  $.conf.isProd ? $.task.prepareHtmlBuild : $.task.prepareHtmlDev
-)
-const initServer = $.gulp.parallel($.task.serve, $.task.watch)
+const transpile = $.gulp.parallel(hbs, styles, js, assets, svgSprite, svgInline)
+const setup = [clean, transpile]
+const initServer = $.gulp.parallel(serve, watch)
 // Инициализируем наши таски
-export const dev = $.gulp.series(setMode(), setup, initServer)
-export const build = $.gulp.series(
-  setMode(true),
-  setup
-)
+export const dev = $.gulp.series(setMode(), $.gulp.series(...setup, prepareHtmlDev), initServer)
+export const build = $.gulp.series(setMode(true), $.gulp.series(...setup, prepareHtmlBuild))
 
 
 // module.exports.dev = $.gulp.series(
