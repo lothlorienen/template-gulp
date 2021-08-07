@@ -1,5 +1,5 @@
 * {
-  outline: none !important;
+  outline: none;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -8,6 +8,14 @@
   &::after {
     box-sizing: border-box;
   }
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  -ms-overflow-style: scrollbar;
 }
 
 html,

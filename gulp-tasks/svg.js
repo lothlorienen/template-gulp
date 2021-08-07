@@ -31,7 +31,7 @@ export const svgInline = () => {
             inline: false,
             render: {
               scss: {
-                dest: `${$.conf.styles}/core/svg/_spriteInline.scss`,
+                dest: `${$.conf.styles}/2-vendors/svg/_spriteInline.scss`,
                 template: `./config/sprite-template-inline.scss`,
               },
             },
@@ -58,7 +58,7 @@ export const svgSprite = () => {
             bust: false,
             render: {
               scss: {
-                dest: `${$.conf.styles}/core/svg/_sprite.scss`,
+                dest: `${$.conf.styles}/2-vendors/svg/_sprite.scss`,
                 template: `./config/sprite-template.scss`,
               },
             },

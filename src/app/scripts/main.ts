@@ -25,4 +25,4 @@
 // import './src/widgets/popups';
 // import './src/widgets/video-link';
 //
-import './app';
+import './app'

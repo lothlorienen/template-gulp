@@ -5,7 +5,7 @@
 //
 //   const sourceMapConfig = {
 //     filename: `${outputFileName}.map`,
-//     exclude: /vendors\.js/,
+//     exclude: /2-vendors\.js/,
 //   };
 //   const minifyConfig = {
 //     parallel: true,
@@ -18,7 +18,7 @@
 //   };
 //   const babelConfig = {
 //     test: /\.js$/,
-//     exclude: [/node_modules[\/\\](?!(swiper|dom7)[\/\\])/, /vendors\.js/],
+//     exclude: [/node_modules[\/\\](?!(swiper|dom7)[\/\\])/, /2-vendors\.js/],
 //     use: {
 //       loader: 'babel-loader',
 //       options: {
@@ -27,7 +27,7 @@
 //     },
 //   };
 //
-//   const config = {
+//   const shared = {
 //     output: {
 //       filename: `${outputFileName}`,
 //       path: $.path.resolve(`${prodOutput}/`),
@@ -44,40 +44,40 @@
 //
 //   switch ($.conf.buildMode) {
 //     case 'dev':
-//       config.mode = 'development';
-//       config.entry = getStaticEntry();
-//       config.module.rules.push(
+//       shared.mode = 'development';
+//       shared.entry = getStaticEntry();
+//       shared.module.rules.push(
 //         babelConfig,
 //       );
-//       config.plugins.push(
+//       shared.plugins.push(
 //         new $.webpack.SourceMapDevToolPlugin(sourceMapConfig),
 //       );
-//       minifyConfig.test = /vendors\.js/;
-//       config.optimization.minimize = true;
-//       config.optimization.minimizer.push(
+//       minifyConfig.test = /2-vendors\.js/;
+//       shared.optimization.minimize = true;
+//       shared.optimization.minimizer.push(
 //         new $.webpackTerser(minifyConfig),
 //       );
 //       break;
 //     case 'prod':
-//       config.mode = 'production';
+//       shared.mode = 'production';
 //
 //       $.conf.dynamicEntry ?
-//         config.entry = getDynamicEntry() :
-//         config.entry = getStaticEntry();
+//         shared.entry = getDynamicEntry() :
+//         shared.entry = getStaticEntry();
 //
-//       if ($.conf.babel) config.module.rules.push(babelConfig,);
+//       if ($.conf.babel) shared.module.rules.push(babelConfig,);
 //
 //       $.conf.jsMin ?
 //         minifyConfig.test = /\.js$/ :
-//         minifyConfig.test = /vendors\.js/;
+//         minifyConfig.test = /2-vendors\.js/;
 //
-//       config.optimization.minimize = true;
-//       config.optimization.minimizer.push(new $.webpackTerser(minifyConfig),);
+//       shared.optimization.minimize = true;
+//       shared.optimization.minimizer.push(new $.webpackTerser(minifyConfig),);
 //   }
 //
 //   $.gulp.task('scripts', done => {
 //     return $.gulp.src(`${sourcePath}/**`)
-//       .pipe($.webpackStream(config, $.webpack,))
+//       .pipe($.webpackStream(shared, $.webpack,))
 //       .pipe($.gulp.dest(`${prodOutput}/`))
 //       .pipe($.server.reload({ stream: true })).on('end', done);
 //   });
@@ -97,7 +97,7 @@
 //
 //   function getStaticEntry() {
 //     return {
-//       vendors: $.path.resolve(`${sourcePath}/vendors.ts`),
+//       2-vendors: $.path.resolve(`${sourcePath}/2-vendors.ts`),
 //       main: $.path.resolve(`${sourcePath}/main.ts`),
 //     };
 //   }
@@ -105,13 +105,13 @@
 
 import gulpEsbuild, { createGulpEsbuild } from 'gulp-esbuild'
 
-export const js = (cb) => {
+export const js = () => {
   const esbuild = $.conf.isProd
     ? gulpEsbuild
     : createGulpEsbuild({ incremental: true })
 
   return $.gulp
-    .src([`${$.conf.scripts}/main.ts`])
+    .src([`${$.conf.scripts}/main.ts`, `${$.conf.scripts}/vendors.ts`])
     .pipe($.plumber())
     .pipe(
       esbuild({
@@ -130,5 +130,5 @@ export const js = (cb) => {
       })
     )
     .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
-    .pipe($.server.stream().on('end', cb))
+    .pipe($.server.stream())
 }

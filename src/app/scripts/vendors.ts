@@ -4,9 +4,9 @@
 // import './polyfills';
 // import 'html5shiv';
 // import 'picturefill';
-// import lazySizes from 'lazysizes';
-// import 'lazysizes/plugins/native-loading/ls.native-loading';
-// import 'lazysizes/plugins/object-fit/ls.object-fit';
+import lazySizes from 'lazysizes'
+import 'lazysizes/plugins/native-loading/ls.native-loading'
+import 'lazysizes/plugins/object-fit/ls.object-fit'
 // import svgPolyfill from 'svg4everybody';
 // import jquery from 'jquery';
 // import swiper from 'swiper';
@@ -27,12 +27,12 @@
 //   format: dateFormat,
 // };
 
-// lazySizes.cfg.lazyClass = 'lazy';
-// lazySizes.cfg.srcAttr = 'data-original';
-// lazySizes.cfg.loadMode = 1;
-// lazySizes.cfg.nativeLoading = {
-//   setLoadingAttribute: true,
-//   disableListeners: {
-//     scroll: true
-//   }
-// }
+lazySizes.cfg.lazyClass = 'lazy'
+lazySizes.cfg.srcAttr = 'data-original'
+lazySizes.cfg.loadMode = 1
+lazySizes.cfg.nativeLoading = {
+  setLoadingAttribute: true,
+  disableListeners: {
+    scroll: true,
+  },
+}
