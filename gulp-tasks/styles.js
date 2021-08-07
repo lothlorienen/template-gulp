@@ -6,7 +6,6 @@ import gulpPostcss from 'gulp-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import Fibers from 'fibers'
-import shorthand from 'gulp-shorthand'
 import tilde from 'node-sass-tilde-importer'
 
 const SCSS = gulpSass(sass)
@@ -28,14 +27,19 @@ export const styles = () => {
     `./${$.conf.styles}/main.scss`,
     `./${$.conf.styles}/uikit.scss`,
   ]
-  const plugins = [autoprefixer({ cascade: false }), cssnano()]
+  const PostCSSPlugins = [autoprefixer({ cascade: false }), cssnano()]
+  const round = (source, n) => {
+    const places = Math.pow(10, n)
+    return Math.round(source * places) / places
+  }
   const log = (details) =>
     console.log(
       `${details.name}: ${formatBytes(
         details.stats.originalSize
-      )} --> ${formatBytes(details.stats.minifiedSize)} by ${
-        Math.round((details.stats.efficiency + Number.EPSILON) * 1000) / 10
-      }%`
+      )} --> ${formatBytes(details.stats.minifiedSize)} by ${round(
+        details.stats.efficiency * 100,
+        3
+      )}%`
     )
 
   switch ($.conf.isProd) {
@@ -50,8 +54,7 @@ export const styles = () => {
             fiber: Fibers,
           }).on('error', SCSS.logError)
         )
-        .pipe(gulpPostcss(plugins))
-        .pipe(shorthand())
+        .pipe(gulpPostcss(PostCSSPlugins))
         .pipe(
           cleanCSS(
             {
@@ -65,15 +68,15 @@ export const styles = () => {
               //     removeUnusedAtRules: false,
               //   },
               // },
-              // level: {
-              //   1: {
-              //     all: true,
-              //     normalizeUrls: false,
-              //   },
-              //   2: {
-              //     restructureRules: true,
-              //   },
-              // },
+              level: {
+                1: {
+                  all: true,
+                  normalizeUrls: false,
+                },
+                2: {
+                  restructureRules: true,
+                },
+              },
               debug: true,
               compatibility: '*',
             },
@@ -82,7 +85,6 @@ export const styles = () => {
         )
         .pipe($.gulpRename({ extname: '.min.css' }))
         .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
-    // .pipe($.server.stream())
     case false:
       return $.gulp
         .src(sheets)
@@ -95,7 +97,7 @@ export const styles = () => {
             fiber: Fibers,
           }).on('error', SCSS.logError)
         )
-        .pipe(gulpPostcss(plugins))
+        .pipe(gulpPostcss(PostCSSPlugins))
         .pipe(
           cleanCSS(
             {

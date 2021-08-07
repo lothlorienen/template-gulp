@@ -28,7 +28,7 @@ textarea {
   }
 
   &[type=number] {
-    -moz-appearance:textfield;
+    -moz-appearance: textfield;
   }
 
   &::-ms-clear {
@@ -40,7 +40,7 @@ textarea {
   }
 
   &::-webkit-input-placeholder {
-    line-height:normal!important;
+    line-height: normal !important;
   }
 }
 
@@ -89,7 +89,10 @@ img {
   max-width: 100%;
 }
 
-input, select, textarea, button {
+input,
+select,
+textarea,
+button {
   font-family: inherit;
   appearance: none;
 }
