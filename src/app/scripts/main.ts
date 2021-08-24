@@ -1,11 +1,11 @@
 // import 'core/widget.ts';
 // import './src/core/observer';
-// // import './src/core/uikit/uikit-drawer';
-// // import './src/core/uikit/uikit-scroll-header';
-// // import './src/core/uikit/uikit-autogenerator';
-// // import './src/core/uikit/uikit-copy-to-clipboard';
-// // import './src/core/uikit/uikit-scroll-to';
-// // import './src/core/uikit/uikit-accord';
+import './core/uikit/uikit-drawer'
+import './core/uikit/uikit-scroll-header'
+import './core/uikit/uikit-autogenerator'
+import './core/uikit/uikit-copy-to-clipboard'
+import './core/uikit/uikit-scroll-to'
+import './core/uikit/uikit-accord'
 //
 // import './src/utils/helpers';
 // import './src/utils/device';

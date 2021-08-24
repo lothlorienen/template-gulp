@@ -1,15 +1,15 @@
 import { isMobileLayout } from '@utils/layout'
+import { onScroll } from '@utils/scroll-observer'
 
 class ScrollControl {
   private isFixedScroll: boolean
   private lastScrollPos: number
-  private onScroll: any
 
   constructor() {
     this.isFixedScroll = false
     this.lastScrollPos = this._getScrollPos()
 
-    this.onScroll(() => {
+    onScroll(() => {
       if (this.isFixedScroll) return false
       this.lastScrollPos = this._getScrollPos()
     })

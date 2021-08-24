@@ -1,27 +1,27 @@
-import {Preloader} from '@utils/preloader'
+import { Preloader } from '@utils/preloader'
 
 class App {
-  constructor () {
+  constructor() {
     this.addEvents()
   }
 
-  addEvents () {
-    document.addEventListener('DOMContentLoaded', e => {
+  addEvents() {
+    document.addEventListener('DOMContentLoaded', (e) => {
       this.initLibs()
       this.initModules()
     })
-    document.documentElement.addEventListener('touchstart', e => {
+    document.documentElement.addEventListener('touchstart', (e) => {
       if (e.touches.length > 1) e.preventDefault()
     })
   }
 
-  initLibs () {
+  initLibs() {
     // window.svg4everybody();
   }
 
-  initModules () {
+  initModules() {
     Preloader.disablingPreloader()
   }
 }
 
-export const app = new App
+export const app = new App()

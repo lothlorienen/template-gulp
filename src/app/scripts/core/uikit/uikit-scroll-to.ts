@@ -1,21 +1,14 @@
 import { getScrollPos } from '@utils/scroll-control'
 import polyfill from '@app/polyfills'
 
-export class ScrollTo {
-  static startAnimation(targetElem: HTMLElement, noAnimate: boolean) {
-    const header = document.querySelector('.js-header')
-
-    let targetPos = targetElem.getBoundingClientRect().top
-
-    if (header) targetPos -= header.getBoundingClientRect().height
-
-    if (noAnimate) {
-      ScrollTo.respond(targetElem)
-      return scrollTo(0, targetPos)
-    }
+export class UikitScrollTo {
+  static startAnimation(targetElem: HTMLElement, noAnimate: boolean = false) {
+    let targetPos =
+      targetElem.getBoundingClientRect().top -
+      document.querySelector('.js-uikit-header').getBoundingClientRect().height
 
     if ('scrollBehavior' in document.body.style) {
-      ScrollTo.respond(targetElem)
+      UikitScrollTo.respond(targetElem)
       return scrollBy({
         top: targetPos,
         behavior: 'smooth',
@@ -26,11 +19,11 @@ export class ScrollTo {
     const startPos = getScrollPos()
     const startTime = performance.now()
 
-    polyfill.raf2x(animation)
+    polyfill.raf(animation)
 
     function animation(currentTime) {
       const elapsedTime = currentTime - startTime
-      const nextStep = ScrollTo.timingFunction(
+      const nextStep = UikitScrollTo.timingFunction(
         elapsedTime,
         startPos,
         targetPos,
@@ -40,7 +33,7 @@ export class ScrollTo {
       scrollTo(0, nextStep)
 
       if (elapsedTime < duration) polyfill.raf(animation)
-      else ScrollTo.respond(targetElem)
+      else UikitScrollTo.respond(targetElem)
     }
   }
 
@@ -58,5 +51,5 @@ export class ScrollTo {
   }
 }
 
-export const startScrollTo = ScrollTo.startAnimation
-// window.startScrollTo = ScrollTo.startAnimation
+export const startUikitScrollTo = UikitScrollTo.startAnimation
+// window.startUikitScrollTo = UikitScrollTo.startAnimation;

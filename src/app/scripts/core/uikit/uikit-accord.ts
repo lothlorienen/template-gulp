@@ -1,15 +1,11 @@
 import { Widget } from '@core/widget'
-import { startScrollTo } from '@utils/scroll-to'
+import { IAccordOptions } from '@modules/accordion/accordion.interface'
 import polyfill from '@app/polyfills'
+import { startUikitScrollTo } from '@core/uikit/uikit-scroll-to'
 
 const widgetInstances = new Map()
 
-interface IAccordOptions {
-  toggleElement?: boolean
-  bodyElement?: boolean
-}
-
-export class Accord extends Widget {
+export class UikitAccord extends Widget {
   private $toggle: any
   private readonly $body: any
   private opened: boolean
@@ -17,7 +13,7 @@ export class Accord extends Widget {
   private readonly eventHandlers: {}
 
   constructor(item, options?: IAccordOptions) {
-    super(item, 'js-accord')
+    super(item, 'js-uikit-accord')
 
     this.$toggle = options.toggleElement
       ? options.toggleElement
@@ -56,7 +52,7 @@ export class Accord extends Widget {
   }
 
   scrollToView() {
-    startScrollTo(this.$node, false)
+    startUikitScrollTo(this.$node)
   }
 
   open() {
@@ -117,13 +113,9 @@ export class Accord extends Widget {
     widgetInstances.get(elem).destroy()
   }
 
-  static get(elem) {
-    return widgetInstances.get(elem)
-  }
-
   static init(elem, options = {}) {
     if (widgetInstances.has(elem) === false) {
-      widgetInstances.set(elem, new Accord(elem, options))
+      widgetInstances.set(elem, new UikitAccord(elem, options))
     }
 
     widgetInstances.get(elem).build()
@@ -133,9 +125,9 @@ export class Accord extends Widget {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.js-accord').forEach((element) => {
-    Accord.init(element)
+  document.querySelectorAll('.js-uikit-accord').forEach((element) => {
+    UikitAccord.init(element)
   })
 })
 
-// window.Accord = Accord
+// window.UikitAccord = UikitAccord
