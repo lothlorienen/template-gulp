@@ -10,7 +10,11 @@ import cheerio from 'gulp-cheerio'
 import {
   assets,
   clean,
-  hbs, imagesOpt, imageWebp, js, meta,
+  hbs,
+  imagesOpt,
+  imageWebp,
+  js,
+  meta,
   prepareHtmlBuild,
   prepareHtmlDev,
   serve,
@@ -18,14 +22,11 @@ import {
   svgInline,
   svgSprite,
   watch
-} from "./gulp-tasks/index.js";
+} from './gulp-tasks/index.js';
 
 // Задаём режим сборки
-import {setMode} from "./config/mode.js"
+import { setMode } from './config/mode.js'
 
-// db
-import data from './src/app/db/db.js'
-import links from './src/app/db/links.js'
 
 // объявляем глобальную переменную, в которой создаем уникальные интсансы, к которым необходимо обращаться
 global.$ = {
@@ -35,7 +36,6 @@ global.$ = {
   plumber,
   gulpRename,
   cheerio,
-  hbsDB: {...data, ...links},
   task: {
     serve,
     imagesOpt,

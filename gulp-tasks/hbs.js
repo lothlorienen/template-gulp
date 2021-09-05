@@ -1,5 +1,6 @@
 import gulpCompileHandlebars from 'gulp-compile-handlebars'
 import htmlMin from 'gulp-htmlmin'
+import fs from 'fs'
 
 export const hbs = (cb, buildProd = false) => {
   const randomIntNum = (min, max) =>
@@ -54,7 +55,13 @@ export const hbs = (cb, buildProd = false) => {
       },
     },
   }
-  const db = { ...initParams, ...$.hbsDB }
+  const base = JSON.parse(
+    fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`).toString()
+  )
+  const links = JSON.parse(
+    fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString()
+  )
+  const db = { ...initParams, ...base, ...links }
 
   // если нужна сборка с линовкой страниц
   if (buildProd) {
