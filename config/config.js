@@ -8,7 +8,7 @@ export default {
   appRoot: 'src/app',
   prod: 'build',
   dev: '.tmp',
-  db: 'src/app/db',
+  db: 'db',
   assets: 'src/assets',
   assetsOut: 'assets',
   fonts: 'src/assets/fonts',

@@ -22,10 +22,10 @@ import {
   svgInline,
   svgSprite,
   watch
-} from './gulp-tasks/index.js';
+} from './gulp-tasks/index.js'
 
 // Задаём режим сборки
-import { setMode } from './config/mode.js'
+import {setMode} from './config/mode.js'
 
 
 // объявляем глобальную переменную, в которой создаем уникальные интсансы, к которым необходимо обращаться

@@ -1,7 +1,16 @@
 {
   "root": true,
-  "ignorePatterns": ["dist", "projects/**/*"],
+  "ignorePatterns": [
+    "dist",
+    "gulp-tasks",
+    "projects/**/*"
+  ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"]
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ]
 }
