@@ -26,6 +26,7 @@ import {
 
 // Задаём режим сборки
 import {setMode} from './config/mode.js'
+import twConfig from './tailwind.config.js'
 
 
 // объявляем глобальную переменную, в которой создаем уникальные интсансы, к которым необходимо обращаться
@@ -33,6 +34,7 @@ global.$ = {
   gulp,
   server: bs.create(),
   conf,
+  twConfig,
   plumber,
   gulpRename,
   cheerio,

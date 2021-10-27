@@ -3,7 +3,8 @@
   "ignorePatterns": [
     "dist",
     "gulp-tasks",
-    "projects/**/*"
+    "projects/**/*",
+    "*.config.*"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [

@@ -1,12 +1,13 @@
 import gulpSass from 'gulp-sass'
 import sass from 'sass'
-import cleanCSS from 'gulp-clean-css'
+// import cleanCSS from 'gulp-clean-css'
 import sourcemaps from 'gulp-sourcemaps'
 import gulpPostcss from 'gulp-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import Fibers from 'fibers'
 import tilde from 'node-sass-tilde-importer'
+import tailwind from 'tailwindcss'
 
 const SCSS = gulpSass(sass)
 
@@ -24,10 +25,15 @@ function formatBytes(bytes, decimals = 2) {
 
 export const styles = () => {
   const sheets = [
-    `./${$.conf.styles}/main.scss`,
+    `./${$.conf.styles}/main.css`,
+    `./${$.conf.styles}/styles.scss`,
     `./${$.conf.styles}/uikit.scss`,
   ]
-  const PostCSSPlugins = [autoprefixer({ cascade: false }), cssnano()]
+  const PostCSSPlugins = [
+    tailwind($.twConfig),
+    autoprefixer({ cascade: false }),
+    cssnano(),
+  ]
   const round = (source, n) => {
     const places = Math.pow(10, n)
     return Math.round(source * places) / places
@@ -55,34 +61,6 @@ export const styles = () => {
           }).on('error', SCSS.logError)
         )
         .pipe(gulpPostcss(PostCSSPlugins))
-        .pipe(
-          cleanCSS(
-            {
-              // level: {
-              //   1: {
-              //     all: true,
-              //     normalizeUrls: false,
-              //   },
-              //   2: {
-              //     all: true,
-              //     removeUnusedAtRules: false,
-              //   },
-              // },
-              level: {
-                1: {
-                  all: true,
-                  normalizeUrls: false,
-                },
-                2: {
-                  restructureRules: true,
-                },
-              },
-              debug: true,
-              compatibility: '*',
-            },
-            (details) => log(details)
-          )
-        )
         .pipe($.gulpRename({ extname: '.min.css' }))
         .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
     case false:
@@ -98,15 +76,6 @@ export const styles = () => {
           }).on('error', SCSS.logError)
         )
         .pipe(gulpPostcss(PostCSSPlugins))
-        .pipe(
-          cleanCSS(
-            {
-              debug: true,
-              compatibility: '*',
-            },
-            (details) => log(details)
-          )
-        )
         .pipe(sourcemaps.write())
         .pipe($.gulpRename({ extname: '.min.css' }))
         .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
