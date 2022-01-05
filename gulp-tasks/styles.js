@@ -5,7 +5,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import gulpPostcss from 'gulp-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
-import Fibers from 'fibers'
+// import Fibers from 'fibers'
 import tilde from 'node-sass-tilde-importer'
 import tailwind from 'tailwindcss'
 
@@ -57,7 +57,7 @@ export const styles = () => {
           SCSS.sync({
             importer: tilde,
             includePaths: ['./node_modules'],
-            fiber: Fibers,
+            // fiber: Fibers,
           }).on('error', SCSS.logError)
         )
         .pipe(gulpPostcss(PostCSSPlugins))
@@ -72,7 +72,7 @@ export const styles = () => {
           SCSS.sync({
             importer: tilde,
             includePaths: ['./node_modules'],
-            fiber: Fibers,
+            // fiber: Fibers,
           }).on('error', SCSS.logError)
         )
         .pipe(gulpPostcss(PostCSSPlugins))

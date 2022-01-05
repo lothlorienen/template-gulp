@@ -1,5 +1,4 @@
 export default {
-  mode: 'jit', // Just-In-Time Compiler
   purge: [
     './src/app/hbs/**/*.hbs',
     './src/app/scss/**/*.scss',
