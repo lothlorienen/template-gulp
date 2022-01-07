@@ -103,33 +103,32 @@
 //   }
 // }
 
-const gulpEsbuild = require("gulp-esbuild");
-const { createGulpEsbuild } = require("gulp-esbuild");
+const gulpEsbuild = require('gulp-esbuild')
 
 module.exports = () => {
-  const esbuild = $.conf.isProd ? gulpEsbuild : createGulpEsbuild({ incremental: true });
+  $.gulp.task('scripts', (done) => {
+    const esbuild = $.conf.isProd ? gulpEsbuild : gulpEsbuild.createGulpEsbuild({ incremental: true })
 
-  $.gulp.task("scripts", (done) => {
     return $.gulp
       .src([`${$.conf.scripts}/main.ts`, `${$.conf.scripts}/vendors.ts`])
       .pipe($.plumber())
       .pipe(
         esbuild({
           // outfile: 'theme.min.js',
-          outdir: ".",
+          outdir: '.',
           bundle: true,
           minify: $.conf.isProd,
           sourcemap: !$.conf.isProd,
           loader: {
-            ".ts": "ts"
+            '.ts': 'ts',
           },
           // format: "esm",
-          platform: "browser",
-          target: ["es6"],
-          entryNames: "[name].min"
+          platform: 'browser',
+          target: ['es6'],
+          entryNames: '[name].min',
         })
       )
       .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.scriptsOut}/`))
-      .pipe($.server.stream());
-  });
-};
+      .on('end', done)
+  })
+}

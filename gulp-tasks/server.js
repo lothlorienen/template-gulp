@@ -18,8 +18,8 @@ module.exports = () => {
       [`${$.conf.hbs}/**/*.hbs`, `${$.conf.appRoot}/${$.conf.db}/**/*.json`],
       $.gulp.series(['hbs', 'prepareHtmlDev', 'styles'])
     )
-    $.gulp.watch([`${$.conf.svgSprite}/*.svg`], $.gulp.series('svgSprite'))
-    $.gulp.watch([`${$.conf.svgInline}/*.svg`], $.gulp.series('svgInline'))
+    $.gulp.watch([`${$.conf.svgSprite}/*.svg`], $.gulp.series('svg:sprite'))
+    $.gulp.watch([`${$.conf.svgInline}/*.svg`], $.gulp.series('svg:inline'))
     $.gulp.watch(
       [`${$.conf.assets}/**/*`, `!${$.conf.assets}/svg`, `!${$.conf.assets}/svg/**/*`],
       $.gulp.series('assets')

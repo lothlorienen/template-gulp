@@ -46,26 +46,27 @@ module.exports = (cb, buildProd = false) => {
         return options.inverse(this)
       },
       concat: function (...args) {
-        return `${args.slice(0, -1).join('')""
-  ;    },
+        return `${args.slice(0, -1).join('')}`
+      },
       ifUseWebp: function (block) {
         if ($.conf.buildWebp) return block.fn(this)
- ;       else return block.inverse(this)
- ;     },
-   },
+        else return block.inverse(this)
+      },
+    },
   }
 
-  $.gulp.task('h"hbs"() => {
+  $.gulp.task('hbs', () => {
     const base = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`).toString())
- ;   const links = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString())
- ;   const db = { ...initParams, ...base, ...links }
+    const links = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString())
+    const db = { ...initParams, ...base, ...links }
 
-;    // если нужна сборка с линовкой страниц
+    // если нужна сборка с линовкой страниц
     if (buildProd) {
       // todo
-      console.log('c"cb"cb)
- ;     console.log('b"buildProd"buildProd)
- ;     return $.gulp
+      console.log('cb')
+      console.log('buildProd')
+
+      return $.gulp
         .src([`${$.conf.hbs}/pages/*.hbs`])
         .pipe($.plumber())
         .pipe(gulpCompileHandlebars(db, options))
@@ -73,18 +74,21 @@ module.exports = (cb, buildProd = false) => {
           $.gulpRename((path) => {
             const string = path.basename
 
-;            if (string.match('-"--" {
-              const newPath = string.split('-"--"join('/"/" ;             path.dirname = `${newPath}`
- ;           } else if (!string.match('h"home" {
+            if (string.match('--')) {
+              const newPath = string.split('--').join('/')
+              path.dirname = `${newPath}`
+            } else if (!string.match('home')) {
               path.dirname = string
- ;           }
+            }
 
-            path.basename = 'i"index";           path.extname = '.".html";         })
+            path.basename = 'index'
+            path.extname = '.html'
+          })
         )
         .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
         .pipe($.gulp.dest(`${$.conf.outputPath}`))
         .pipe($.server.stream())
- ;   }
+    }
 
     // в случае, если у нас сборка обычная
     return $.gulp
@@ -95,10 +99,19 @@ module.exports = (cb, buildProd = false) => {
         $.gulpRename((path) => {
           const string = path.basename
 
-;          if (string === 'p"page"path.basename = 'u"ui-toolkit";          path.dirname = ''"";         path.extname = '.".html";       })
+          if (string === 'page') path.basename = 'ui-toolkit'
+
+          path.dirname = ''
+          path.extname = '.html'
+        })
       )
-      .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
+      .pipe(
+        htmlMin({
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+        })
+      )
       .pipe($.gulp.dest(`${$.conf.outputPath}/html`))
       .pipe($.server.stream())
- ; })
-};
+  })
+}

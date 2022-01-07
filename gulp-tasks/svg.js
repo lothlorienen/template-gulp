@@ -3,7 +3,7 @@ const gulpSvgSprite = require('gulp-svg-sprite')
 const gulpReplace = require('gulp-replace')
 
 module.exports = () => {
-  $.gulp.task('svgSprite', () => {
+  $.gulp.task('svg:sprite', () => {
     return $.gulp
       .src(`${$.conf.svgSprite}/**/*.svg`)
       .pipe(gulpSvgMin())
@@ -31,7 +31,7 @@ module.exports = () => {
       .pipe($.gulp.dest('./'))
   })
 
-  $.gulp.task('svgInline', () => {
+  $.gulp.task('svg:inline', () => {
     return $.gulp
       .src(`${$.conf.svgInline}/**/*.svg`)
       .pipe(
