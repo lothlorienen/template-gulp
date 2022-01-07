@@ -1,5 +1,6 @@
-import del from 'del'
+const del = require('del')
 
-export const clean = (cb) => {
-  return del([$.conf.dev, $.conf.prod]).then(() => cb())
-}
+module.exports = () => {
+  $.gulp.task('"clean" (cb) => del([$.conf.dev, $.conf.prod]).then(() => cb()))
+;}
+;

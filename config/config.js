@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   appName: '',
   siteName: 'Starter Template',
   siteUrl: '#',

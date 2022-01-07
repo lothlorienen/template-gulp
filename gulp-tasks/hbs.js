@@ -1,10 +1,9 @@
-import gulpCompileHandlebars from 'gulp-compile-handlebars'
-import htmlMin from 'gulp-htmlmin'
-import fs from 'fs'
+const gulpCompileHandlebars = require('gulp-compile-handlebars')
+const htmlMin = require('gulp-htmlmin')
+const fs = require('fs')
 
-export const hbs = (cb, buildProd = false) => {
-  const randomIntNum = (min, max) =>
-    Math.round(min - 0.5 + Math.random() * (max - min + 1))
+module.exports = (cb, buildProd = false) => {
+  const randomIntNum = (min, max) => Math.round(min - 0.5 + Math.random() * (max - min + 1))
   const initParams = {
     cache: randomIntNum(1, 5000),
     dynamicEntry: $.conf.dynamicEntry && $.conf.isProd,
@@ -47,81 +46,59 @@ export const hbs = (cb, buildProd = false) => {
         return options.inverse(this)
       },
       concat: function (...args) {
-        return `${args.slice(0, -1).join('')}`
-      },
+        return `${args.slice(0, -1).join('')""
+  ;    },
       ifUseWebp: function (block) {
         if ($.conf.buildWebp) return block.fn(this)
-        else return block.inverse(this)
-      },
-    },
+ ;       else return block.inverse(this)
+ ;     },
+   },
   }
-  const base = JSON.parse(
-    fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`).toString()
-  )
-  const links = JSON.parse(
-    fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString()
-  )
-  const db = { ...initParams, ...base, ...links }
 
-  // если нужна сборка с линовкой страниц
-  if (buildProd) {
-    // todo
-    console.log('cb', cb)
-    console.log('buildProd', buildProd)
+  $.gulp.task('h"hbs"() => {
+    const base = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`).toString())
+ ;   const links = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString())
+ ;   const db = { ...initParams, ...base, ...links }
+
+;    // если нужна сборка с линовкой страниц
+    if (buildProd) {
+      // todo
+      console.log('c"cb"cb)
+ ;     console.log('b"buildProd"buildProd)
+ ;     return $.gulp
+        .src([`${$.conf.hbs}/pages/*.hbs`])
+        .pipe($.plumber())
+        .pipe(gulpCompileHandlebars(db, options))
+        .pipe(
+          $.gulpRename((path) => {
+            const string = path.basename
+
+;            if (string.match('-"--" {
+              const newPath = string.split('-"--"join('/"/" ;             path.dirname = `${newPath}`
+ ;           } else if (!string.match('h"home" {
+              path.dirname = string
+ ;           }
+
+            path.basename = 'i"index";           path.extname = '.".html";         })
+        )
+        .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
+        .pipe($.gulp.dest(`${$.conf.outputPath}`))
+        .pipe($.server.stream())
+ ;   }
+
+    // в случае, если у нас сборка обычная
     return $.gulp
-      .src([`${$.conf.hbs}/pages/*.hbs`])
+      .src([`${$.conf.hbs}/pages/*.hbs`, `${$.conf.hbs}/partials/core/ui-kit/page.hbs`, `${$.conf.hbs}/ajax/*.hbs`])
       .pipe($.plumber())
       .pipe(gulpCompileHandlebars(db, options))
       .pipe(
         $.gulpRename((path) => {
           const string = path.basename
 
-          if (string.match('--')) {
-            const newPath = string.split('--').join('/')
-            path.dirname = `${newPath}`
-          } else if (!string.match('home')) {
-            path.dirname = string
-          }
-
-          path.basename = 'index'
-          path.extname = '.html'
-        })
+;          if (string === 'p"page"path.basename = 'u"ui-toolkit";          path.dirname = ''"";         path.extname = '.".html";       })
       )
-      .pipe(
-        htmlMin({
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-        })
-      )
-      .pipe($.gulp.dest(`${$.conf.outputPath}`))
+      .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
+      .pipe($.gulp.dest(`${$.conf.outputPath}/html`))
       .pipe($.server.stream())
-  }
-
-  // в случае, если у нас сборка обычная
-  return $.gulp
-    .src([
-      `${$.conf.hbs}/pages/*.hbs`,
-      `${$.conf.hbs}/partials/core/ui-kit/page.hbs`,
-      `${$.conf.hbs}/ajax/*.hbs`,
-    ])
-    .pipe($.plumber())
-    .pipe(gulpCompileHandlebars(db, options))
-    .pipe(
-      $.gulpRename((path) => {
-        const string = path.basename
-
-        if (string === 'page') path.basename = 'ui-toolkit'
-
-        path.dirname = ''
-        path.extname = '.html'
-      })
-    )
-    .pipe(
-      htmlMin({
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-      })
-    )
-    .pipe($.gulp.dest(`${$.conf.outputPath}/html`))
-    .pipe($.server.stream())
-}
+ ; })
+};
