@@ -1,20 +1,18 @@
-const tailwind = require('tailwindcss')
+const gulpSass = require('gulp-sass')
+const sass = require('sass')
+const sourcemaps = require('gulp-sourcemaps')
+const gulpPostcss = require('gulp-postcss')
 const autoprefixer = require('autoprefixer')
+const cssnano = require('cssnano')
+const tilde = require('node-sass-tilde-importer')
+const tailwind = require('tailwindcss')
+const cleanCSS = require('gulp-clean-css')
+
+const SCSS = gulpSass(sass)
+
+const { logStyles } = require('./_utils.js')
+
 module.exports = () => {
-  const gulpSass = require('gulp-sass')
-  const sass = require('sass')
-  const sourcemaps = require('gulp-sourcemaps')
-  const gulpPostcss = require('gulp-postcss')
-  const autoprefixer = require('autoprefixer')
-  const cssnano = require('cssnano')
-  const tilde = require('node-sass-tilde-importer')
-  const tailwind = require('tailwindcss')
-  const cleanCSS = require('gulp-clean-css')
-
-  const SCSS = gulpSass(sass)
-
-  const { logStyles } = require('./_utils.js')
-
   const sheetsMain = [`./${$.conf.styles}/*.scss`, `!./${$.conf.styles}/uikit.scss`]
   const sheetsUIKit = [`./${$.conf.styles}/uikit.scss`]
   const PostcssPlugins = [tailwind('./tailwind.config.js'), autoprefixer({ cascade: false })]

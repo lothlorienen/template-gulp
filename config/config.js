@@ -1,5 +1,4 @@
 module.exports = {
-  appName: '',
   siteName: 'Starter Template',
   siteUrl: '#',
   gulpTasks: 'gulp-tasks',
@@ -19,7 +18,7 @@ module.exports = {
   svgSprite: 'src/assets/svg/sprite',
   pngSprite: 'src/assets/png',
   hbs: 'src/app/hbs',
-  styles: 'src/app/scss',
+  styles: 'src/app/styles',
   scripts: 'src/app/scripts',
   scriptsOut: 'scripts',
   dynamicEntry: false,
