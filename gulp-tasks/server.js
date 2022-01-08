@@ -13,6 +13,8 @@ module.exports = () => {
 
   $.gulp.task('watch', () => {
     // filepath
+    const tailwindConfig = './tailwind.config.js'
+    const tailwindUIKitConfig = './tailwind.config-uikit.js'
     const uikitStyles = [`${$.conf.styles}/uikit.{scss,css}`, `${$.conf.styles}/_uikit/**/*.{scss,css}`]
     const noUIKitStyles = [`!${$.conf.styles}/uikit.{scss,css}`, `!${$.conf.styles}/_uikit/**/*.{scss,css}`]
     const uikitHbsFiles = [`${$.conf.hbs}/uikit.hbs`, `${$.conf.hbs}/uikit/**/*.hbs`]
@@ -22,10 +24,10 @@ module.exports = () => {
     // Tasks
     const transpileHBS = ['hbs', 'prepareHtmlDev']
     // UIKit
-    $.gulp.watch([...uikitStyles], $.gulp.series('stylesUIKit'))
+    $.gulp.watch([...uikitStyles, tailwindUIKitConfig], $.gulp.series('stylesUIKit'))
     $.gulp.watch([...uikitHbsFiles, ...dbPath], $.gulp.series([...transpileHBS, 'stylesUIKit']))
     // Project files
-    $.gulp.watch([`${$.conf.styles}/**/*.{scss,css}`, ...noUIKitStyles], $.gulp.series('stylesMain'))
+    $.gulp.watch([`${$.conf.styles}/**/*.{scss,css}`, ...noUIKitStyles, tailwindConfig], $.gulp.series('stylesMain'))
     $.gulp.watch(
       [`${$.conf.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
       $.gulp.series([...transpileHBS, 'stylesMain'])

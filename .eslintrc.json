@@ -4,7 +4,7 @@
     "dist",
     "gulp-tasks",
     "projects/**/*",
-    "*.config.*",
+    "*.config*.*",
     "gulp-tasks",
     "config",
     "gulpfile.js"

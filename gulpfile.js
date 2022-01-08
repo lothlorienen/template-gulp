@@ -15,7 +15,6 @@ const setMode = (isProduction = false) => {
     cb()
   }
 }
-const twConfig = require('./tailwind.config.js')
 
 // объявляем глобальную переменную, создавая уникальные интсансы, к которым будем обращаться
 global.$ = {
@@ -26,7 +25,6 @@ global.$ = {
   plumber,
   server: bs.create(),
   task: require('./gulp-tasks/_index.js'),
-  twConfig,
 }
 
 $.task.forEach((taskPath) => require(taskPath)())

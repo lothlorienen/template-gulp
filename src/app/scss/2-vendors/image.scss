@@ -1,27 +1,29 @@
-img.lazy:not([src]) {
-  visibility: hidden;
-}
+img {
+  &.lazy:not([src]) {
+    visibility: hidden;
+  }
 
-img.lazyloaded {
-  transition: opacity .4s;
-}
+  &.lazyloaded {
+    transition: opacity .4s;
+  }
 
-img.lazyloading {
-  opacity: 0;
+  &.lazyloading {
+    opacity: 0;
+  }
 }
 
 .image-fit {
   &.is-contain {
     img {
       object-fit: contain;
-      font-family: "object-fit: contain";
+      font-family: "object-fit: contain", sans-serif;
     }
   }
 
   &.is-cover {
     img {
       object-fit: cover;
-      font-family: "object-fit: cover";
+      font-family: "object-fit: cover", sans-serif;
     }
   }
 }
