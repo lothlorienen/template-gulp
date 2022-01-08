@@ -28,11 +28,11 @@ module.exports = () => {
       // Получаем имя шаблона/страницы
       let pageName = template.substring(0, template.lastIndexOf('.'))
 
-      if (pageName === 'page') pageName = 'ui-toolkit'
+      if (pageName === 'page') pageName = 'uikit'
       // Проверяем, существует ли данная страница
       if (pages[pageName] === undefined) pages[pageName] = {}
 
-      const filename = pageName === 'ui-toolkit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
+      const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
 
       // Получаем доступ к локальному файлу текущей страницы
       const file = fs.readFileSync(`${$.conf.hbs}/${filename}.hbs`).toString()

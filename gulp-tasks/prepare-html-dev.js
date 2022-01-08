@@ -11,10 +11,10 @@ module.exports = () => {
 
       let pageName = template.substring(0, template.lastIndexOf('.'))
 
-      if (pageName === 'page') pageName = 'ui-toolkit'
+      if (pageName === 'page') pageName = 'uikit'
       if (pages[pageName] === undefined) pages[pageName] = {}
 
-      const filename = pageName === 'ui-toolkit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
+      const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
 
       const file = fs.readFileSync(`${$.conf.hbs}/${filename}.hbs`).toString()
 

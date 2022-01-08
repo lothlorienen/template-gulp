@@ -87,7 +87,7 @@ yarn prod || gulp build-prod
 
 ### .meta
 
-В папке лежат скрины каждой страницы в формате 00_ui-toolkit. Скрин обязательно должен начинаться с номера. Далее, после
+В папке лежат скрины каждой страницы в формате 00_uikit. Скрин обязательно должен начинаться с номера. Далее, после
 номера идет нижнее подчеркивание `_` и только потом название, которое в свою очередь должно соответствовать названию
 страницы из папки templates.
 
@@ -95,11 +95,11 @@ yarn prod || gulp build-prod
 
 ```
 ├── .meta
-    ├── 00_ui-toolkit.png
+    ├── 00_uikit.png
     └── 01_home.png
 └── templates
     ├── home.hbs
-    └── ui-toolkit.hbs
+    └── uikit.hbs
 ```
 
 ### content
@@ -168,7 +168,7 @@ images.
         │   └── mixins.scss
         ├── pages
         │   ├── home.scss
-        │   └── ui-toolkit.scss
+        │   └── uikit.scss
         ├── png
         │   ├── _mixins.scss
         │   └── png-sprite.scss
@@ -272,7 +272,7 @@ js/widgets. В которую потом добавляется файл с ва
     ├── home.hbs
     ├── layouts
     ├── partials
-    └── ui-toolkit.hbs
+    └── uikit.hbs
 ```
 
 В корень папки складываются страницы сайта.

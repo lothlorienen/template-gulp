@@ -99,7 +99,7 @@ module.exports = (cb, buildProd = false) => {
         $.gulpRename((path) => {
           const string = path.basename
 
-          if (string === 'page') path.basename = 'ui-toolkit'
+          if (string === 'page') path.basename = 'uikit'
 
           path.dirname = ''
           path.extname = '.html'

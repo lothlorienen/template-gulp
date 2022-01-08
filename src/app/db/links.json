@@ -20,9 +20,9 @@
       "label": "About Level 3",
       "url": "./about--level2--level3.html"
     },
-    "ui-toolkit": {
+    "uikit": {
       "label": "UI Toolkit",
-      "url": "./ui-toolkit.html"
+      "url": "./uikit.html"
     }
   }
 }

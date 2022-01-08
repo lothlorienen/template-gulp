@@ -1,6 +1,11 @@
-@import '1-global/index';
-@import '2-vendors/index';
-@import '3-generic/index';
-@import '4-elements/index';
-@import '5-skeleton/index';
-@import '6-components/index';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+//@import '1-global/index';
+//@import '2-vendors/index';
+//@import '3-generic/index';
+//@import '4-elements/index';
+//@import '5-skeleton/index';
+//@import '6-components/index';
