@@ -1,5 +1,8 @@
 module.exports = {
   siteName: 'Starter Template',
+  env: {
+    isProduction: false,
+  },
   options: {
     siteUrl: '#',
     dynamicEntry: false,
