@@ -4,7 +4,7 @@ module.exports = (done) => {
   $.gulp.task('prepareHtmlBuild', () => {
     // Исходные данные
     const metaImages = fs.readdirSync(`${$.config.path.src.preview}`) // изображения
-    const templates = fs.readdirSync(`${$.config.path.src.hbs}/pages`).concat([`page.hbs`]) // шаблоны страниц
+    const templates = fs.readdirSync(`${$.config.path.src.hbs}/pages`).concat([`page.hbs`]) // названия шаблонов страниц
     const previewFolder = $.config.path.output.meta // Корневая папка для превью-изображений
     const htmlOutput = `${$.config.path.output.base}/${$.config.path.output.html}` // куда уходят файлы?
 
@@ -23,12 +23,15 @@ module.exports = (done) => {
       pages[pageName].image = meta
     }
 
+    const filenames = templates.map((name) => name.replace('.hbs', ''))
+    filenames.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
+
     // Наполняем объект Pages информацией из шаблонов
     for (const template of templates) {
       if (template === 'index' || template === '.DS_Store') continue
 
       // Получаем имя шаблона/страницы
-      let pageName = template.substring(0, template.lastIndexOf('.'))
+      let pageName = template
 
       if (pageName === 'page') pageName = 'uikit'
       // Проверяем, существует ли данная страница

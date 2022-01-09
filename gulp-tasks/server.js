@@ -38,7 +38,7 @@ module.exports = () => {
       $.gulp.series('stylesMain')
     )
     $.gulp.watch(
-      [`${$.config.path.src.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
+      [`./config/*.html`, `${$.config.path.src.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
       $.gulp.series([...transpileHBS, 'stylesMain'])
     )
     $.gulp.watch([`${$.config.path.src.scripts}/**/*.{js,ts}`], $.gulp.series('scripts'))

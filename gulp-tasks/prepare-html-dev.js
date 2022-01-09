@@ -1,29 +1,34 @@
 const fs = require('fs')
+const { customSort } = require('./_utils')
 
-module.exports = (done) => {
+module.exports = () => {
   $.gulp.task('prepareHtmlDev', () => {
     const templates = fs.readdirSync(`${$.config.path.src.hbs}/pages`).concat(['page.hbs'])
     const htmlOutput = `${$.config.path.output.base}/${$.config.path.output.html}` // куда уходят файлы?
     const html = []
     const pages = {}
 
-    for (const template of templates) {
-      if (template === 'index' || template === '.DS_Store') continue
+    const filenames = templates.map((name) => name.replace('.hbs', ''))
+    filenames.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
 
-      let pageName = template.substring(0, template.lastIndexOf('.'))
+    for (const name of filenames) {
+      if (name === 'index' || name === '.DS_Store') continue
+
+      let pageName = name
 
       if (pageName === 'page') pageName = 'uikit'
       if (pages[pageName] === undefined) pages[pageName] = {}
 
-      const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
-
+      const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : `pages/${pageName}`
       const file = fs.readFileSync(`${$.config.path.src.hbs}/${filename}.hbs`).toString()
 
       if (file.indexOf('{{!') !== -1) {
         pages[pageName].title = file.substring(3, file.indexOf('}}'))
       }
 
-      html.push(`<li><a href="${pageName}.html">${pages[pageName].title}</a></li>`)
+      const { title } = pages[pageName]
+
+      html.push(`<li><a class="transition hover:text-sky-400" href="${pageName}.html">${title}</a></li>`)
     }
 
     const templateFile = fs.readFileSync('./config/template-dev.html').toString()
