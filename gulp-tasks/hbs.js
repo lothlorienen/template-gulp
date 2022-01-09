@@ -6,7 +6,7 @@ module.exports = (cb, buildProd = false) => {
   const randomIntNum = (min, max) => Math.round(min - 0.5 + Math.random() * (max - min + 1))
   const initParams = {
     cache: randomIntNum(1, 5000),
-    dynamicEntry: $.config.options.dynamicEntry && $.config.isProd,
+    dynamicEntry: $.config.options.dynamicEntry && $.config.env.isProduction,
   }
   const options = {
     ignorePartials: true,

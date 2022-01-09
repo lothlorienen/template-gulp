@@ -2,7 +2,7 @@ const gulpEsbuild = require('gulp-esbuild')
 
 module.exports = () => {
   $.gulp.task('scripts', (done) => {
-    const esbuild = $.config.isProd ? gulpEsbuild : gulpEsbuild.createGulpEsbuild({ incremental: true })
+    const esbuild = $.config.env.isProduction ? gulpEsbuild : gulpEsbuild.createGulpEsbuild({ incremental: true })
 
     return $.gulp
       .src([`${$.config.path.src.scripts}/main.ts`, `${$.config.path.src.scripts}/vendors.ts`])
@@ -12,8 +12,8 @@ module.exports = () => {
           // outfile: 'theme.min.js',
           outdir: '.',
           bundle: true,
-          minify: $.config.isProd,
-          sourcemap: !$.config.isProd,
+          minify: $.config.env.isProduction,
+          sourcemap: !$.config.env.isProduction,
           loader: {
             '.ts': 'ts',
           },

@@ -19,7 +19,7 @@ module.exports = () => {
   const PostcssPluginsUIKit = [tailwind($.config.tailwind.stylesUIKit), autoprefixer({ cascade: false })]
 
   $.gulp.task('stylesMain', (done) => {
-    switch ($.config.isProd) {
+    switch ($.config.env.isProduction) {
       case true:
         return $.gulp
           .src(sheetsMain)
@@ -44,7 +44,7 @@ module.exports = () => {
     }
   })
   $.gulp.task('stylesUIKit', (done) => {
-    switch ($.config.isProd) {
+    switch ($.config.env.isProduction) {
       case true:
         return $.gulp
           .src(sheetsUIKit)

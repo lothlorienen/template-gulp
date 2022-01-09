@@ -1,5 +1,5 @@
 // необходимые пакеты
-const {src, dest, task, watch, series, parallel} = require('gulp')
+const { src, dest, task, watch, series, parallel } = require('gulp')
 const cheerio = require('gulp-cheerio')
 const plumber = require('gulp-plumber')
 const gulpRename = require('gulp-rename')
@@ -10,7 +10,7 @@ const config = require('./config/config.js')
 const setMode = (isProduction = false) => {
   return (cb) => {
     process.env.NODE_ENV = isProduction ? 'production' : 'development'
-    $.config.isProd = isProduction
+    $.config.env.isProduction = isProduction
     $.config.path.output.base = isProduction ? $.config.path.build.base : $.config.path.dev.base
     cb()
   }
