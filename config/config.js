@@ -33,9 +33,11 @@ module.exports = {
     },
     dev: {
       base: '.tmp',
+      templateCSS: './config/styles-dev.css',
     },
     build: {
       base: 'build',
+      templateCSS: './config/styles-build.css',
     },
     output: {
       base: null,
@@ -44,6 +46,7 @@ module.exports = {
       html: 'html',
       meta: 'preview',
       scripts: 'scripts',
+      styles: 'css',
     },
   },
 }

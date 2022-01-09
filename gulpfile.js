@@ -36,5 +36,5 @@ const setup = ['clean', transpile, 'webp']
 const initServer = parallel('serve', 'watch')
 
 // Инициализируем таски
-exports.dev = series(setMode(), series(...setup, 'prepareHtmlDev'), initServer)
-exports.build = series(setMode(true), series(...setup, 'prepareHtmlBuild'), parallel('meta', 'imageMin'))
+exports.dev = series(setMode(), series(...setup, 'prepareHtmlDev', 'stylesDev'), initServer)
+exports.build = series(setMode(true), series(...setup, 'prepareHtmlBuild', 'stylesBuild'), parallel('meta', 'imageMin'))

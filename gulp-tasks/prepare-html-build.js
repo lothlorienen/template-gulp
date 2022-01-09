@@ -27,7 +27,7 @@ module.exports = (done) => {
     filenames.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
 
     // Наполняем объект Pages информацией из шаблонов
-    for (const template of templates) {
+    for (const template of filenames) {
       if (template === 'index' || template === '.DS_Store') continue
 
       // Получаем имя шаблона/страницы

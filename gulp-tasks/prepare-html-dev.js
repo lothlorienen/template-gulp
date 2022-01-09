@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { customSort } = require('./_utils')
 
 module.exports = () => {
   $.gulp.task('prepareHtmlDev', () => {
@@ -8,6 +7,7 @@ module.exports = () => {
     const html = []
     const pages = {}
 
+    // Сортируем файлы в алфавитном порядке
     const filenames = templates.map((name) => name.replace('.hbs', ''))
     filenames.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
 
@@ -28,7 +28,7 @@ module.exports = () => {
 
       const { title } = pages[pageName]
 
-      html.push(`<li><a class="transition hover:text-sky-400" href="${pageName}.html">${title}</a></li>`)
+      html.push(`<li><a class="transition hover:text-sky-400 red" href="${pageName}.html">${title}</a></li>`)
     }
 
     const templateFile = fs.readFileSync('./config/template-dev.html').toString()

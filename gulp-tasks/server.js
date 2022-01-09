@@ -38,8 +38,13 @@ module.exports = () => {
       $.gulp.series('stylesMain')
     )
     $.gulp.watch(
-      [`./config/*.html`, `${$.config.path.src.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
-      $.gulp.series([...transpileHBS, 'stylesMain'])
+      [`${$.config.path.src.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
+      $.gulp.series(['hbs', 'stylesMain'])
+    )
+    // Dev-template files
+    $.gulp.watch(
+      [`./config/template-dev.html`, `./gulp-tasks/prepare-html-dev.js`],
+      $.gulp.series([...transpileHBS, 'stylesDev'])
     )
     $.gulp.watch([`${$.config.path.src.scripts}/**/*.{js,ts}`], $.gulp.series('scripts'))
     // SVG

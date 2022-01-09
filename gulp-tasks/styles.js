@@ -17,7 +17,22 @@ module.exports = () => {
   const sheetsUIKit = [`${$.config.path.src.styles}/uikit.scss`]
   const PostcssPlugins = [tailwind($.config.tailwind.stylesMain), autoprefixer({ cascade: false })]
   const PostcssPluginsUIKit = [tailwind($.config.tailwind.stylesUIKit), autoprefixer({ cascade: false })]
+  const devTemplateTailwindConfig = {
+    content: ['./config/template-dev.html', './gulp-tasks/prepare-html-dev.js'],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
+  const buildTemplateTailwindConfig = {
+    content: ['./config/template-build.html', './gulp-tasks/prepare-html-build.js'],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
 
+  // Стили проекта
   $.gulp.task('stylesMain', (done) => {
     switch ($.config.env.isProduction) {
       case true:
@@ -27,7 +42,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPlugins, cssnano]))
           .pipe(cleanCSS({ debug: true, compatibility: '*' }, (details) => logStyles(details)))
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
           .on('end', done)
       case false:
         return $.gulp
@@ -38,7 +53,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPlugins]))
           .pipe(sourcemaps.write())
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
           .pipe($.server.stream())
           .on('end', done)
     }
@@ -53,7 +68,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPluginsUIKit, cssnano]))
           .pipe(cleanCSS({ debug: true, compatibility: '*' }, (details) => logStyles(details)))
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
           .on('end', done)
       case false:
         return $.gulp
@@ -64,9 +79,24 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPluginsUIKit]))
           .pipe(sourcemaps.write())
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
           .pipe($.server.stream())
           .on('end', done)
     }
+  })
+  // Дополнительные стили для стартовых страниц
+  $.gulp.task('stylesDev', (done) => {
+    return $.gulp
+      .src(`${$.config.path.dev.templateCSS}`)
+      .pipe(gulpPostcss([tailwind(devTemplateTailwindConfig), autoprefixer({ cascade: false }), cssnano]))
+      .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
+      .on('end', done)
+  })
+  $.gulp.task('stylesBuild', (done) => {
+    return $.gulp
+      .src(`${$.config.path.build.templateCSS}`)
+      .pipe(gulpPostcss([tailwind(buildTemplateTailwindConfig), autoprefixer({ cascade: false }), cssnano]))
+      .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
+      .on('end', done)
   })
 }
