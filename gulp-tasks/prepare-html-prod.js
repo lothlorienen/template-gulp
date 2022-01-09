@@ -1,17 +1,13 @@
 export const prepareHtmlProd = () => {
   return $.gulp
-    .src(`${$.conf.outputPath}/**/*.html`)
+    .src(`${$.config.path.output.base}/**/*.html`)
     .pipe(
       $.cheerio({
         run: (jQuery) => {
           jQuery('script').each(function () {
             let src = jQuery(this).attr('src')
-            if (
-              src !== undefined &&
-              src.substr(0, 5) !== 'http:' &&
-              src.substr(0, 6) !== 'https:'
-            ) {
-              src = `/${$.conf.scripts}/${src}`
+            if (src !== undefined && src.substr(0, 5) !== 'http:' && src.substr(0, 6) !== 'https:') {
+              src = `/${$.config.scripts}/${src}`
             }
 
             jQuery(this).attr('src', src)
@@ -46,10 +42,7 @@ export const prepareHtmlProd = () => {
             let href = jQuery(this).attr('href')
 
             function checkLinkPath(checkPosition) {
-              let linkPath = href.substring(
-                checkPosition,
-                href.lastIndexOf('.')
-              )
+              let linkPath = href.substring(checkPosition, href.lastIndexOf('.'))
 
               if (linkPath.match('--')) {
                 let filePath = linkPath.split('--').join('/')
@@ -113,9 +106,7 @@ export const prepareHtmlProd = () => {
             if (srcset !== undefined) {
               if (srcset.indexOf(',') !== -1) {
                 const img = srcset.substring(2, srcset.lastIndexOf(','))
-                const img2 = srcset
-                  .substring(srcset.lastIndexOf('../') + 2)
-                  .trim()
+                const img2 = srcset.substring(srcset.lastIndexOf('../') + 2).trim()
                 srcset = dataSrcset = `${img}, ${img2}`
               }
             }
@@ -139,6 +130,6 @@ export const prepareHtmlProd = () => {
         },
       })
     )
-    .pipe($.gulp.dest(`${$.conf.outputPath}/`))
+    .pipe($.gulp.dest(`${$.config.path.output.base}/`))
     .pipe($.server.reload({ stream: true }))
 }

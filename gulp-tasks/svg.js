@@ -5,7 +5,7 @@ const gulpReplace = require('gulp-replace')
 module.exports = () => {
   $.gulp.task('svg:sprite', () => {
     return $.gulp
-      .src(`${$.conf.svgSprite}/**/*.svg`)
+      .src(`${$.config.path.src.svgSprite}/**/*.svg`)
       .pipe(gulpSvgMin())
       .pipe(
         gulpSvgSprite({
@@ -16,11 +16,11 @@ module.exports = () => {
               },
               layout: 'diagonal',
               dest: './',
-              sprite: `${$.conf.outputPath}/${$.conf.imagesOut}/sprite.svg`,
+              sprite: `${$.config.path.output.base}/${$.config.path.output.images}/sprite.svg`,
               bust: false,
               render: {
                 scss: {
-                  dest: `${$.conf.styles}/2-vendors/svg/_sprite.scss`,
+                  dest: `${$.config.path.src.styles}/2-vendors/svg/_sprite.scss`,
                   template: `./config/sprite-template.scss`,
                 },
               },
@@ -33,7 +33,7 @@ module.exports = () => {
 
   $.gulp.task('svg:inline', () => {
     return $.gulp
-      .src(`${$.conf.svgInline}/**/*.svg`)
+      .src(`${$.config.path.src.svgInline}/**/*.svg`)
       .pipe(
         gulpSvgMin({
           js2svg: { pretty: true },
@@ -56,11 +56,11 @@ module.exports = () => {
               dest: './',
               example: false,
               bust: false,
-              sprite: `${$.conf.outputPath}/${$.conf.imagesOut}/spriteInline.svg`,
+              sprite: `${$.config.path.output.base}/${$.config.path.output.images}/spriteInline.svg`,
               inline: false,
               render: {
                 scss: {
-                  dest: `${$.conf.styles}/2-vendors/svg/_spriteInline.scss`,
+                  dest: `${$.config.path.src.styles}/2-vendors/svg/_spriteInline.scss`,
                   template: `./config/sprite-template-inline.scss`,
                 },
               },

@@ -1,17 +1,17 @@
 // необходимые пакеты
-const bs = require('browser-sync')
+const {src, dest, task, watch, series, parallel} = require('gulp')
 const cheerio = require('gulp-cheerio')
-const conf = require('./config/config.js')
-const { src, dest, task, watch, series, parallel } = require('gulp')
-const gulpRename = require('gulp-rename')
 const plumber = require('gulp-plumber')
+const gulpRename = require('gulp-rename')
+const bs = require('browser-sync')
+const config = require('./config/config.js')
 
 // Задаём режим сборки
 const setMode = (isProduction = false) => {
   return (cb) => {
     process.env.NODE_ENV = isProduction ? 'production' : 'development'
-    $.conf.isProd = isProduction
-    $.conf.outputPath = isProduction ? $.conf.prod : $.conf.dev
+    $.config.isProd = isProduction
+    $.config.path.output.base = isProduction ? $.config.path.build.base : $.config.path.dev.base
     cb()
   }
 }
@@ -19,7 +19,7 @@ const setMode = (isProduction = false) => {
 // объявляем глобальную переменную, создавая уникальные интсансы, к которым будем обращаться
 global.$ = {
   cheerio,
-  conf,
+  config,
   gulp: { src, dest, task, watch, series, parallel },
   gulpRename,
   plumber,

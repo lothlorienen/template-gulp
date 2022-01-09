@@ -3,9 +3,9 @@ module.exports = () => {
     $.server.init({
       ui: false,
       notify: false,
-      logPrefix: `${$.conf.siteName ?? 'Starter template'}`,
+      logPrefix: `${$.config.siteName ?? 'Starter template'}`,
       // logFileChanges: false,
-      server: [$.conf.outputPath, $.conf.appRoot],
+      server: [$.config.path.output.base, $.config.path.src.app],
       startPath: '/html/',
       logSnippet: false,
     })
@@ -15,28 +15,37 @@ module.exports = () => {
     // filepath
     const tailwindConfig = './tailwind.config.js'
     const tailwindUIKitConfig = './tailwind.config-uikit.js'
-    const uikitStyles = [`${$.conf.styles}/uikit.{scss,css}`, `${$.conf.styles}/_uikit/**/*.{scss,css}`]
-    const noUIKitStyles = [`!${$.conf.styles}/uikit.{scss,css}`, `!${$.conf.styles}/_uikit/**/*.{scss,css}`]
-    const uikitHbsFiles = [`${$.conf.hbs}/uikit.hbs`, `${$.conf.hbs}/uikit/**/*.hbs`]
-    const noUIKitHbsFiles = [`!${$.conf.hbs}/uikit.hbs`, `!${$.conf.hbs}/uikit/**/*.hbs`]
-    const dbPath = [`${$.conf.appRoot}/${$.conf.db}/**/*.json`]
-    const noSVGFiles = [`!${$.conf.assets}/svg`, `!${$.conf.assets}/svg/**/*`]
+    const uikitStyles = [
+      `${$.config.path.src.styles}/uikit.{scss,css}`,
+      `${$.config.path.src.styles}/_uikit/**/*.{scss,css}`,
+    ]
+    const noUIKitStyles = [
+      `!${$.config.path.src.styles}/uikit.{scss,css}`,
+      `!${$.config.path.src.styles}/_uikit/**/*.{scss,css}`,
+    ]
+    const uikitHbsFiles = [`${$.config.path.src.hbs}/uikit.hbs`, `${$.config.path.src.hbs}/uikit/**/*.hbs`]
+    const noUIKitHbsFiles = [`!${$.config.path.src.hbs}/uikit.hbs`, `!${$.config.path.src.hbs}/uikit/**/*.hbs`]
+    const dbPath = [`${$.config.path.src.db}/**/*.json`]
+    const noSVGFiles = [`!${$.config.path.src.assets}/svg`, `!${$.config.path.src.assets}/svg/**/*`]
     // Tasks
     const transpileHBS = ['hbs', 'prepareHtmlDev']
     // UIKit
     $.gulp.watch([...uikitStyles, tailwindUIKitConfig], $.gulp.series('stylesUIKit'))
     $.gulp.watch([...uikitHbsFiles, ...dbPath], $.gulp.series([...transpileHBS, 'stylesUIKit']))
     // Project files
-    $.gulp.watch([`${$.conf.styles}/**/*.{scss,css}`, ...noUIKitStyles, tailwindConfig], $.gulp.series('stylesMain'))
     $.gulp.watch(
-      [`${$.conf.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
+      [`${$.config.path.src.styles}/**/*.{scss,css}`, ...noUIKitStyles, tailwindConfig],
+      $.gulp.series('stylesMain')
+    )
+    $.gulp.watch(
+      [`${$.config.path.src.hbs}/**/*.hbs`, ...noUIKitHbsFiles, ...dbPath],
       $.gulp.series([...transpileHBS, 'stylesMain'])
     )
-    $.gulp.watch([`${$.conf.scripts}/**/*.{js,ts}`], $.gulp.series('scripts'))
+    $.gulp.watch([`${$.config.path.src.scripts}/**/*.{js,ts}`], $.gulp.series('scripts'))
     // SVG
-    $.gulp.watch([`${$.conf.svgSprite}/*.svg`], $.gulp.series('svg:sprite'))
-    $.gulp.watch([`${$.conf.svgInline}/*.svg`], $.gulp.series('svg:inline'))
+    $.gulp.watch([`${$.config.path.src.svgSprite}/*.svg`], $.gulp.series('svg:sprite'))
+    $.gulp.watch([`${$.config.path.src.svgInline}/*.svg`], $.gulp.series('svg:inline'))
     // Assets
-    $.gulp.watch([`${$.conf.assets}/**/*`, ...noSVGFiles], $.gulp.series('assets'))
+    $.gulp.watch([`${$.config.path.src.assets}/**/*`, ...noSVGFiles], $.gulp.series('assets'))
   })
 }

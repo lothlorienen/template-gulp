@@ -2,11 +2,11 @@ const webp = require('gulp-webp')
 
 module.exports = () => {
   $.gulp.task('webp', () => {
-    if (!$.conf.buildWebp) return $.gulp.src('.', { allowEmpty: true })
+    if (!$.config.options.buildWebp) return $.gulp.src('.', { allowEmpty: true })
 
     return $.gulp
-      .src([`${$.conf.images}/**/*`])
+      .src([`${$.config.path.src.images}/**/*`])
       .pipe(webp({ quality: 100 }))
-      .pipe($.gulp.dest(`${$.conf.outputPath}/${$.conf.imagesOut}`))
+      .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.images}`))
   })
 }

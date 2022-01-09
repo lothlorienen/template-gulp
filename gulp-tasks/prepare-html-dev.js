@@ -1,8 +1,9 @@
 const fs = require('fs')
 
-module.exports = () => {
+module.exports = (done) => {
   $.gulp.task('prepareHtmlDev', () => {
-    const templates = fs.readdirSync(`${$.conf.hbs}/pages`).concat(['page.hbs'])
+    const templates = fs.readdirSync(`${$.config.path.src.hbs}/pages`).concat(['page.hbs'])
+    const htmlOutput = `${$.config.path.output.base}/${$.config.path.output.html}` // куда уходят файлы?
     const html = []
     const pages = {}
 
@@ -16,7 +17,7 @@ module.exports = () => {
 
       const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
 
-      const file = fs.readFileSync(`${$.conf.hbs}/${filename}.hbs`).toString()
+      const file = fs.readFileSync(`${$.config.path.src.hbs}/${filename}.hbs`).toString()
 
       if (file.indexOf('{{!') !== -1) {
         pages[pageName].title = file.substring(3, file.indexOf('}}'))
@@ -28,12 +29,12 @@ module.exports = () => {
     const templateFile = fs.readFileSync('./config/template-dev.html').toString()
 
     fs.writeFileSync(
-      `${$.conf.outputPath}/html/index.html`,
-      templateFile.replace('{{items}}', `${html.join('')}`).replace(/{{siteName}}/g, $.conf.siteName)
+      `${htmlOutput}/index.html`,
+      templateFile.replace('{{items}}', `${html.join('')}`).replace(/{{siteName}}/g, $.config.siteName)
     )
 
     return $.gulp
-      .src(`${$.conf.outputPath}/html/**/*.html`)
+      .src(`${htmlOutput}/**/*.html`)
       .pipe(
         $.cheerio({
           run: (jQuery) => {
@@ -41,7 +42,7 @@ module.exports = () => {
               let src = jQuery(this).attr('src')
 
               if (src !== undefined && src.substr(0, 5) !== 'http:' && src.substr(0, 6) !== 'https:')
-                src = `../${$.conf.scriptsOut}/${src}`
+                src = `../${$.config.path.output.scripts}/${src}`
 
               jQuery(this).attr('src', src)
             })
@@ -57,13 +58,12 @@ module.exports = () => {
                 href.substr(0, 5) === 'http:' ||
                 href.substr(0, 6) === 'https:' ||
                 href.substr(0, 7) === 'mailto:'
-              ) {
+              )
                 return
-              }
 
-              if (href.substr(0, 6) === '/html/') return
+              if (href.substr(0, 6) === `/${$.config.path.output.html}/`) return
 
-              let newHref = '/html/' + (href[0] === '/' ? href.substr(1) : href)
+              let newHref = `/${$.config.path.output.html}/` + (href[0] === '/' ? href.substr(1) : href)
 
               if (newHref.substr(-5) !== '.html') {
                 newHref = newHref + '.html'
@@ -75,6 +75,6 @@ module.exports = () => {
           parserOptions: { decodeEntities: false },
         })
       )
-      .pipe($.gulp.dest($.conf.outputPath + '/html/'))
+      .pipe($.gulp.dest(`${htmlOutput}/`))
   })
 }

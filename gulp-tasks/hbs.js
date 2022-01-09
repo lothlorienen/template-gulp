@@ -6,11 +6,11 @@ module.exports = (cb, buildProd = false) => {
   const randomIntNum = (min, max) => Math.round(min - 0.5 + Math.random() * (max - min + 1))
   const initParams = {
     cache: randomIntNum(1, 5000),
-    dynamicEntry: $.conf.dynamicEntry && $.conf.isProd,
+    dynamicEntry: $.config.options.dynamicEntry && $.config.isProd,
   }
   const options = {
     ignorePartials: true,
-    batch: [`${$.conf.hbs}/layouts`, `${$.conf.hbs}/partials`],
+    batch: [`${$.config.path.src.hbs}/layouts`, `${$.config.path.src.hbs}/partials`],
     helpers: {
       times: function (n, block) {
         const result = []
@@ -49,25 +49,25 @@ module.exports = (cb, buildProd = false) => {
         return `${args.slice(0, -1).join('')}`
       },
       ifUseWebp: function (block) {
-        if ($.conf.buildWebp) return block.fn(this)
+        if ($.config.options.buildWebp) return block.fn(this)
         else return block.inverse(this)
       },
     },
   }
 
   $.gulp.task('hbs', () => {
-    const base = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/db.json`).toString())
-    const links = JSON.parse(fs.readFileSync(`${$.conf.appRoot}/${$.conf.db}/links.json`).toString())
+    // todo: сделать автоматическое развертывание файлов
+    const base = JSON.parse(fs.readFileSync(`${$.config.path.src.db}/db.json`).toString())
+    const links = JSON.parse(fs.readFileSync(`${$.config.path.src.db}/links.json`).toString())
     const db = { ...initParams, ...base, ...links }
 
     // если нужна сборка с линовкой страниц
     if (buildProd) {
       // todo
-      console.log('cb')
       console.log('buildProd')
 
       return $.gulp
-        .src([`${$.conf.hbs}/pages/*.hbs`])
+        .src([`${$.config.hbs}/pages/*.hbs`])
         .pipe($.plumber())
         .pipe(gulpCompileHandlebars(db, options))
         .pipe(
@@ -86,13 +86,17 @@ module.exports = (cb, buildProd = false) => {
           })
         )
         .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
-        .pipe($.gulp.dest(`${$.conf.outputPath}`))
+        .pipe($.gulp.dest(`${$.config.path.output.base}`))
         .pipe($.server.stream())
     }
 
     // в случае, если у нас сборка обычная
     return $.gulp
-      .src([`${$.conf.hbs}/pages/*.hbs`, `${$.conf.hbs}/partials/core/ui-kit/page.hbs`, `${$.conf.hbs}/ajax/*.hbs`])
+      .src([
+        `${$.config.path.src.hbs}/ajax/*.hbs`,
+        `${$.config.path.src.hbs}/pages/*.hbs`,
+        `${$.config.path.src.hbs}/partials/core/ui-kit/page.hbs`,
+      ])
       .pipe($.plumber())
       .pipe(gulpCompileHandlebars(db, options))
       .pipe(
@@ -105,13 +109,8 @@ module.exports = (cb, buildProd = false) => {
           path.extname = '.html'
         })
       )
-      .pipe(
-        htmlMin({
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-        })
-      )
-      .pipe($.gulp.dest(`${$.conf.outputPath}/html`))
+      .pipe(htmlMin({ collapseWhitespace: true, removeAttributeQuotes: true }))
+      .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.html}`))
       .pipe($.server.stream())
   })
 }

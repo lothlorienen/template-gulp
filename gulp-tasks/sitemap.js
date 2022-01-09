@@ -1,15 +1,13 @@
-const sitemap = require('gulp-sitemap');
-const save = require('gulp-save');
+const sitemap = require('gulp-sitemap')
+const save = require('gulp-save')
 
 module.exports = () => {
   $.gulp.task('sitemap', () => {
-    return $.gulp.src([
-      'dist/**/*.html',
-      '!dist/404/index.html',
-    ], { read: false })
+    return $.gulp
+      .src(['dist/**/*.html', '!dist/404/index.html'], { read: false })
       .pipe(save('before-sitemap'))
-      .pipe(sitemap({ siteUrl: $.conf.siteUrl }))
+      .pipe(sitemap({ siteUrl: $.config.options.siteUrl }))
       .pipe($.gulp.dest('./dist'))
-      .pipe(save.restore('before-sitemap'));
-  });
-};
+      .pipe(save.restore('before-sitemap'))
+  })
+}

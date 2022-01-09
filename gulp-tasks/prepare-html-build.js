@@ -1,10 +1,12 @@
 const fs = require('fs')
 
-module.exports = () => {
+module.exports = (done) => {
   $.gulp.task('prepareHtmlBuild', () => {
     // Исходные данные
-    const metaImages = fs.readdirSync(`${$.conf.appRoot}/${$.conf.meta}`) // изображения
-    const templates = fs.readdirSync(`${$.conf.hbs}/pages`).concat([`page.hbs`]) // шаблоны страниц
+    const metaImages = fs.readdirSync(`${$.config.path.src.preview}`) // изображения
+    const templates = fs.readdirSync(`${$.config.path.src.hbs}/pages`).concat([`page.hbs`]) // шаблоны страниц
+    const previewFolder = $.config.path.output.meta // Корневая папка для превью-изображений
+    const htmlOutput = `${$.config.path.output.base}/${$.config.path.output.html}` // куда уходят файлы?
 
     const html = [] // Массив генерируемых элементов
     const pages = {} // Объект, содержащий информацию о всех страницах
@@ -35,7 +37,7 @@ module.exports = () => {
       const filename = pageName === 'uikit' ? 'partials/core/ui-kit/page' : 'pages/' + pageName
 
       // Получаем доступ к локальному файлу текущей страницы
-      const file = fs.readFileSync(`${$.conf.hbs}/${filename}.hbs`).toString()
+      const file = fs.readFileSync(`${$.config.path.src.hbs}/${filename}.hbs`).toString()
 
       // Получаем заголовок страницы
       if (file.indexOf('{{!') !== -1) {
@@ -43,17 +45,17 @@ module.exports = () => {
       }
 
       // Получаем данные готовой страницы
-      const hbs = fs.readFileSync(`${$.conf.outputPath}/html/${pageName}.html`).toString()
+      const hbs = fs.readFileSync(`${$.config.path.output.base}/html/${pageName}.html`).toString()
 
       // Если заголовка в странице нет, то заменяем его на полученный из шаблона
       if (hbs.indexOf(`<title></title>`) !== -1) {
         fs.writeFileSync(
-          `${$.conf.outputPath}/html/${pageName}.html`,
+          `${$.config.path.output.base}/html/${pageName}.html`,
           hbs.replace(/<title>(.*)/, '<title>' + pages[pageName] + '</title>')
         )
       }
 
-      const imgSrc = `./${$.conf.meta}/${pages[pageName].image ?? '1000_default.svg'}`
+      const imgSrc = `./${previewFolder}/${pages[pageName].image ?? '1000_default.svg'}`
       const linkClass = pages[pageName].image === undefined ? 'main__link main__link--default' : 'main__link'
 
       // Генерируем данные в наш массив со страницами
@@ -79,8 +81,9 @@ module.exports = () => {
 
     // Сортируем полученный массив элементов в соотсветствии с порядком, заданным в мета-изображениях
     html.sort((a, b) => {
-      let tempA = a.substring(a.lastIndexOf('.meta/') + 6, a.lastIndexOf('_'))
-      let tempB = b.substring(b.lastIndexOf('.meta/') + 6, b.lastIndexOf('_'))
+      const searchValue = `./${previewFolder}/`
+      let tempA = a.slice(a.lastIndexOf(searchValue) + searchValue.length, a.lastIndexOf('_'))
+      let tempB = b.slice(b.lastIndexOf(searchValue) + searchValue.length, b.lastIndexOf('_'))
 
       tempA.charAt(0) === '0' ? (tempA = tempA.slice(1)) : tempA
       tempB.charAt(0) === '0' ? (tempB = tempB.slice(1)) : tempB
@@ -104,15 +107,15 @@ module.exports = () => {
 
     // Подставляем полученные данные и генерируем билд
     fs.writeFileSync(
-      `${$.conf.outputPath}/index.html`,
+      `${$.config.path.output.base}/index.html`,
       sourceTemplate
         .replace('{{items}}', `${html.join('')}`)
-        .replace(/{{siteName}}/g, $.conf.siteName)
+        .replace(/{{siteName}}/g, $.config.siteName)
         .replace('{{buildDate}}', new Intl.DateTimeFormat('ru', options).format(date))
     )
 
     return $.gulp
-      .src(`${$.conf.outputPath}/html/**/*.html`)
+      .src(`${htmlOutput}/**/*.html`)
       .pipe(
         $.cheerio({
           run: (jQuery) => {
@@ -120,7 +123,7 @@ module.exports = () => {
               let src = jQuery(this).attr('src')
 
               if (src !== undefined && src.substr(0, 5) !== 'http:' && src.substr(0, 6) !== 'https:')
-                src = `../${$.conf.scriptsOut}/${src}`
+                src = `../${$.config.path.output.scripts}/${src}`
 
               jQuery(this).attr('src', src)
             })
@@ -155,7 +158,7 @@ module.exports = () => {
           parserOptions: { decodeEntities: false },
         })
       )
-      .pipe($.gulp.dest(`${$.conf.outputPath}/html/`))
+      .pipe($.gulp.dest(`${htmlOutput}/`))
       .pipe($.server.reload({ stream: true }))
   })
 }

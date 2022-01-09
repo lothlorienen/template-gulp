@@ -13,13 +13,13 @@ const SCSS = gulpSass(sass)
 const { logStyles } = require('./_utils.js')
 
 module.exports = () => {
-  const sheetsMain = [`./${$.conf.styles}/*.scss`, `!./${$.conf.styles}/uikit.scss`]
-  const sheetsUIKit = [`./${$.conf.styles}/uikit.scss`]
-  const PostcssPlugins = [tailwind('./tailwind.config.js'), autoprefixer({ cascade: false })]
-  const PostcssPluginsUIKit = [tailwind('./tailwind.config-uikit.js'), autoprefixer({ cascade: false })]
+  const sheetsMain = [`${$.config.path.src.styles}/*.scss`, `!${$.config.path.src.styles}/uikit.scss`]
+  const sheetsUIKit = [`${$.config.path.src.styles}/uikit.scss`]
+  const PostcssPlugins = [tailwind($.config.tailwind.stylesMain), autoprefixer({ cascade: false })]
+  const PostcssPluginsUIKit = [tailwind($.config.tailwind.stylesUIKit), autoprefixer({ cascade: false })]
 
   $.gulp.task('stylesMain', (done) => {
-    switch ($.conf.isProd) {
+    switch ($.config.isProd) {
       case true:
         return $.gulp
           .src(sheetsMain)
@@ -27,7 +27,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPlugins, cssnano]))
           .pipe(cleanCSS({ debug: true, compatibility: '*' }, (details) => logStyles(details)))
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
           .on('end', done)
       case false:
         return $.gulp
@@ -38,13 +38,13 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPlugins]))
           .pipe(sourcemaps.write())
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
           .pipe($.server.stream())
           .on('end', done)
     }
   })
   $.gulp.task('stylesUIKit', (done) => {
-    switch ($.conf.isProd) {
+    switch ($.config.isProd) {
       case true:
         return $.gulp
           .src(sheetsUIKit)
@@ -53,7 +53,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPluginsUIKit, cssnano]))
           .pipe(cleanCSS({ debug: true, compatibility: '*' }, (details) => logStyles(details)))
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
           .on('end', done)
       case false:
         return $.gulp
@@ -64,7 +64,7 @@ module.exports = () => {
           .pipe(gulpPostcss([...PostcssPluginsUIKit]))
           .pipe(sourcemaps.write())
           .pipe($.gulpRename({ extname: '.min.css' }))
-          .pipe($.gulp.dest(`${$.conf.outputPath}/css`))
+          .pipe($.gulp.dest(`${$.config.path.output.base}/css`))
           .pipe($.server.stream())
           .on('end', done)
     }
