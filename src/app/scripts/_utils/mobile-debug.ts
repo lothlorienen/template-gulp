@@ -1,4 +1,4 @@
-import { isLocalhost } from '@utils/helpers'
+import { isLocalhost } from './/helpers'
 
 export class MobileDebug {
   static log(message) {

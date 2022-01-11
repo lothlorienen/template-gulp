@@ -97,8 +97,6 @@ module.exports = (done) => {
 
     const re = /<html lang="ru">/g
     const isRuLang = sourceTemplate.search(re)
-    console.log(isRuLang)
-    console.log(isRuLang !== -1 ? 'ru' : 'en')
 
     // Получаем время сборки
     const date = new Date()

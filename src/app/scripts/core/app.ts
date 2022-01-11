@@ -1,4 +1,4 @@
-import { Preloader } from '@utils/preloader'
+import { Preloader } from '@app/_utils/preloader'
 
 class App {
   constructor() {
@@ -6,7 +6,7 @@ class App {
   }
 
   addEvents() {
-    document.addEventListener('DOMContentLoaded', (e) => {
+    document.addEventListener('DOMContentLoaded', () => {
       this.initLibs()
       this.initModules()
     })

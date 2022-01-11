@@ -1,7 +1,7 @@
 import { Widget } from '@core/widget'
 import { IAccordOptions } from '@modules/accordion/accordion.interface'
-import polyfill from '@app/polyfills'
-import { startUikitScrollTo } from '@core/uikit/uikit-scroll-to'
+import polyfill from '@core/polyfills'
+import { startUikitScrollTo } from '@app/uikit/uikit-scroll-to'
 
 const widgetInstances = new Map()
 
@@ -15,12 +15,8 @@ export class UikitAccord extends Widget {
   constructor(item, options?: IAccordOptions) {
     super(item, 'js-uikit-accord')
 
-    this.$toggle = options.toggleElement
-      ? options.toggleElement
-      : this.queryElement('.toggle')
-    this.$body = options.bodyElement
-      ? options.bodyElement
-      : this.queryElement('.body')
+    this.$toggle = options.toggleElement ? options.toggleElement : this.queryElement('.toggle')
+    this.$body = options.bodyElement ? options.bodyElement : this.queryElement('.body')
 
     this.opened = this.$node.classList.contains('opened')
     this.busy = false

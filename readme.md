@@ -237,7 +237,7 @@ images.
     │   ├── scroll-control.ts
     │   └── ui.js
     ├── libs.js
-    ├── main.ts
+    ├── theme.ts
     └── poly.js
 ```
 

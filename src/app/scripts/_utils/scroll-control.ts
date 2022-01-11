@@ -1,5 +1,5 @@
-import { isMobileLayout } from '@utils/layout'
-import { onScroll } from '@utils/scroll-observer'
+import { isMobileLayout } from './/layout'
+import { onScroll } from './/scroll-observer'
 
 class ScrollControl {
   private isFixedScroll: boolean
@@ -28,9 +28,7 @@ class ScrollControl {
     document.body.style.paddingRight = ``
 
     if (isMobileLayout()) {
-      this.lastScrollPos = parseFloat(
-        getComputedStyle(document.body).top || '0'
-      )
+      this.lastScrollPos = parseFloat(getComputedStyle(document.body).top || '0')
       document.body.style.top = ``
       window.scrollTo(0, this.lastScrollPos * -1)
     }

@@ -1,4 +1,4 @@
-import { onScroll } from '@utils/scroll-observer'
+import { onScroll } from '@app/_utils/scroll-observer'
 
 export class UikitScrollHeader {
   config: any
@@ -15,25 +15,17 @@ export class UikitScrollHeader {
   }
 
   events() {
-    document.addEventListener(
-      'DOMContentLoaded',
-      this.updateScrollTopPosition.bind(this)
-    )
+    document.addEventListener('DOMContentLoaded', this.updateScrollTopPosition.bind(this))
     onScroll(this.updateScrollTopPosition.bind(this))
     this.initScrollEvents()
   }
 
   updateScrollTopPosition() {
-    this.scrollTop =
-      (window.pageYOffset || document['scrollTop']) -
-        (document['clientTop'] || 0) || 0
+    this.scrollTop = (window.pageYOffset || document['scrollTop']) - (document['clientTop'] || 0) || 0
   }
 
   initScrollEvents() {
-    document.addEventListener(
-      'DOMContentLoaded',
-      this.onScrollEvents.bind(this)
-    )
+    document.addEventListener('DOMContentLoaded', this.onScrollEvents.bind(this))
     onScroll(this.onScrollEvents.bind(this))
   }
 
@@ -58,11 +50,7 @@ export class UikitScrollHeader {
   }
 
   isSelector(selector) {
-    return selector
-      ? selector.substr(0, 1) === '.'
-        ? selector.substr(1)
-        : selector
-      : null
+    return selector ? (selector.substr(0, 1) === '.' ? selector.substr(1) : selector) : null
   }
 
   static init(element, selector, options) {

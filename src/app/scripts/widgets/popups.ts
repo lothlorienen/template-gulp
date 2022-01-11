@@ -1,4 +1,4 @@
-import { hideScrollbar, showScrollbar } from '@utils/scroll-control'
+import { hideScrollbar, showScrollbar } from '@app/_utils/scroll-control'
 
 export class Popup {
   private eventHandlers: {}
@@ -48,9 +48,7 @@ export class Popup {
   init() {
     this.nodeElement
       .querySelectorAll('.js-popup-close')
-      .forEach((element) =>
-        element.addEventListener('click', this.onCloseClick)
-      )
+      .forEach((element) => element.addEventListener('click', this.onCloseClick))
   }
 
   close() {
@@ -61,18 +59,14 @@ export class Popup {
 
     this.nodeElement
       .querySelectorAll('.js-popup-close')
-      .forEach((element) =>
-        element.removeEventListener('click', this.onCloseClick)
-      )
+      .forEach((element) => element.removeEventListener('click', this.onCloseClick))
 
     this.nodeElement.removeEventListener('click', this.onOverlayClick)
   }
 
   open() {
     this.nodeElement.classList.add('opened')
-    setTimeout(() =>
-      this.nodeElement.querySelector('.popup__inner').classList.add('opened')
-    )
+    setTimeout(() => this.nodeElement.querySelector('.popup__inner').classList.add('opened'))
 
     this.nodeElement.addEventListener('click', this.onOverlayClick)
   }
@@ -103,21 +97,17 @@ class PopupManager {
 
     this.popups[popup.getId()] = popup
 
-    document
-      .querySelectorAll('.js-popup-open[data-popup]')
-      .forEach((button) => {
-        button.addEventListener(
-          'click',
-          (e) => {
-            e.preventDefault()
-            const popupOpen = (e.target as HTMLElement).closest(
-              '.js-popup-open[data-popup]'
-            )
-            this.open((popupOpen as HTMLElement).dataset.popup)
-          },
-          true
-        )
-      })
+    document.querySelectorAll('.js-popup-open[data-popup]').forEach((button) => {
+      button.addEventListener(
+        'click',
+        (e) => {
+          e.preventDefault()
+          const popupOpen = (e.target as HTMLElement).closest('.js-popup-open[data-popup]')
+          this.open((popupOpen as HTMLElement).dataset.popup)
+        },
+        true
+      )
+    })
   }
 
   open(popupId) {
@@ -165,9 +155,7 @@ class PopupManager {
   }
 
   init() {
-    document
-      .querySelectorAll('.js-popup')
-      .forEach((popup) => manager.add(popup))
+    document.querySelectorAll('.js-popup').forEach((popup) => manager.add(popup))
   }
 }
 

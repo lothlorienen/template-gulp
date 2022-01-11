@@ -1,4 +1,4 @@
-import { hideScrollbar, showScrollbar } from '@utils/scroll-control'
+import { hideScrollbar, showScrollbar } from '@app/_utils/scroll-control'
 import { Widget } from '@core/widget'
 
 let videoLinkModalInstance = null
@@ -108,7 +108,5 @@ export class VideoLink extends Widget {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document
-    .querySelectorAll('.js-video-link')
-    .forEach((item) => VideoLink.init(item))
+  document.querySelectorAll('.js-video-link').forEach((item) => VideoLink.init(item))
 })

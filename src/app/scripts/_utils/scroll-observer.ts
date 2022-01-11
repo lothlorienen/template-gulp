@@ -1,5 +1,5 @@
 import { Observer } from '@core/observer'
-import polyfill from '@app/polyfills'
+import polyfill from '@core/polyfills'
 
 class ScrollObserver extends Observer {
   ticking: boolean

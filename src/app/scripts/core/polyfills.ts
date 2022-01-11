@@ -1,13 +1,16 @@
-import { IWindow } from '@models/custom.window'
+interface IPolyfill extends Window {
+  endEvents?: any
+  createEvent?: any
+  passiveIfSupported?: boolean | { passive: boolean }
+  CustomEvent?: any | CustomEvent
+  raf?: (callback: FrameRequestCallback) => number
+  raf2x?: (callback: FrameRequestCallback) => number
+  isIE?: boolean
+}
 
-const polyfill: IWindow = window
+const polyfill: IPolyfill = window
+
 const pCollection = [
-  function perfNow() {
-    if (!window.performance) {
-      polyfill.performance = {}
-      window.performance.now = () => Date.now()
-    }
-  },
   function endEvents() {
     polyfill.endEvents = {
       transition: {
@@ -28,12 +31,12 @@ const pCollection = [
 
     const elem = document.createElement('div')
 
-    for (let endKey in polyfill.endEvents) {
-      if (polyfill.endEvents.hasOwnProperty(endKey)) {
+    for (const endKey in polyfill.endEvents) {
+      if (Object.prototype.hasOwnProperty.call(polyfill.endEvents, endKey)) {
         const endType = polyfill.endEvents[endKey]
 
-        for (let event in endType) {
-          if (event in elem.style && endType.hasOwnProperty(event)) {
+        for (const event in endType) {
+          if (event in elem.style && Object.prototype.hasOwnProperty.call(endType, event)) {
             polyfill.endEvents[endKey] = endType[event]
             break
           }
@@ -42,7 +45,7 @@ const pCollection = [
     }
   },
   function createEvent() {
-    polyfill.createEvent = (eventType) => {
+    polyfill.createEvent = (eventType: string) => {
       let event: Event = null
 
       if (typeof Event === 'function') {
@@ -80,46 +83,62 @@ const pCollection = [
           cancelable: false,
           detail: undefined,
         }
-        evt.initCustomEvent(
-          event,
-          params.bubbles,
-          params.cancelable,
-          params.detail
-        )
+        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail)
 
         return evt
       }
 
       CustomEvent.prototype = window.Event.prototype
-      polyfill.CustomEvent = CustomEvent
+      polyfill.CustomEvent = CustomEvent as any
     }
   },
   function raf() {
-    polyfill.raf =
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      polyfill.mozRequestAnimationFrame ||
-      polyfill.msRequestAnimationFrame
+    let lastTime = 0
+    const vendors = ['ms', 'moz', 'webkit', 'o']
+    for (let x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+      window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame']
+      window.cancelAnimationFrame =
+        window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame']
+    }
+
+    polyfill.raf = window.requestAnimationFrame
+
+    if (!window.requestAnimationFrame)
+      window.requestAnimationFrame = function (callback) {
+        const currTime = new Date().getTime()
+        const timeToCall = Math.max(0, 16 - (currTime - lastTime))
+        const id = window.setTimeout(function () {
+          callback(currTime + timeToCall)
+        }, timeToCall)
+        lastTime = currTime + timeToCall
+        return id
+      }
+
+    if (!window.cancelAnimationFrame)
+      window.cancelAnimationFrame = function (id) {
+        clearTimeout(id)
+      }
   },
   function raf2x() {
-    polyfill.raf2x = (callback) => polyfill.raf(() => polyfill.raf(callback))
+    polyfill.raf2x = (callback: FrameRequestCallback) => polyfill.raf(() => polyfill.raf(callback))
   },
   function matches() {
     if (!Element.prototype.matches) {
       Element.prototype.matches =
-        Element.prototype.webkitMatchesSelector ||
-        (Element as any).prototype.msMatchesSelector
+        Element.prototype.webkitMatchesSelector || (Element as any).prototype.msMatchesSelector
     }
   },
   function closest() {
     if (!Element.prototype.closest) {
-      Element.prototype.closest = function (selector) {
-        for (let i = this; i !== document.documentElement; i = i.parentNode) {
-          if (i.matches(`${selector}`)) return i
+      Element.prototype.closest =
+        Element.prototype.closest ||
+        function closest(selector) {
+          if (!this) return null
+          if (this.matches(selector)) return this
+          if (!this.parentElement) {
+            return null
+          } else return this.parentElement.closest(selector)
         }
-
-        return null
-      }
     }
   },
   function webpChecker() {
@@ -147,15 +166,11 @@ const pCollection = [
     if (!document.body.dataset) {
       Object.defineProperty(HTMLElement.prototype, 'dataset', {
         get() {
-          const elem = this
-          const attrs = elem.attributes
+          const attrs = this.attributes
           const dataAttrs = {}
 
-          for (let attr in attrs) {
-            if (
-              attrs.hasOwnProperty(attr) &&
-              attrs[attr].name.search('data') === 0
-            ) {
+          for (const attr in attrs) {
+            if (Object.prototype.hasOwnProperty.call(attrs, attr) && attrs[attr].name.search('data') === 0) {
               const attrName = attrs[attr].name.slice(5)
               const propName = attrName.replace(/-\w/gi, (str) => {
                 return str.slice(1).toUpperCase()
@@ -163,10 +178,10 @@ const pCollection = [
 
               Object.defineProperty(dataAttrs, propName, {
                 get() {
-                  return elem.getAttribute(`data-${attrName}`)
+                  return this.getAttribute(`data-${attrName}`)
                 },
                 set(newValue) {
-                  elem.setAttribute(`data-${attrName}`, newValue)
+                  this.setAttribute(`data-${attrName}`, newValue)
                 },
               })
             }

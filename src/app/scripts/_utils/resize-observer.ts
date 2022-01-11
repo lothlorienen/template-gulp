@@ -1,17 +1,17 @@
-import {Observer} from '@core/observer'
+import { Observer } from '@core/observer'
 
 export class ResizeObserver extends Observer {
   constructor() {
-    super();
+    super()
 
-    this.observeResize();
+    this.observeResize()
   }
 
   observeResize() {
     window.addEventListener('resize', () => {
-      if (!this.listeners.length) return false;
-      this.listeners.forEach(fn => fn());
-    });
+      if (!this.listeners.length) return false
+      this.listeners.forEach((fn) => fn())
+    })
   }
 }
 export const resizeObserver = new ResizeObserver();

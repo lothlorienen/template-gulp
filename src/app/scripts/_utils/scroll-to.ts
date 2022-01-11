@@ -1,5 +1,5 @@
-import { getScrollPos } from '@utils/scroll-control'
-import polyfill from '@app/polyfills'
+import { getScrollPos } from './/scroll-control'
+import polyfill from '@core/polyfills'
 
 export class ScrollTo {
   static startAnimation(targetElem: HTMLElement, noAnimate: boolean) {
@@ -30,12 +30,7 @@ export class ScrollTo {
 
     function animation(currentTime) {
       const elapsedTime = currentTime - startTime
-      const nextStep = ScrollTo.timingFunction(
-        elapsedTime,
-        startPos,
-        targetPos,
-        duration
-      )
+      const nextStep = ScrollTo.timingFunction(elapsedTime, startPos, targetPos, duration)
 
       scrollTo(0, nextStep)
 

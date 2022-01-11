@@ -31,7 +31,8 @@ $.task.forEach((taskPath) => require(taskPath)())
 
 // разбиваем задачи на группы
 const styles = ['stylesMain', 'stylesUIKit']
-const transpile = parallel('hbs', ...styles, 'scripts', 'assets', 'svg:sprite', 'svg:inline')
+const scripts = ['scriptsMain', 'scriptsUIKit', 'scriptsVendors']
+const transpile = parallel('hbs', ...styles, ...scripts, 'assets', 'svg:sprite', 'svg:inline')
 const setup = ['clean', transpile, 'webp']
 const initServer = parallel('serve', 'watch')
 

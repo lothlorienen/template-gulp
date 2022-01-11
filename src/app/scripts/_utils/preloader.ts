@@ -1,17 +1,11 @@
-import polyfill from '@app/polyfills'
+import polyfill from '@core/polyfills'
 
 export class Preloader {
   static disablingPreloader() {
     const preloader: HTMLElement = document.querySelector('.js-preloader')
-    const uikitPreloader: HTMLElement = document.querySelector(
-      '.js-uikit-preloader'
-    )
+    const uikitPreloader: HTMLElement = document.querySelector('.js-uikit-preloader')
 
-    preloader
-      ? Preloader.handler(preloader)
-      : uikitPreloader
-      ? Preloader.handler(uikitPreloader)
-      : null
+    preloader ? Preloader.handler(preloader) : uikitPreloader ? Preloader.handler(uikitPreloader) : null
 
     document.body.classList.add('loaded')
   }

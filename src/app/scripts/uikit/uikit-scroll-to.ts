@@ -1,11 +1,10 @@
-import { getScrollPos } from '@utils/scroll-control'
-import polyfill from '@app/polyfills'
+import { getScrollPos } from '@app/_utils/scroll-control'
+import polyfill from '@core/polyfills'
 
 export class UikitScrollTo {
-  static startAnimation(targetElem: HTMLElement, noAnimate: boolean = false) {
-    let targetPos =
-      targetElem.getBoundingClientRect().top -
-      document.querySelector('.js-uikit-header').getBoundingClientRect().height
+  static startAnimation(targetElem: HTMLElement, noAnimate = false) {
+    const targetPos =
+      targetElem.getBoundingClientRect().top - document.querySelector('.js-uikit-header').getBoundingClientRect().height
 
     if ('scrollBehavior' in document.body.style) {
       UikitScrollTo.respond(targetElem)
@@ -23,12 +22,7 @@ export class UikitScrollTo {
 
     function animation(currentTime) {
       const elapsedTime = currentTime - startTime
-      const nextStep = UikitScrollTo.timingFunction(
-        elapsedTime,
-        startPos,
-        targetPos,
-        duration
-      )
+      const nextStep = UikitScrollTo.timingFunction(elapsedTime, startPos, targetPos, duration)
 
       scrollTo(0, nextStep)
 

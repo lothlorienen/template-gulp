@@ -1,5 +1,4 @@
-import { onResize } from '@utils/resize-observer'
-
+import { onResize } from './/resize-observer'
 ;(function () {
   const update = () => {
     const vh = window.innerHeight * 0.01

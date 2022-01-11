@@ -1,11 +1,5 @@
-import { onResize } from '@utils/resize-observer'
-import {
-  isBigTabletLayout,
-  isDesktopLayout,
-  isLaptopLayout,
-  isMobileLayout,
-  isTabletLayout,
-} from '@utils/layout'
+import { onResize } from '@app/_utils/resize-observer'
+import { isBigTabletLayout, isDesktopLayout, isLaptopLayout, isMobileLayout, isTabletLayout } from '@app/_utils/layout'
 
 export class Widget {
   protected readonly $node: HTMLElement
@@ -19,11 +13,7 @@ export class Widget {
 
     if (!this.$node) return
 
-    this.selector = selector
-      ? selector.substr(0, 1) === '.'
-        ? selector.substr(1)
-        : selector
-      : null
+    this.selector = selector ? (selector.substr(0, 1) === '.' ? selector.substr(1) : selector) : null
     this.breakpoint = breakpoint
     this.breakpointStatus = null
     this.isInitiated = false
@@ -77,10 +67,7 @@ export class Widget {
   updateBreakpointCache() {
     const check = this.checkBreakpoint()
 
-    if (
-      (this.breakpointStatus === false || this.breakpointStatus === null) &&
-      check
-    ) {
+    if ((this.breakpointStatus === false || this.breakpointStatus === null) && check) {
       this.breakpointStatus = true
       if (typeof this.build === 'function') {
         this.build()
@@ -109,9 +96,7 @@ export class Widget {
 
     if (selector) {
       if (selector[0] === '.') {
-        $node = this.$node.querySelector(
-          '.' + this.selector + '__' + selector.substr(1)
-        )
+        $node = this.$node.querySelector('.' + this.selector + '__' + selector.substr(1))
         if (!$node) {
           $node = this.$node.querySelector(selector)
         }
@@ -121,9 +106,7 @@ export class Widget {
     }
 
     if (!$node && required) {
-      throw new Error(
-        `Widget "${this.selector}" Error: Child element (selector "${selector}") not found`
-      )
+      throw new Error(`Widget "${this.selector}" Error: Child element (selector "${selector}") not found`)
     }
 
     return $node
@@ -140,9 +123,7 @@ export class Widget {
 
     if (selector) {
       if (selector[0] === '.') {
-        $nodes = this.$node.querySelectorAll(
-          '.' + this.selector + '__' + selector.substr(1)
-        )
+        $nodes = this.$node.querySelectorAll('.' + this.selector + '__' + selector.substr(1))
         if (!$nodes) {
           $nodes = this.$node.querySelectorAll(selector)
         }
