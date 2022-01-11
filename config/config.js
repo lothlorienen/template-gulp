@@ -11,7 +11,7 @@ module.exports = {
   },
   tailwind: {
     stylesMain: './tailwind.config.js',
-    stylesUIKit: './tailwind.config-uikit.js',
+    stylesUIKit: './tailwind-uikit.config.js',
   },
   path: {
     root: './',

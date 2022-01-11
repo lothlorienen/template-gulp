@@ -18,8 +18,33 @@ const round = (source, n) => {
 const logStylesSize = (details) =>
   console.log(
     `${details.name}: ${formatBytes(details.stats.originalSize)} --> ${formatBytes(
-      details.stats.minifiedSize
-    )} by ${round(details.stats.efficiency * 100, 3)}%`
+      details.stats.minifiedSize,
+    )} by ${round(details.stats.efficiency * 100, 3)}%`,
   )
 
+const tailwindConfigDevTemplate = {
+  content: ['./config/template-dev.html', './gulp-tasks/prepare-html-dev.js'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+const tailwindConfigBuildTemplate = {
+  content: ['./config/template-build.html', './gulp-tasks/prepare-html-build.js'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+// const tailwindConfigUIKit = {
+//   content: ['./src/app/hbs/partials/core/ui-kit/**/*.hbs', './src/app/hbs/partials/uikit/**/*.hbs'],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [],
+// }
+
 exports.logStyles = logStylesSize
+exports.twcDevTemplate = tailwindConfigDevTemplate
+exports.twcBuildTemplate = tailwindConfigBuildTemplate
+// exports.twcUIKit = tailwindConfigUIKit

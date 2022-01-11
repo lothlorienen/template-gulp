@@ -12,33 +12,29 @@ module.exports = () => {
   })
 
   $.gulp.task('watch', () => {
-    // filepath
-    const tailwindConfig = './tailwind.config.js'
-    const tailwindUIKitConfig = './tailwind.config-uikit.js'
-    const uikitStyles = [
-      `${$.config.path.src.styles}/uikit.{scss,css}`,
-      `${$.config.path.src.styles}/_uikit/**/*.{scss,css}`,
-    ]
-    const ignoreUIKitStyles = [
-      `!${$.config.path.src.styles}/uikit.{scss,css}`,
-      `!${$.config.path.src.styles}/_uikit/**/*.{scss,css}`,
-    ]
-    const uikitHbsFiles = [`${$.config.path.src.hbs}/uikit.hbs`, `${$.config.path.src.hbs}/uikit/**/*.hbs`]
-    const ignoreUIKitHbsFiles = [`!${$.config.path.src.hbs}/uikit.hbs`, `!${$.config.path.src.hbs}/uikit/**/*.hbs`]
-    const dbPath = [`${$.config.path.src.db}/**/*.json`]
-    const ignoreSVGFiles = [`!${$.config.path.src.assets}/svg`, `!${$.config.path.src.assets}/svg/**/*`]
-    const ignoreScriptsFiles = [
-      `!${$.config.path.src.scripts}/uikit/**/*`,
-      `!${$.config.path.src.scripts}/uikit.ts`,
-      `!${$.config.path.src.scripts}/vendors.ts`,
-    ]
-
-    const sourceStylesUIKit = [...uikitStyles, tailwindUIKitConfig]
-    const sourceFilesUIKit = [...uikitHbsFiles, ...dbPath]
-    const sourceScriptsUIKit = [`${$.config.path.src.scripts}/uikit/**/*`, `${$.config.path.src.scripts}/uikit.ts`]
-    const sourceStylesMain = [`${$.config.path.src.styles}/**/*.{scss,css}`, ...ignoreUIKitStyles, tailwindConfig]
-    const sourceFilesMain = [`${$.config.path.src.hbs}/**/*.hbs`, ...ignoreUIKitHbsFiles, ...dbPath]
-    const sourceScriptsMain = [`${$.config.path.src.scripts}/**/*.{js,ts}`, ...ignoreScriptsFiles]
+    // Directories shorthand
+    const dirScripts = $.config.path.src.scripts
+    const dirHBS = $.config.path.src.hbs
+    const dirStyles = $.config.path.src.styles
+    // Tailwind Configs
+    const twcMain = $.config.tailwind.stylesMain
+    const twcUIKit = $.config.tailwind.stylesUIKit
+    // Theme files
+    const dbFiles = [`${$.config.path.src.db}/**/*.json`]
+    const svgFilesIgnore = [`!${$.config.path.src.assets}/svg`, `!${$.config.path.src.assets}/svg/**/*`]
+    const scriptsIgnore = [`!${dirScripts}/uikit/**/*`, `!${dirScripts}/uikit.ts`, `!${dirScripts}/vendors.ts`]
+    // UIKit files
+    const uikitStyles = [`${dirStyles}/uikit.{scss,css}`, `${dirStyles}/_uikit/**/*.{scss,css}`]
+    const uikitStylesIgnore = [`!${dirStyles}/uikit.{scss,css}`, `!${dirStyles}/_uikit/**/*.{scss,css}`]
+    const uikitHbs = [`${dirHBS}/uikit.hbs`, `${dirHBS}/uikit/**/*.hbs`]
+    const uikitHbsIgnore = [`!${dirHBS}/uikit.hbs`, `!${dirHBS}/uikit/**/*.hbs`]
+    // Track files
+    const sourceStylesUIKit = [...uikitStyles, twcUIKit]
+    const sourceFilesUIKit = [...uikitHbs, ...dbFiles]
+    const sourceScriptsUIKit = [`${dirScripts}/uikit/**/*`, `${dirScripts}/uikit.ts`]
+    const sourceStylesMain = [`${dirStyles}/**/*.{scss,css}`, ...uikitStylesIgnore, twcMain]
+    const sourceFilesMain = [`${dirHBS}/**/*.hbs`, ...uikitHbsIgnore, ...dbFiles]
+    const sourceScriptsMain = [`${dirScripts}/**/*.{js,ts}`, ...scriptsIgnore]
     const sourceDevFiles = [`./config/template-dev.html`, `./gulp-tasks/prepare-html-dev.js`]
     // Tasks
     const transpileHBS = ['hbs', 'prepareHtmlDev']
@@ -50,9 +46,9 @@ module.exports = () => {
     $.gulp.watch(sourceDevFiles, $.gulp.series([...transpileHBS, 'stylesDev']))
     $.gulp.watch(sourceScriptsMain, $.gulp.series('scriptsMain'))
     $.gulp.watch(sourceScriptsUIKit, $.gulp.series('scriptsUIKit'))
-    $.gulp.watch([`${$.config.path.src.scripts}/vendors.ts`], $.gulp.series('scriptsVendors'))
+    $.gulp.watch([`${dirScripts}/vendors.ts`], $.gulp.series('scriptsVendors'))
     $.gulp.watch([`${$.config.path.src.svgSprite}/*.svg`], $.gulp.series('svg:sprite'))
     $.gulp.watch([`${$.config.path.src.svgInline}/*.svg`], $.gulp.series('svg:inline'))
-    $.gulp.watch([`${$.config.path.src.assets}/**/*`, ...ignoreSVGFiles], $.gulp.series('assets'))
+    $.gulp.watch([`${$.config.path.src.assets}/**/*`, ...svgFilesIgnore], $.gulp.series('assets'))
   })
 }

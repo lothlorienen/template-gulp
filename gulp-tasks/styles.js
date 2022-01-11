@@ -11,26 +11,13 @@ const cleanCSS = require('gulp-clean-css')
 const SCSS = gulpSass(sass)
 
 const { logStyles } = require('./_utils.js')
+const { twcDevTemplate, twcBuildTemplate } = require('./_utils')
 
 module.exports = () => {
   const sheetsMain = [`${$.config.path.src.styles}/*.scss`, `!${$.config.path.src.styles}/uikit.scss`]
   const sheetsUIKit = [`${$.config.path.src.styles}/uikit.scss`]
   const PostcssPlugins = [tailwind($.config.tailwind.stylesMain), autoprefixer({ cascade: false })]
   const PostcssPluginsUIKit = [tailwind($.config.tailwind.stylesUIKit), autoprefixer({ cascade: false })]
-  const devTemplateTailwindConfig = {
-    content: ['./config/template-dev.html', './gulp-tasks/prepare-html-dev.js'],
-    theme: {
-      extend: {},
-    },
-    plugins: [],
-  }
-  const buildTemplateTailwindConfig = {
-    content: ['./config/template-build.html', './gulp-tasks/prepare-html-build.js'],
-    theme: {
-      extend: {},
-    },
-    plugins: [],
-  }
 
   // Стили проекта
   $.gulp.task('stylesMain', (done) => {
@@ -88,14 +75,14 @@ module.exports = () => {
   $.gulp.task('stylesDev', (done) => {
     return $.gulp
       .src(`${$.config.path.dev.templateCSS}`)
-      .pipe(gulpPostcss([tailwind(devTemplateTailwindConfig), autoprefixer({ cascade: false }), cssnano]))
+      .pipe(gulpPostcss([tailwind(twcDevTemplate), autoprefixer({ cascade: false }), cssnano]))
       .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
       .on('end', done)
   })
   $.gulp.task('stylesBuild', (done) => {
     return $.gulp
       .src(`${$.config.path.build.templateCSS}`)
-      .pipe(gulpPostcss([tailwind(buildTemplateTailwindConfig), autoprefixer({ cascade: false }), cssnano]))
+      .pipe(gulpPostcss([tailwind(twcBuildTemplate), autoprefixer({ cascade: false }), cssnano]))
       .pipe($.gulp.dest(`${$.config.path.output.base}/${$.config.path.output.styles}`))
       .on('end', done)
   })
