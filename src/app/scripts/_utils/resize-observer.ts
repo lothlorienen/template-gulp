@@ -14,7 +14,7 @@ export class ResizeObserver extends Observer {
     })
   }
 }
-export const resizeObserver = new ResizeObserver();
+export const resizeObserver = new ResizeObserver()
 export const onResize = (fn) => resizeObserver.subscribe(fn)
 export const offResize = (fn) => resizeObserver.unsubscribe(fn)
 
