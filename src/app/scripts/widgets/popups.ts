@@ -1,7 +1,7 @@
 import { hideScrollbar, showScrollbar } from '@app/_utils/scroll-control'
 
 export class Popup {
-  private eventHandlers: {}
+  private eventHandlers: any
   private nodeElement: any
   private id: any
   private $popupContent: any
@@ -160,7 +160,6 @@ class PopupManager {
 }
 
 const manager = new PopupManager()
-manager.init()
-
+// manager.init()
 export default manager
 // window.PopupManager = manager

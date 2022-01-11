@@ -2,17 +2,14 @@ const gulpEsbuild = require('gulp-esbuild')
 
 module.exports = () => {
   const esConfig = {
-    // outfile: 'theme.min.js',
     outdir: '.',
     bundle: true,
-    minify: $.config.env.isProduction,
-    sourcemap: !$.config.env.isProduction,
-    loader: {
-      '.ts': 'ts',
-    },
-    // format: "esm",
+    color: true,
+    loader: { '.ts': 'ts' },
+    format: 'esm',
     platform: 'browser',
     target: ['es6'],
+    treeShaking: true,
     entryNames: '[name].min',
   }
 
@@ -21,7 +18,6 @@ module.exports = () => {
 
     return $.gulp
       .src([`${$.config.path.src.scripts}/theme.ts`])
-      .pipe($.plumber())
       .pipe(
         esbuild({
           ...esConfig,
@@ -37,7 +33,6 @@ module.exports = () => {
 
     return $.gulp
       .src([`${$.config.path.src.scripts}/uikit.ts`])
-      .pipe($.plumber())
       .pipe(
         esbuild({
           ...esConfig,
@@ -53,7 +48,6 @@ module.exports = () => {
 
     return $.gulp
       .src([`${$.config.path.src.scripts}/vendors.ts`])
-      .pipe($.plumber())
       .pipe(
         esbuild({
           ...esConfig,
