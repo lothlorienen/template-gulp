@@ -63,22 +63,21 @@ module.exports = (done) => {
 
       // Генерируем данные в наш массив со страницами
       html.push(`
-        <li class="main__item">
-          <article class="main__article">
-            <h2 class="main__title">${pages[pageName].title}</h2>
-            <a
-              class="${linkClass}"
-              href="./html/${pageName}.html"
-              title="${pages[pageName].title}"
-              aria-label="Link to ${pages[pageName].title} page."
-            >
-              <img
-                src="${imgSrc}"
-                alt="Preview image for ${pages[pageName].title}."
-                loading="lazy"
-              />
-            </a>
-          </article>
+        <li>
+          <a href="./html/${pageName}.html" title="${pages[pageName].title}" aria-label="Link to ${pages[pageName].title} page."
+             class="relative group block h-full w-full py-6 px-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-700 rounded-lg xl:px-6">
+            <div class="h-full flex flex-col gap-6 justify-between">
+              <div class="w-full rounded-lg bg-gray-100 overflow-hidden">
+                <img
+                  class="aspect-square object-top object-cover pointer-events-none group-hover:opacity-95"
+                  src="${imgSrc}"
+                  alt="Preview image for ${pages[pageName].title}."
+                  loading="lazy"
+                >
+              </div>
+              <h3 class="font-medium text-base leading-6 text-gray-900 dark:text-white truncate pointer-events-none">${pages[pageName].title}</h3>
+            </div>
+          </a>
         </li>`)
     }
 
@@ -95,6 +94,11 @@ module.exports = (done) => {
     })
 
     const sourceTemplate = fs.readFileSync('./config/template-build.html').toString()
+
+    const re = /<html lang="ru">/g
+    const isRuLang = sourceTemplate.search(re)
+    console.log(isRuLang)
+    console.log(isRuLang !== -1 ? 'ru' : 'en')
 
     // Получаем время сборки
     const date = new Date()
@@ -114,7 +118,7 @@ module.exports = (done) => {
       sourceTemplate
         .replace('{{items}}', `${html.join('')}`)
         .replace(/{{siteName}}/g, $.config.siteName)
-        .replace('{{buildDate}}', new Intl.DateTimeFormat('ru', options).format(date))
+        .replace('{{buildDate}}', new Intl.DateTimeFormat(isRuLang !== -1 ? 'ru' : 'en', options).format(date))
     )
 
     return $.gulp
