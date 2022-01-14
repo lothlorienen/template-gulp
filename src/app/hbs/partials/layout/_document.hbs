@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+{{>layout/head}}
+<body {{#if page-class}}class="{{page-class}}"{{/if}}>
+<div class="preloader js-preloader"></div>
+<div class="min-h-screen flex flex-col">
+  {{>@partial-block}}
+</div>
+{{>layout/scripts }}
+</body>
+</html>

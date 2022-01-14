@@ -1,5 +1,5 @@
-{{#ifCond fallback-ext 'svg'}}
-  <img src="../assets/images/{{img}}.{{fallback-ext}}" alt=''/>
+{{#ifCond fallback-ext "svg"}}
+  <img src="../assets/images/{{img}}.{{fallback-ext}}" alt="" loading="lazy"/>
 {{else}}
   <picture>
     {{#if img-tablet}}
@@ -35,7 +35,9 @@
            data-sizes="auto"
            data-original="../assets/images/{{img}}.{{ext}}"
            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-           alt="{{alt}}">
+           alt="{{alt}}"
+           loading="lazy"
+      >
     {{/if}}
   </picture>
 {{/ifCond}}

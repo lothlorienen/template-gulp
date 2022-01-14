@@ -5,7 +5,7 @@ module.exports = () => {
       notify: false,
       logPrefix: `${$.config.siteName ?? 'Starter template'}`,
       // logFileChanges: false,
-      server: [$.config.path.output.base, $.config.path.src.app],
+      server: [$.config.path.output.base], // , $.config.path.src.app
       startPath: '/html/',
       logSnippet: false,
     })
@@ -42,7 +42,7 @@ module.exports = () => {
     $.gulp.watch(sourceStylesUIKit, $.gulp.series('stylesUIKit'))
     $.gulp.watch(sourceFilesUIKit, $.gulp.series([...transpileHBS, 'stylesUIKit']))
     $.gulp.watch(sourceStylesMain, $.gulp.series('stylesMain'))
-    $.gulp.watch(sourceFilesMain, $.gulp.series(['hbs', 'stylesMain']))
+    $.gulp.watch(sourceFilesMain, $.gulp.series(['hbs', 'prepareHtmlDev', 'stylesMain']))
     $.gulp.watch(sourceDevFiles, $.gulp.series([...transpileHBS, 'stylesDev']))
     $.gulp.watch(sourceScriptsMain, $.gulp.series('scriptsMain'))
     $.gulp.watch(sourceScriptsUIKit, $.gulp.series('scriptsUIKit'))

@@ -1,21 +1,16 @@
 {{!About Level 3}}
-
-{{> layout/head page-title="About Level 3"}}
-{{> layout/header }}
-
-<main class="flex-grow">
-  <div class="container">
-    <h1>About Level 3</h1>
-
-    <ul>
-      {{> core/link-example href=links.home.url label=links.home.label }}
-      {{> core/link-example href=links.about.url label=links.about.label}}
-      {{> core/link-example href=links.about-level-2.url label=links.about-level-2.label}}
-      {{> core/link-example href=links.about-level-3.url label=links.about-level-3.label current=true}}
-      {{> core/link-example href=links.404.url label=links.404.label}}
-      {{> core/link-example href=links.uikit.url label=links.uikit.label}}
-    </ul>
-  </div>
-</main>
-
-{{> layout/footer }}
+{{#>templates/default page-title="About Level 3"}}
+  <main class="flex-grow">
+    <div class="container">
+      <h1>About Level 3</h1>
+      <ul>
+        {{> core/link-example href=links.home.url label=links.home.label }}
+        {{> core/link-example href=links.about.url label=links.about.label}}
+        {{> core/link-example href=links.about-level-2.url label=links.about-level-2.label}}
+        {{> core/link-example href=links.about-level-3.url label=links.about-level-3.label current=true}}
+        {{> core/link-example href=links.404.url label=links.404.label}}
+        {{> core/link-example href=links.uikit.url label=links.uikit.label}}
+      </ul>
+    </div>
+  </main>
+{{/templates/default}}

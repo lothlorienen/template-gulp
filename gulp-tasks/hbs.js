@@ -10,7 +10,7 @@ module.exports = (cb, buildProd = false) => {
   }
   const options = {
     ignorePartials: true,
-    batch: [`${$.config.path.src.hbs}/layouts`, `${$.config.path.src.hbs}/partials`],
+    batch: [`${$.config.path.src.hbs}/partials`],
     helpers: {
       times: function (n, block) {
         const result = []
@@ -92,11 +92,7 @@ module.exports = (cb, buildProd = false) => {
 
     // в случае, если у нас сборка обычная
     return $.gulp
-      .src([
-        `${$.config.path.src.hbs}/ajax/*.hbs`,
-        `${$.config.path.src.hbs}/pages/*.hbs`,
-        `${$.config.path.src.hbs}/partials/core/ui-kit/page.hbs`,
-      ])
+      .src([`${$.config.path.src.hbs}/pages/*.hbs`, `${$.config.path.src.hbs}/partials/core/ui-kit/page.hbs`])
       .pipe($.plumber())
       .pipe(gulpCompileHandlebars(db, options))
       .pipe(
