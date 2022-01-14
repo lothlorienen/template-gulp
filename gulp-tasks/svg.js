@@ -20,7 +20,7 @@ module.exports = () => {
               bust: false,
               render: {
                 scss: {
-                  dest: `${$.config.path.src.styles}/2-vendors/svg/_sprite.scss`,
+                  dest: `${$.config.path.src.styles}/vendors/svg/_sprite.scss`,
                   template: `./config/sprite-template.scss`,
                 },
               },
@@ -60,7 +60,7 @@ module.exports = () => {
               inline: false,
               render: {
                 scss: {
-                  dest: `${$.config.path.src.styles}/2-vendors/svg/_spriteInline.scss`,
+                  dest: `${$.config.path.src.styles}/vendors/svg/_spriteInline.scss`,
                   template: `./config/sprite-template-inline.scss`,
                 },
               },

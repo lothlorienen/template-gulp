@@ -10,10 +10,6 @@
   }
 }
 
-html {
-  -ms-overflow-style: scrollbar;
-}
-
 html,
 body {
   width: 100%;
@@ -33,14 +29,6 @@ textarea {
 
   &[type=number] {
     -moz-appearance: textfield;
-  }
-
-  &::-ms-clear {
-    display: none !important;
-  }
-
-  &::-ms-reveal {
-    display: none !important;
   }
 
   &::-webkit-input-placeholder {

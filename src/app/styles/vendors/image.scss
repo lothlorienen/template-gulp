@@ -1,0 +1,13 @@
+img {
+  &.lazy:not([src]) {
+    visibility: hidden;
+  }
+
+  &.lazyloaded {
+    transition: opacity .4s;
+  }
+
+  &.lazyloading {
+    opacity: 0;
+  }
+}
