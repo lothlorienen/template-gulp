@@ -47,8 +47,8 @@ module.exports = () => {
     $.gulp.watch(sourceScriptsMain, $.gulp.series('scriptsMain'))
     $.gulp.watch(sourceScriptsUIKit, $.gulp.series('scriptsUIKit'))
     $.gulp.watch([`${dirScripts}/vendors.ts`], $.gulp.series('scriptsVendors'))
-    $.gulp.watch([`${$.config.path.src.svgSprite}/*.svg`], $.gulp.series('svg:sprite'))
-    $.gulp.watch([`${$.config.path.src.svgInline}/*.svg`], $.gulp.series('svg:inline'))
+    $.gulp.watch([`${$.config.path.src.svgSprite}/*.svg`], $.gulp.series('svg:sprite', 'hbs', 'prepareHtmlDev'))
+    $.gulp.watch([`${$.config.path.src.svgInline}/*.svg`], $.gulp.series('svg:inline', 'stylesMain'))
     $.gulp.watch([`${$.config.path.src.assets}/**/*`, ...svgFilesIgnore], $.gulp.series('assets'))
   })
 }

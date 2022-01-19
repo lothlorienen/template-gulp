@@ -60,8 +60,8 @@ module.exports = () => {
               inline: false,
               render: {
                 scss: {
-                  dest: `${$.config.path.src.styles}/vendors/svg/_spriteInline.txt`,
-                  template: `./config/sprite-template-inline.scss`,
+                  dest: `${$.config.path.src.styles}/vendors/svg/_spriteInline.scss`,
+                  template: `./config/sprite-template-inline.txt`,
                 },
               },
             },
