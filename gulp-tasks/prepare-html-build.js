@@ -69,7 +69,7 @@ module.exports = (done) => {
             <div class="h-full flex flex-col gap-6 justify-between">
               <div class="w-full rounded-lg bg-gray-100 overflow-hidden">
                 <img
-                  class="aspect-square object-top object-cover pointer-events-none group-hover:opacity-95"
+                  class="m-auto aspect-square object-top object-cover pointer-events-none group-hover:opacity-95"
                   src="${imgSrc}"
                   alt="Preview image for ${pages[pageName].title}."
                   loading="lazy"
