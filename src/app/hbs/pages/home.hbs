@@ -1,6 +1,34 @@
 {{!Home}}
 
 {{#>templates/default page-title="Homepage"}}
+  <div class="container flex items-center p-4 mx-auto min-h-screen justify-center">
+    <main>
+      <h1 class="font-mono text-2xl code">
+        Welcome to{` `}
+        <span class="text-purple-700 hover:text-blue-400">Nextjs</span>,
+        <span class="text-indigo-700 hover:text-blue-400">
+						TailwindCSS
+					</span>
+        and
+        <span class="text-blue-700 hover:text-red-400">TypeScript</span>
+      </h1>
+      <section>
+        <h2>Список страниц</h2>
+        <ul role="list" class="list-inside list-decimal">
+          {pages.map((item) => (
+          <li key={item.id}>
+            <Link href={item.url}>
+            <a class="text-sky-400 hover:text-sky-400">
+              {item.label}
+            </a>
+            </Link>
+          </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </div>
+
   <main class="flex-grow">
     <div class="container">
       <h1>Home</h1>
